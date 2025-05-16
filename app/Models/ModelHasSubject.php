@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ModelHasSubject extends Model
 {
+    use HasFactory;
     protected $table = 'model_has_subjects';
 
     protected $fillable = ['user_id', 'subject_id'];

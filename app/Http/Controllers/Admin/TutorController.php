@@ -75,5 +75,18 @@ class TutorController extends Controller
 
         return redirect()->route('admin.tutors.index')->with('success', 'User deleted successfully.');
     }
-}
 
+    public function assignSubjects(Request $request, $tutorId)
+    {
+        $tutor = User::findOrFail($tutorId);
+
+        $request->validate([
+            'subjects' => 'required|array',
+            'subjects.*' => 'exists:subjects,id',
+        ]);
+
+        $tutor->subjects()->sync($request->subjects);
+
+        return redirect()->route('admin.tutors.index')->with('success', 'Subjects assigned to tutor successfully.');
+    }
+}

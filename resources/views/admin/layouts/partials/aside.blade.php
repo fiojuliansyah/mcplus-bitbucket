@@ -64,7 +64,7 @@
                             <span class="item-name">Grades</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-Classes" role="button" aria-expanded="false"
                             aria-controls="sidebar-user">
                             <i class="icon"">
@@ -77,7 +77,7 @@
                                         fill="currentColor"></path>
                                 </svg>
                             </i>
-                            <span class="item-name">Classes</span>
+                            <span class="item-name">Finance</span>
                             <i class="right-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" class="icon-18" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -87,20 +87,25 @@
                         </a>
                         <ul class="sub-nav collapse" id="sidebar-Classes" data-bs-parent="#sidebar-menu">
                             <li class="nav-item">
-                                <a class="nav-link {{ Route::is(['admin.grades.index']) ? 'active' : '' }}" href="{{ route('admin.grades.index') }}">
+                                <a class="nav-link " href="">
                                     <i class="fas fa-circle" style="font-size: 9px"></i>
-                                    <span class="item-name">Grade</span>
+                                    <span class="item-name">Transactions</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {{ Route::is(['admin.subjects.index']) ? 'active' : '' }}" href="{{ route('admin.subjects.index') }}">
+                                <a class="nav-link " href=""">
                                     <i class="fas fa-circle" style="font-size: 9px"></i>
-                                    <span class="item-name">Subjects</span>
+                                    <span class="item-name">Subscription Plan</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href=""">
+                                    <i class="fas fa-circle" style="font-size: 9px"></i>
+                                    <span class="item-name">Coupon</span>
                                 </a>
                             </li>
                         </ul>
-                    </li> --}}
-                    <li class="nav-item py-3">Configuration</li>
+                    </li>
                     <li class="nav-item mb-4">
                         <a class="nav-link {{ Route::is(['admin.roles.index']) ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
                             <i class="icon" data-bs-toggle="tooltip" title="Access Control"

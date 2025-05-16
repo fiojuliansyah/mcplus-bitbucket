@@ -55,6 +55,31 @@
 <body class="  ">
     @include('admin.layouts.partials.aside')
     <main class="main-content">
+        @if (session('success'))
+            <div class="toast fade show bg-success text-white border-0 mt-3" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 10px; right: 20px; z-index: 1050; max-width: 350px;">
+                <div class="toast-header bg-success text-white">
+                    <strong class="me-auto text-white">Success</strong>
+                    <small>{{ now()->diffForHumans() }}</small>
+                    <button type="button" class="ms-2 mb-1 btn-close btn-close-white text-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ session('success') }}
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="toast fade show bg-danger text-white border-0 mt-3" role="alert" aria-live="assertive" aria-atomic="true" style="position: fixed; top: 10px; right: 20px; z-index: 1050; max-width: 350px;">
+                <div class="toast-header bg-danger text-white">
+                    <strong class="me-auto text-white">Error</strong>
+                    <small>{{ now()->diffForHumans() }}</small>
+                    <button type="button" class="ms-2 mb-1 btn-close btn-close-white text-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{ session('error') }}
+                </div>
+            </div>
+        @endif
         @include('admin.layouts.partials.navbar')
         @yield('content')
         <!-- Footer Section Start -->
@@ -117,6 +142,19 @@
 
     <script src="/admin/assets/js/plugins/countdown.js?v=5.2.1" defer></script>
     @stack('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toasts = document.querySelectorAll('.toast');
+
+            toasts.forEach(function (toast) {
+                var bsToast = new bootstrap.Toast(toast, {
+                    delay: 3000
+                });
+
+                bsToast.show();
+            });
+        });
+    </script>
 
 </body>
 

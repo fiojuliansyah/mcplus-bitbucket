@@ -57,7 +57,6 @@
                             <!-- OTP Login Form -->
                             <div id="otp-login-form">
                                 <div class="mb-3">
-                                    {{-- <label class="text-white fw-500 mb-2">Phone Number</label> --}}
                                     <input type="text" class="form-control rounded-0" placeholder="Enter your phone number" required="">
                                 </div>
                                 <div class="full-button">
@@ -77,7 +76,7 @@
                             </div>
                         </form>
 
-                        <p class="my-4 text-center fw-500 text-white">New to Mcplus Premium? <a href="/"
+                        <p class="my-4 text-center fw-500 text-white">New to Mcplus Premium? <a href="{{ route('register') }}"
                                 class="text-primary ms-1">Register</a></p>
                         <div class="seperator d-flex justify-content-center align-items-center">
                             <span class="line"></span>

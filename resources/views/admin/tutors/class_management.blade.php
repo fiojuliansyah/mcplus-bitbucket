@@ -1,7 +1,7 @@
 
 <a href="#" class="badge bg-light" style="color: #333;" data-bs-toggle="modal" data-bs-target="#subjectModal-{{ $row->id }}">
     <i class="fas fa-book" style="color: #333;"></i>
-    Subjects
+    Subjects {{ $row->subjects->count() }}
 </a>
 <a href="#" class="badge bg-light" style="color: #333;" data-bs-toggle="modal" data-bs-target="#subjectModal-{{ $row->id }}">
     <i class="fas fa-circle" style="color: red;"></i>
@@ -11,10 +11,10 @@
 <div class="modal fade" id="subjectModal-{{ $row->id }}" tabindex="-1" aria-labelledby="subjectModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ route('admin.roles.store') }}" method="POST">
+            <form action="{{ route('admin.tutors.assign-subjects', $row->id) }}" method="POST">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="subjectModalLabel">Add Subject</h5>
+                    <h5 class="modal-title" id="subjectModalLabel">Add Subjects to Tutor</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -25,7 +25,11 @@
                                 <div class="pt-3">
                                     @foreach ($subjectGroup as $subject)
                                         <label class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" name="subjects[]" value="{{ $subject->id }}">
+                                            <input class="form-check-input" 
+                                                   type="checkbox" 
+                                                   name="subjects[]" 
+                                                   value="{{ $subject->id }}" 
+                                                   @if($row->subjects->contains($subject)) checked @endif>
                                             <span class="form-check-label">{{ $subject->name }}</span>
                                         </label>
                                     @endforeach
@@ -42,3 +46,4 @@
         </div>
     </div>
 </div>
+

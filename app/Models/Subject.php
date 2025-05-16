@@ -16,8 +16,8 @@ class Subject extends Model
         return $this->belongsTo(Grade::class);
     }
     
-    public function subjects()
+    public function users()
     {
-        return $this->belongsToMany(Subject::class, 'model_has_subjects');
+        return $this->belongsToMany(User::class, 'model_has_subjects', 'subject_id', 'user_id');
     }
 }
