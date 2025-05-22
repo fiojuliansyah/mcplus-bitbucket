@@ -6,5 +6,38 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
-    //
+    protected $fillable = [
+        'user_id',
+        'profile_id',
+        'plan_id',
+        'duration',
+        'payment_method',
+        'start_date',
+        'end_date',
+        'price',
+        'coupon_discount',
+        'tax',
+        'total_amount',
+        'status',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class, 'profile_id');
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class, 'plan_id');
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class, 'coupon_discount');
+    }
 }

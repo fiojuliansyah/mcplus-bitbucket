@@ -13,9 +13,18 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('user_id');
+            $table->string('profile_id');
+            $table->string('plan_id');
+            $table->string('duration');
+            $table->string('payment_method');
+            $table->datetime('start_date');
+            $table->datetime('end_date');
             $table->string('price');
-            $table->string('days');
+            $table->string('coupon_discount');
+            $table->string('tax');
+            $table->string('total_amount');
+            $table->string('status');
             $table->timestamps();
         });
     }

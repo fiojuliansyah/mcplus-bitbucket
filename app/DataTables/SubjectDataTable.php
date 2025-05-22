@@ -26,6 +26,9 @@ class SubjectDataTable extends DataTable
                 $grades = Grade::all();
                 return view('admin.subjects.action', compact('row', 'grades'))->render();
             })
+            ->addColumn('content_management', function ($row) {
+                return view('admin.subjects.content_management', compact('row'))->render();
+            })
             ->editColumn('grade_id', function ($row) {
                 return $row->grade->name;
             })
@@ -35,7 +38,7 @@ class SubjectDataTable extends DataTable
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->format('d M Y');
             })
-            ->rawColumns(['action', 'status'])
+            ->rawColumns(['action', 'status', 'content_management'])
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -89,6 +92,7 @@ class SubjectDataTable extends DataTable
                 ->searchable(true),
             Column::make('status'),
             Column::make('created_at'),
+            Column::computed('content_management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

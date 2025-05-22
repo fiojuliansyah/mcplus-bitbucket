@@ -2,13 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Admin\TutorController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\LiveClassController;
+use App\Http\Controllers\Admin\SubscriptionController;
 
 
 Route::get('/', function () {
@@ -25,6 +29,10 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('grades', GradeController::class);
+    Route::resource('plans', PlanController::class);
+    Route::resource('coupons', CouponController::class);
+    Route::resource('subscriptions', SubscriptionController::class);
+    Route::resource('live-classes', LiveClassController::class);
     
     Route::get('{slug}/subjects', [SubjectController::class, 'index'])->name('subjects.index'); 
     Route::post('{slug}/subjects', [SubjectController::class, 'store'])->name('subjects.store'); 
