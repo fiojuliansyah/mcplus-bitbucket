@@ -2,19 +2,19 @@
     <div class="container-fluid">
       <div class="footer-top">
         <div class="row">
-          <div class="col-xl-3 col-lg-6 mb-5 mb-lg-0">
+          <div class="col-xl-3 col-lg-6 mb-2 mb-lg-0">
             <div class="footer-logo">
                 <!--Logo -->
                  <div class="logo-default">
-                     <a class="navbar-brand text-primary" href="./index.html"> 
-                         <img class="img-fluid logo" src="/frontend/assets/images/logo.webp" loading="lazy" alt="streamit" />
+                     <a class="navbar-brand text-primary" href="./"> 
+                         <img class="img-fluid logo" src="/frontend/assets/images/logo.avif" loading="lazy" alt="streamit" />
                      </a>
                  </div>
             </div>
-            <p class="mb-4 font-size-14">Email us: <span class="text-white">customer@streamit.com</span>
+            <p class="mb-4 font-size-14">Email us: <span class="text-white">customer@mcplus.com</span>
             </p>
             <p class="text-uppercase letter-spacing-1 font-size-14 mb-1">customer services</p>
-            <p class="mb-0 contact text-white">+ (480) 555-0103</p>
+            <p class="mb-0 contact text-white">+ (60) 555-0103</p>
           </div>
           <div class="col-xl-2 col-lg-6 mb-5 mb-lg-0">
             <h4 class="footer-link-title">Quick Links</h4>
@@ -23,10 +23,7 @@
                 <a href="./about-us.html" class="ms-3">about us</a>
               </li>
               <li class="mb-3">
-                <a href="./blog/blog-listing.html" class="ms-3">Blog</a>
-              </li>
-              <li class="mb-3">
-                <a href="./pricing-plan.html" class="ms-3">Pricing Plan</a>
+                <a href="./pricing-plan.html" class="ms-3">Join now</a>
               </li>
               <li>
                 <a href="./faq.html" class="ms-3">FAQ</a>
@@ -34,16 +31,16 @@
             </ul>
           </div>
           <div class="col-xl-2 col-lg-6 mb-5 mb-lg-0">
-            <h4 class="footer-link-title">Movies to watch</h4>
+            <h4 class="footer-link-title">List Product</h4>
             <ul class="list-unstyled footer-menu">
               <li class="mb-3">
-                <a href="./view-all-movie.html" class="ms-3">Top trending</a>
+                <a href="./view-all-movie.html" class="ms-3">Top Subject</a>
               </li>
               <li class="mb-3">
-                <a href="./view-all-movie.html" class="ms-3">Recommended</a>
+                <a href="./view-all-movie.html" class="ms-3">Tutor and Class</a>
               </li>
               <li>
-                <a href="./view-all-movie.html" class="ms-3">Popular</a>
+                <a href="./view-all-movie.html" class="ms-3">Merchandise</a>
               </li>
             </ul>
           </div>
@@ -62,16 +59,7 @@
             </ul>
           </div>
           <div class="col-xl-3 col-lg-6">
-            <h4 class="footer-link-title">Subscribe Newsletter</h4>
-            <div class="mailchimp mailchimp-dark">
-              <div class="input-group mb-3 mt-4">
-                <input type="text" class="form-control mb-0 font-size-14" placeholder="Email*" aria-describedby="button-addon2">
-                <div class="iq-button">
-                  <button type="submit" class="btn btn-sm" id="button-addon2">Subscribe</button>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex align-items-center mt-5">
+            <div class="d-flex align-items-center">
               <span class="font-size-14 me-2">Follow Us:</span>
                 <ul class="p-0 m-0 list-unstyled widget_social_media">
                   <li>
@@ -86,7 +74,7 @@
                   </li>
                   <li>
                     <a href="https://github.com/" class="position-relative">
-                      <i class="fab fa-github"></i>
+                      <i class="fab fa-tiktok"></i>
                     </a>
                   </li>
                   <li>
@@ -112,22 +100,19 @@
               <li class="menu-item">
                 <a href="./faq.html"> FAQ </a>
               </li>
-              <li class="menu-item">
-                <a href="./playlist.html"> Watch List </a>
-              </li>
             </ul>
-            <p class="font-size-14">© <span class="currentYear"></span> <span class="text-primary">STREAMIT</span>. All Rights Reserved. All videos and shows on this platform are trademarks of, and all related images and content are the property of, Streamit Inc. Duplication and copy of this is strictly prohibited.</p>
+            <p class="font-size-14">© <span class="currentYear"></span> <span class="text-primary">MC PLUS</span>. All Rights Reserved.</p>
           </div>
           <div class="col-md-3"></div>
           <div class="col-md-3">
             <h6 class="font-size-14 pb-1">Download Streamit Apps </h6>
             <div class="d-flex align-items-center">
               <a class="app-image" href="#">
-                <img src="/frontend/assets/images/footer/google-play.webp" loading="lazy" alt="play-store" />
+                <img src="/frontend/assets/images/store-logo/google-play.png" loading="lazy" alt="play-store" />
               </a>
               <br />
               <a class="ms-3 app-image" href="#">
-                <img src="/frontend/assets/images/footer/apple.webp" loading="lazy" alt="app-store" />
+                <img src="/frontend/assets/images/store-logo/app-store.png" loading="lazy" alt="app-store" />
               </a>
             </div>
           </div>

@@ -15,9 +15,7 @@ use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
 
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+Route::get('/', [UserPageController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');
