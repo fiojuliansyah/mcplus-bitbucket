@@ -44,11 +44,23 @@
                                     <span class="item-name">Home</span>
                                 </a>
                             </li>
+
+                            @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="/subscription">
                                     <span class="item-name">Subscription</span>
                                 </a>
                             </li>
+                            @endguest
+                            
+                            @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="/live-class">
+                                    <span class="item-name">Live Class</span>
+                                </a>
+                            </li>
+                            @endauth
+                            
                             <li class="nav-item">
                                 <a class="nav-link" href="/free-course">
                                     <span class="item-name">Free Course</span>
