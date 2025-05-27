@@ -16,12 +16,15 @@ use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\User\FreeCourseController;
 use App\Http\Controllers\User\ProgramsController;
+use App\Http\Controllers\User\MyClassController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
 Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
 Route::get('/free-course', [FreeCourseController::class, 'index']);
 Route::get('/programs', [ProgramsController::class, 'index']);
+
+Route::get('/my-class', [MyClassController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');

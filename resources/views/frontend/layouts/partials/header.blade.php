@@ -53,13 +53,6 @@
                             </li>
                             @endguest
                             
-                            @auth
-                            <li class="nav-item">
-                                <a class="nav-link" href="/live-class">
-                                    <span class="item-name">Live Class</span>
-                                </a>
-                            </li>
-                            @endauth
                             
                             <li class="nav-item">
                                 <a class="nav-link" href="/free-course">
@@ -71,6 +64,15 @@
                                     <span class="item-name">Baru & Populer</span>
                                 </a>
                             </li>
+                            
+                            {{-- @auth --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my-class">
+                                    <span class="item-name">My Class</span>
+                                </a>
+                            </li>
+                            {{-- @endauth --}}
+                            
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="#">
                                     <span class="item-name">Daftar Saya</span>
