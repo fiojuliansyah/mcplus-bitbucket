@@ -40,18 +40,18 @@
                          </div>
                          <ul class="navbar-nav iq-nav-menu  list-unstyled" id="header-menu">
                              <li class="nav-item">
-                                 <a class="nav-link" href="#">
+                                 <a class="nav-link" href="/">
                                      <span class="item-name">Home</span>
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link" href="#">
-                                     <span class="item-name">Telusuri</span>
+                                 <a class="nav-link" href="/subscription">
+                                     <span class="item-name">Subscription</span>
                                  </a>
                              </li>
                              <li class="nav-item">
-                                 <a class="nav-link" href="#">
-                                     <span class="item-name">Free Course</span>
+                                 <a class="nav-link" href="/course">
+                                     <span class="item-name">Course</span>
                                  </a>
                              </li>
                              <li class="nav-item">

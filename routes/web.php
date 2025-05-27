@@ -9,13 +9,17 @@ use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
-use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\User\UserPageController;
+use App\Http\Controllers\User\SubscriptionPlanController;
+use App\Http\Controllers\User\CourseController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
+Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
+Route::get('/course', [CourseController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');
