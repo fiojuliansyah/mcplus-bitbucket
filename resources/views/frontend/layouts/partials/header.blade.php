@@ -133,6 +133,21 @@
                                     </ul>
                                 </div>
                             </li>
+
+                            @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="/login">
+                                    <span class="item-name">Login</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/register">
+                                    <span class="item-name">Register</span>
+                                </a>
+                            </li>
+                            @endguest
+
+                            @auth
                             <li class="nav-item dropdown" id="itemdropdown1">
                                 <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -227,6 +242,7 @@
                                     </li>
                                 </ul>
                             </li>
+                            @endauth
                         </ul>
                     </div>
                 </div>
