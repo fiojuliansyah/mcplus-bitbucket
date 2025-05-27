@@ -14,12 +14,14 @@ use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\SubscriptionPlanController;
-use App\Http\Controllers\User\CourseController;
+use App\Http\Controllers\User\FreeCourseController;
+use App\Http\Controllers\User\ProgramsController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
 Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
-Route::get('/course', [CourseController::class, 'index']);
+Route::get('/free-course', [FreeCourseController::class, 'index']);
+Route::get('/programs', [ProgramsController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');

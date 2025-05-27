@@ -52,11 +52,11 @@
     <span class="screen-darken"></span>
     <!-- loader Start -->
     <!-- loader Start -->
-    <div class="loader simple-loader">
+    {{-- <div class="loader simple-loader">
         <div class="loader-body">
             <img src="/frontend/assets/images/loader.gif" alt="loader" class="img-fluid " width="300">
         </div>
-    </div>
+    </div> --}}
     <!-- loader END --> <!-- loader END -->
     <main class="main-content">
         @include('frontend.layouts.partials.header')
