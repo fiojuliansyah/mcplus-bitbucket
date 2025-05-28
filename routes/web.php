@@ -33,6 +33,7 @@ Route::get('/course-and-tutor/{id}', [CourseAndTutorController::class, 'showCour
 
 // move to user auth middleware after show
 Route::get('/my-class', [MyClassController::class, 'index']);
+Route::get('/my-class/{id}', [MyClassController::class, 'showDetail']);
 Route::get('/my-profile', [UserProfileController::class, 'index']);
 Route::get('/watchlist', [WatchlistController::class, 'index']);
 Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);

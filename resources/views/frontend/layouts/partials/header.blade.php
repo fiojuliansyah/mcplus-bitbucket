@@ -70,13 +70,13 @@
                                 </a>
                             </li>
                             
-                            @auth
+                            {{-- @auth --}}
                             <li class="nav-item">
                                 <a class="nav-link" href="/my-class">
                                     <span class="item-name">My Class</span>
                                 </a>
                             </li>
-                            @endauth
+                            {{-- @endauth --}}
                             
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="#">
