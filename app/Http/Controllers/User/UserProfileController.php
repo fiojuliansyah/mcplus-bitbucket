@@ -22,7 +22,7 @@ class UserProfileController extends Controller
         return view('frontend.profile', compact('user'));
     }
 
-    public function updae()
+    public function update()
     {
 
     }

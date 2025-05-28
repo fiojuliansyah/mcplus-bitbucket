@@ -18,6 +18,7 @@ use App\Http\Controllers\User\FreeCourseController;
 use App\Http\Controllers\User\ProgramsController;
 use App\Http\Controllers\User\MyClassController;
 use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\WatchlistController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
@@ -28,6 +29,7 @@ Route::get('/programs', [ProgramsController::class, 'index']);
 // move to user auth middleware after show
 Route::get('/my-class', [MyClassController::class, 'index']);
 Route::get('/user-profile', [UserProfileController::class, 'index']);
+Route::get('/watchlist', [WatchlistController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');

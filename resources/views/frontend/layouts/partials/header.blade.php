@@ -199,7 +199,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./playlist.html" class="iq-sub-card d-flex align-items-center gap-3">
+                                        <a href="./watchlist" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg width="16" height="16" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path d="m0 0h24v24h-24z" fill="#fff" opacity="0"
