@@ -61,7 +61,12 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/programs">
-                                    <span class="item-name">Baru & Populer</span>
+                                    <span class="item-name">Our Programs</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/course-and-tutor">
+                                    <span class="item-name">Course & tutor</span>
                                 </a>
                             </li>
                             
@@ -149,7 +154,7 @@
                             </li>
                             @endguest
 
-                            {{-- @auth --}}
+                            @auth
                             <li class="nav-item dropdown" id="itemdropdown1">
                                 <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -244,7 +249,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            {{-- @endauth --}}
+                            @endauth
                         </ul>
                     </div>
                 </div>
