@@ -149,7 +149,7 @@
                             </li>
                             @endguest
 
-                            @auth
+                            {{-- @auth --}}
                             <li class="nav-item dropdown" id="itemdropdown1">
                                 <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -183,7 +183,7 @@
                                         <span class="font-size-14 fw-500 text-capitalize text-white">Jenny</span>
                                     </li>
                                     <li>
-                                        <a href="./playlist.html" class="iq-sub-card d-flex align-items-center gap-3">
+                                        <a href="./user-profile" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 16 22" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -244,7 +244,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            @endauth
+                            {{-- @endauth --}}
                         </ul>
                     </div>
                 </div>
