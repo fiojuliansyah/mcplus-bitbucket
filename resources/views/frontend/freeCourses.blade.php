@@ -17,11 +17,18 @@
           <img src="{{ asset($course['image']) }}" class="card-img-top object-cover" style="height: 200px;" alt="{{ $course['title'] }}">
           <div class="card-body">
             <h5 class="card-title">{{ $course['title'] }}</h5>
-            <div class="d-flex align-item-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-between mb-1">
               <p class="text-muted mb-0">Form: {{ $course['form'] }}</p>
               <p class="text-muted mb-0">{{ $course['subject'] }}</p>
             </div>
+            <p class="text-muted mb-1">Tutor: {{ $course['tutor'] }}</p>
             <span class="badge bg-success mt-2">Free</span>
+
+            <div class="mt-3 d-flex justify-content-center">
+              <a href="/free-course/{{ $course['id'] }}" class="btn btn-sm btn-primary">
+                View
+              </a>
+            </div>
           </div>
         </div>
       </div>

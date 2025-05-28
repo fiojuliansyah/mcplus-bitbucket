@@ -26,6 +26,7 @@ use App\Http\Controllers\User\CourseAndTutorController;
 Route::get('/', [UserPageController::class, 'index']);
 Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
 Route::get('/free-course', [FreeCourseController::class, 'index']);
+Route::get('/free-course/{id}', [FreeCourseController::class, 'show']);
 Route::get('/programs', [ProgramsController::class, 'index']);
 Route::get('/course-and-tutor', [CourseAndTutorController::class, 'index']);
 Route::get('/course-and-tutor/{id}', [CourseAndTutorController::class, 'showCourse']);
