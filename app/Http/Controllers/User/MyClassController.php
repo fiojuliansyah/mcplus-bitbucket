@@ -33,7 +33,7 @@ class MyClassController extends Controller
         ],
     ]);
 
-        return view('frontend.myClass', compact('enrolledSubjects'));
+        return view('frontend.my-class', compact('enrolledSubjects'));
     }
 
 }

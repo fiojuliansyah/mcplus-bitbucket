@@ -15,6 +15,6 @@ class FreeCourseController extends Controller
             ['title' => 'English Grammar', 'subject' => 'English' ,'form' => 1, 'image' => 'frontend/assets/images/courses/english-grammar.png'],
         ];
 
-        return view('frontend.freeCourses', compact('freeCourses'));
+        return view('frontend.free-courses', compact('freeCourses'));
     }
 }
