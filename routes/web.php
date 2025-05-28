@@ -27,13 +27,14 @@ Route::get('/', [UserPageController::class, 'index']);
 Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
 Route::get('/free-course', [FreeCourseController::class, 'index']);
 Route::get('/programs', [ProgramsController::class, 'index']);
+Route::get('/course-and-tutor', [CourseAndTutorController::class, 'index']);
+Route::get('/course-and-tutor/{id}', [CourseAndTutorController::class, 'showCourse']);
 
 // move to user auth middleware after show
 Route::get('/my-class', [MyClassController::class, 'index']);
 Route::get('/my-profile', [UserProfileController::class, 'index']);
 Route::get('/watchlist', [WatchlistController::class, 'index']);
 Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);
-Route::get('/course-and-tutor', [CourseAndTutorController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');

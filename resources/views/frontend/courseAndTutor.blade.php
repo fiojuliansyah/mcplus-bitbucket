@@ -17,7 +17,8 @@
         @endphp
 
         <div class="col-md-4 mb-4">
-            <div class="card border-0 shadow-lg h-100">
+            <div class="card border shadow-sm rounded-2">
+
                 @if(isset($course['image']))
                 <img src="{{ asset($course['image']) }}" class="card-img-top" alt="{{ $course['title'] }}">
                 @endif
@@ -30,7 +31,7 @@
                     <p class="text-muted mb-1">Form: <strong>{{ $course['form'] }}</strong></p>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-primary w-100 mt-3">View Course</a>
+                    <a href="./course-and-tutor/{{ $course['id'] }}" class="btn btn-primary w-100 mt-3">View Course</a>
                 </div>
                 </div>
             </div>
