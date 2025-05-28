@@ -183,7 +183,7 @@
                                         <span class="font-size-14 fw-500 text-capitalize text-white">Jenny</span>
                                     </li>
                                     <li>
-                                        <a href="./user-profile" class="iq-sub-card d-flex align-items-center gap-3">
+                                        <a href="./my-profile" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 16 22" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -212,7 +212,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./pricing-plan.html"
+                                        <a href="./my-subscription"
                                             class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg width="16" height="16" stroke-width="1.5" viewBox="0 0 24 24"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
