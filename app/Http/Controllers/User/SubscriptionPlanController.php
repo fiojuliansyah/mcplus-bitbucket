@@ -2,31 +2,15 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SubscriptionPlanController extends Controller
 {
     public function index()
     {
-        $plans = [
-            [
-                'duration' => '3 Months',
-                'price' => 'RM30',
-                'recommended' => false,
-            ],
-            [
-                'duration' => '6 Months',
-                'price' => 'RM58',
-                'recommended' => true,
-            ],
-            [
-                'duration' => '12 Months',
-                'price' => 'RM100',
-                'recommended' => false,
-            ],
-        ];
-
+        $plans = Plan::all();
         return view('frontend.subscription', compact('plans'));
     }
 }
