@@ -68,17 +68,11 @@
                                     <span class="item-name">Course & tutor</span>
                                 </a>
                             </li>
-                            
-                            {{-- Delete after test --}}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/my-course">
-                                    <span class="item-name">My Course</span>
-                                </a>
-                            </li>
+
                             @auth
                                 @if(auth()->user()->account_type === 'tutor')
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/my-course">
+                                        <a class="nav-link" href="{{ route('tutor.my-course') }}">
                                             <span class="item-name">My Course</span>
                                         </a>
                                     </li>
@@ -201,7 +195,11 @@
                                         <span class="font-size-14 fw-500 text-capitalize text-white">Jenny</span>
                                     </li>
                                     <li>
+                                        @if(auth()->user()->account_type === 'tutor')
+                                        <a href="{{ route('tutor.profile') }}" class="iq-sub-card d-flex align-items-center gap-3">
+                                        @elseif(auth()->user()->account_type === 'student')
                                         <a href="./my-profile" class="iq-sub-card d-flex align-items-center gap-3">
+                                        @endif
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 16 22" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"

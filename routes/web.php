@@ -23,6 +23,7 @@ use App\Http\Controllers\User\UserSubscriptionController;
 use App\Http\Controllers\User\CourseAndTutorController;
 use App\Http\Controllers\Tutor\TutorPageController;
 use App\Http\Controllers\Tutor\TutorCourseController;
+use App\Http\Controllers\Tutor\TutorProfileController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
@@ -67,14 +68,15 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
 
 // Move the routes after show and delete tutor.
 
-Route::get('/tutor-home', [TutorPageController::class, 'index']);
-Route::get('/my-course', [TutorCourseController::class, 'index'])->name('tutor.my-course');
-Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('tutor.upload-course');
-Route::post('/upload-course', [TutorCourseController::class, 'store'])->name('tutor.upload-course.store');
 
 
 Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
     
+    Route::get('/tutor-home', [TutorPageController::class, 'index'])->name('dashboard');
+    Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
+    Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
+    Route::post('/upload-course', [TutorCourseController::class, 'store'])->name('upload-course.store');
+    Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
     // Route::get('/tutor-home', function () {
     //     return view('tutor.dashboard');
     // })->name('tutor.dashboard');
