@@ -15,7 +15,7 @@
                     </div>
                     <!--Logo -->
                     <div class="logo-default">
-                        <a class="navbar-brand text-primary" href="./index.html">
+                        <a class="navbar-brand text-primary" href="/">
                             <img class="img-fluid logo" src="/frontend/assets/images/logo-example.png" loading="lazy"
                                 alt="streamit" />
                         </a>
@@ -29,7 +29,7 @@
                             <div class="navbar-brand ms-3">
                                 <!--Logo -->
                                 <div class="logo-default">
-                                    <a class="navbar-brand text-primary" href="./index.html">
+                                    <a class="navbar-brand text-primary" href="/">
                                         <img class="img-fluid logo" src="/frontend/assets/images/logo.webp"
                                             loading="lazy" alt="streamit" />
                                     </a>
@@ -53,7 +53,6 @@
                             </li>
                             @endguest
                             
-                            
                             <li class="nav-item">
                                 <a class="nav-link" href="/free-course">
                                     <span class="item-name">Free Course</span>
@@ -70,13 +69,21 @@
                                 </a>
                             </li>
                             
-                            {{-- @auth --}}
-                            <li class="nav-item">
-                                <a class="nav-link" href="/my-class">
-                                    <span class="item-name">My Class</span>
-                                </a>
-                            </li>
-                            {{-- @endauth --}}
+                            @auth
+                                @if(auth()->user()->account_type === 'tutor')
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/my-course">
+                                            <span class="item-name">My Course</span>
+                                        </a>
+                                    </li>
+                                @elseif(auth()->user()->account_type === 'student')
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/my-class">
+                                            <span class="item-name">My Class</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endauth
                             
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="#">
@@ -216,6 +223,8 @@
                                             <h6 class="mb-0 font-size-14 fw-normal">Watchlist</h6>
                                         </a>
                                     </li>
+
+                                    @if(auth()->user()->account_type === 'student')
                                     <li>
                                         <a href="./my-subscription"
                                             class="iq-sub-card d-flex align-items-center gap-3">
@@ -229,6 +238,8 @@
                                             <h6 class="mb-0 font-size-14 fw-normal">Subscription</h6>
                                         </a>
                                     </li>
+                                    @endif
+
                                     <li>
                                         <a href="javascript:void(0);"
                                             class="iq-sub-card iq-logout-2 mt-1 d-flex justify-content-center gap-2"

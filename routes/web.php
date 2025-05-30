@@ -21,6 +21,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\User\UserSubscriptionController;
 use App\Http\Controllers\User\CourseAndTutorController;
+use App\Http\Controllers\Tutor\TutorPageController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
@@ -63,11 +64,18 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
 });
 
 
-Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('tutor.dashboard');
-    })->name('dashboard');
+// Move the routes after show
 
+Route::get('/tutor-home', [TutorPageController::class, 'index']);
+
+
+
+
+Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
+    
+    // Route::get('/tutor-home', function () {
+    //     return view('tutor.dashboard');
+    // })->name('tutor.dashboard');
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
