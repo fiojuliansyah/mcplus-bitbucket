@@ -22,6 +22,7 @@ use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\User\UserSubscriptionController;
 use App\Http\Controllers\User\CourseAndTutorController;
 use App\Http\Controllers\Tutor\TutorPageController;
+use App\Http\Controllers\Tutor\TutorCourseController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
@@ -64,11 +65,12 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
 });
 
 
-// Move the routes after show
+// Move the routes after show and delete tutor.
 
 Route::get('/tutor-home', [TutorPageController::class, 'index']);
-
-
+Route::get('/my-course', [TutorCourseController::class, 'index'])->name('tutor.my-course');
+Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('tutor.upload-course');
+Route::post('/upload-course', [TutorCourseController::class, 'store'])->name('tutor.upload-course.store');
 
 
 Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {

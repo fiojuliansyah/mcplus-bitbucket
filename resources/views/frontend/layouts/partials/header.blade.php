@@ -67,6 +67,12 @@
                                 </a>
                             </li>
                             
+                            {{-- Delete after test --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/my-course">
+                                    <span class="item-name">My Course</span>
+                                </a>
+                            </li>
                             @auth
                                 @if(auth()->user()->account_type === 'tutor')
                                     <li class="nav-item">
