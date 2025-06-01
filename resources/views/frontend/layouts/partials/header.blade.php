@@ -15,7 +15,7 @@
                     </div>
                     <!--Logo -->
                     <div class="logo-default">
-                        <a class="navbar-brand text-primary" href="./index.html">
+                        <a class="navbar-brand text-primary" href="/">
                             <img class="img-fluid logo" src="/frontend/assets/images/logo-example.png" loading="lazy"
                                 alt="streamit" />
                         </a>
@@ -29,7 +29,7 @@
                             <div class="navbar-brand ms-3">
                                 <!--Logo -->
                                 <div class="logo-default">
-                                    <a class="navbar-brand text-primary" href="./index.html">
+                                    <a class="navbar-brand text-primary" href="/">
                                         <img class="img-fluid logo" src="/frontend/assets/images/logo.webp"
                                             loading="lazy" alt="streamit" />
                                     </a>
@@ -51,7 +51,6 @@
                                 </a>
                             </li>
                             
-                            
                             <li class="nav-item">
                                 <a class="nav-link" href="/free-course">
                                     <span class="item-name">Free Course</span>
@@ -59,16 +58,29 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/programs">
-                                    <span class="item-name">Baru & Populer</span>
+                                    <span class="item-name">Our Programs</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/course-and-tutor">
+                                    <span class="item-name">Course & tutor</span>
                                 </a>
                             </li>
                             
                             @auth
-                            <li class="nav-item">
-                                <a class="nav-link" href="/my-class">
-                                    <span class="item-name">My Class</span>
-                                </a>
-                            </li>
+                                @if(auth()->user()->account_type === 'tutor')
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/my-course">
+                                            <span class="item-name">My Course</span>
+                                        </a>
+                                    </li>
+                                @elseif(auth()->user()->account_type === 'student')
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/my-class">
+                                            <span class="item-name">My Class</span>
+                                        </a>
+                                    </li>
+                                @endif
                             @endauth
                             
                             {{-- <li class="nav-item">
@@ -181,7 +193,7 @@
                                         <span class="font-size-14 fw-500 text-capitalize text-white">{{ Auth::user()->name }}</span>
                                     </li>
                                     <li>
-                                        <a href="./playlist.html" class="iq-sub-card d-flex align-items-center gap-3">
+                                        <a href="./my-profile" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 16 22" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -197,7 +209,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="./playlist.html" class="iq-sub-card d-flex align-items-center gap-3">
+                                        <a href="./watchlist" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg width="16" height="16" viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path d="m0 0h24v24h-24z" fill="#fff" opacity="0"
@@ -209,8 +221,10 @@
                                             <h6 class="mb-0 font-size-14 fw-normal">Watchlist</h6>
                                         </a>
                                     </li>
+
+                                    @if(auth()->user()->account_type === 'student')
                                     <li>
-                                        <a href="./pricing-plan.html"
+                                        <a href="./my-subscription"
                                             class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg width="16" height="16" stroke-width="1.5" viewBox="0 0 24 24"
                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -222,6 +236,8 @@
                                             <h6 class="mb-0 font-size-14 fw-normal">Subscription</h6>
                                         </a>
                                     </li>
+                                    @endif
+
                                     <li>
                                         <a href="javascript:void(0);"
                                             class="iq-sub-card iq-logout-2 mt-1 d-flex justify-content-center gap-2"

@@ -17,14 +17,27 @@ use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\User\FreeCourseController;
 use App\Http\Controllers\User\ProgramsController;
 use App\Http\Controllers\User\MyClassController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\WatchlistController;
+use App\Http\Controllers\User\UserSubscriptionController;
+use App\Http\Controllers\User\CourseAndTutorController;
+use App\Http\Controllers\Tutor\TutorPageController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
 Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
 Route::get('/free-course', [FreeCourseController::class, 'index']);
+Route::get('/free-course/{id}', [FreeCourseController::class, 'show']);
 Route::get('/programs', [ProgramsController::class, 'index']);
+Route::get('/course-and-tutor', [CourseAndTutorController::class, 'index']);
+Route::get('/course-and-tutor/{id}', [CourseAndTutorController::class, 'showCourse']);
 
+// move to user auth middleware after show
 Route::get('/my-class', [MyClassController::class, 'index']);
+Route::get('/my-class/{id}', [MyClassController::class, 'showDetail']);
+Route::get('/my-profile', [UserProfileController::class, 'index']);
+Route::get('/watchlist', [WatchlistController::class, 'index']);
+Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
      Route::get('/home', [UserPageController::class, 'index'])->name('home');
@@ -51,11 +64,18 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
 });
 
 
-Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('tutor.dashboard');
-    })->name('dashboard');
+// Move the routes after show
 
+Route::get('/tutor-home', [TutorPageController::class, 'index']);
+
+
+
+
+Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
+    
+    // Route::get('/tutor-home', function () {
+    //     return view('tutor.dashboard');
+    // })->name('tutor.dashboard');
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
