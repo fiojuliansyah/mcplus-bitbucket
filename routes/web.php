@@ -27,22 +27,25 @@ use App\Http\Controllers\Tutor\TutorProfileController;
 
 
 Route::get('/', [UserPageController::class, 'index']);
-Route::get('/subscription', [SubscriptionPlanController::class, 'index']);
+Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
 Route::get('/free-course', [FreeCourseController::class, 'index']);
 Route::get('/free-course/{id}', [FreeCourseController::class, 'show']);
 Route::get('/programs', [ProgramsController::class, 'index']);
 Route::get('/course-and-tutor', [CourseAndTutorController::class, 'index']);
 Route::get('/course-and-tutor/{id}', [CourseAndTutorController::class, 'showCourse']);
 
-// move to user auth middleware after show
-Route::get('/my-class', [MyClassController::class, 'index']);
-Route::get('/my-class/{id}', [MyClassController::class, 'showDetail']);
-Route::get('/my-profile', [UserProfileController::class, 'index']);
-Route::get('/watchlist', [WatchlistController::class, 'index']);
-Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);
 
 Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
-     Route::get('/home', [UserPageController::class, 'index'])->name('home');
+    Route::get('/home', [UserPageController::class, 'index'])->name('home');
+    Route::get('/class', [MyClassController::class, 'index']);
+    Route::get('/class/{slug}', [MyClassController::class, 'showDetail']);
+
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
+    Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
+    Route::post('/profile/update/{id}', [UserProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist');
+    Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);
 });
 
 
@@ -66,20 +69,14 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
 });
 
 
-// Move the routes after show and delete tutor.
-
-
-
 Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
     
-    Route::get('/tutor-home', [TutorPageController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
     Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
     Route::post('/upload-course', [TutorCourseController::class, 'store'])->name('upload-course.store');
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
-    // Route::get('/tutor-home', function () {
-    //     return view('tutor.dashboard');
-    // })->name('tutor.dashboard');
+
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
