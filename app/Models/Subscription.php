@@ -10,6 +10,7 @@ class Subscription extends Model
         'user_id',
         'profile_id',
         'plan_id',
+        'subject_id',
         'duration',
         'payment_method',
         'start_date',
@@ -34,6 +35,11 @@ class Subscription extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class, 'plan_id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Plan::class, 'subject_id');
     }
 
     public function coupon()

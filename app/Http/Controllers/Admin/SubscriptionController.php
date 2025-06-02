@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Plan;
 use App\Models\User;
+use App\Models\Subject;
 use App\Models\Coupon;
 use App\Models\Profile;
 use App\Models\Subscription;
@@ -18,7 +19,8 @@ class SubscriptionController extends Controller
         $users = User::all();
         $profiles = Profile::all();
         $plans = Plan::all();
-        return $dataTable->render('admin.subscriptions.index', compact('users','profiles','plans'));
+        $subjects = Subject::all();
+        return $dataTable->render('admin.subscriptions.index', compact('users','profiles','plans','subjects'));
     }
 
     public function store(Request $request)
@@ -27,6 +29,7 @@ class SubscriptionController extends Controller
             'user_id' => $request->user_id,
             'profile_id' => $request->profile_id,
             'plan_id' => $request->plan_id,
+            'subject_id' => $request->subject_id,
             'duration' => $request->duration,
             'payment_method' => $request->payment_method,
             'start_date' => $request->start_date,
@@ -49,6 +52,7 @@ class SubscriptionController extends Controller
             'user_id' => $request->user_id,
             'profile_id' => $request->profile_id,
             'plan_id' => $request->plan_id,
+            'subject_id' => $request->subject_id,
             'duration' => $request->duration,
             'payment_method' => $request->payment_method,
             'start_date' => $request->start_date,

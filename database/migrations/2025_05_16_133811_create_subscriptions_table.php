@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('profile_id');
             $table->string('plan_id');
+            $table->string('subject_id');
             $table->string('duration');
             $table->string('payment_method');
             $table->datetime('start_date');
