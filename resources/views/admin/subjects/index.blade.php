@@ -7,10 +7,16 @@
                 <div class="card">
                     <div class="card-header border-bottom d-flex justify-content-between align-items-center py-3">
                         <h4 class="mb-0">{{ $grade->name }} Subjects</h4>
-                        <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#createModal">
-                            <i class="fa fa-plus"></i> Add Subject
-                        </button>
+                        <div class="d-flex">
+                            <a href="{{ route('admin.grades.index') }}" class="btn btn-secondary me-2">
+                                Back
+                            </a>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                                <i class="fa fa-plus"></i> Add Subject
+                            </button>
+                        </div>
                     </div>
+
                     <div class="card-body">
                         <div class="table-responsive rounded py-4 table-space">
                             {!! $dataTable->table() !!}
@@ -37,8 +43,8 @@
                             <input type="text" class="form-control" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Image <small>(optional)</small></label>
-                            <input type="file" class="form-control" name="image">
+                            <label class="form-label">Thumbnail <small>(optional)</small></label>
+                            <input type="file" class="form-control" name="thumbnail">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Trailer <small>(optional)</small></label>

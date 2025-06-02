@@ -36,10 +36,10 @@
                         <input type="text" class="form-control" name="name" value="{{ $row->name }}" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Image <small>(optional)</small></label>
-                        <input type="file" class="form-control" name="image">
-                        @if($row->image)
-                            <img src="{{ Storage::disk('public')->url($row->image) }}" alt="Subject Image" class="img-thumbnail mt-2" width="100">
+                        <label class="form-label">Thumbnail <small>(optional)</small></label>
+                        <input type="file" class="form-control" name="thumbnail">
+                        @if($row->thumbnail)
+                            <img src="{{ Storage::disk('public')->url($row->thumbnail) }}" alt="Subject Thumbnail" class="img-thumbnail mt-2" width="100">
                         @endif
                     </div>
                     <div class="mb-3">

@@ -64,6 +64,20 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Subject</label>
+                                <select class="form-control" name="subject_id">
+                                    @foreach ($subjects->groupBy('grade_id') as $gradeId => $subjectGroup)
+                                            <option disabled></option>
+                                        <optgroup label="{{ $subjectGroup->first()->grade->name }}" style="margin-top: 100px">
+                                            @foreach ($subjectGroup as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <!-- Duration -->
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Duration</label>

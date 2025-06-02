@@ -25,16 +25,16 @@ class SubjectController extends Controller
     {
         $grade = Grade::where('slug', $slug)->first();
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('subjects', 'public');
+        $thumbnailPath = null;
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('subjects', 'public');
         }
 
         $subject = Subject::create([
             'grade_id' => $grade->id,
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'image' => $imagePath,
+            'thumbnail' => $thumbnailPath,
             'trailer' => $request->trailer,
             'status' => $request->status ?? 'active',
         ]);
@@ -48,27 +48,27 @@ class SubjectController extends Controller
         //     'grade_id' => 'required|exists:grades,id',
         //     'name' => 'required|string|max:255',
         //     'slug' => 'required|string|max:255|unique:subjects,slug,' . $id,
-        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'thumbnail' => 'nullable|thumbnail|mimes:jpeg,png,jpg,gif,svg|max:2048',
         //     'trailer' => 'nullable|url',
         //     'status' => 'required|string|max:255',
         // ]);
 
         $subject = Subject::findOrFail($id);
 
-        $imagePath = $subject->image;
-        if ($request->hasFile('image')) {
-            if ($subject->image && Storage::exists($subject->image)) {
-                Storage::delete($subject->image);
+        $thumbnailPath = $subject->thumbnail;
+        if ($request->hasFile('thumbnail')) {
+            if ($subject->thumbnail && Storage::exists($subject->thumbnail)) {
+                Storage::delete($subject->thumbnail);
             }
 
-            $imagePath = $request->file('image')->store('subjects', 'public');
+            $thumbnailPath = $request->file('thumbnail')->store('subjects', 'public');
         }
 
         $subject->update([
             'grade_id' => $request->grade_id,
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'image' => $imagePath,
+            'thumbnail' => $thumbnailPath,
             'trailer' => $request->trailer,
             'status' => $request->status ?? 'active',
         ]);
