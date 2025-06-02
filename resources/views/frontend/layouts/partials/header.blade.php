@@ -46,7 +46,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="/subscription">
+                                <a class="nav-link" href="{{ route('pricing-plans') }}">
                                     <span class="item-name">Subscription</span>
                                 </a>
                             </li>
@@ -193,11 +193,7 @@
                                         <span class="font-size-14 fw-500 text-capitalize text-white">{{ Auth::user()->name }}</span>
                                     </li>
                                     <li>
-                                        @if(auth()->user()->account_type === 'tutor')
-                                        <a href="{{ route('tutor.profile') }}" class="iq-sub-card d-flex align-items-center gap-3">
-                                        @elseif(auth()->user()->account_type === 'student')
-                                        <a href="./my-profile" class="iq-sub-card d-flex align-items-center gap-3">
-                                        @endif
+                                        <a href="{{ route('user.profile') }}" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 16 22" fill="none">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
