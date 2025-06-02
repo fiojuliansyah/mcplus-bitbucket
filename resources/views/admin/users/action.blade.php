@@ -1,4 +1,11 @@
 <div class="flex align-items-center list-user-action">
+
+    <a href="" class="btn btn-sm btn-icon btn-info rounded delete-btn">
+        <span class="btn-inner">
+            <i class="fa-solid fa-user fa-xs" style="color: white"></i>
+        </span>
+    </a>
+
     <!-- Edit Button -->
     <a class="btn btn-sm btn-icon btn-success rounded" data-bs-toggle="modal" data-bs-target="#editModal-{{ $row->id }}">
         <span class="btn-inner">
