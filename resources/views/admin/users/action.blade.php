@@ -61,16 +61,18 @@
                             <option value="deactive" {{ $row->status == 'deactive' ? 'selected' : '' }}>Deactive</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="roles" class="form-label">Select Roles</label>
-                        <select name="roles[]" id="roles" class="form-control" multiple>
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->name }}" {{ $row->hasRole($role->name) ? 'selected' : '' }}>
-                                    {{ $role->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if ($row->account_type == 'admin')         
+                        <div class="mb-3">
+                            <label for="roles" class="form-label">Select Roles</label>
+                            <select name="roles[]" id="roles" class="form-control" multiple>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}" {{ $row->hasRole($role->name) ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>

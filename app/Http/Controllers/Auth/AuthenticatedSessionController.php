@@ -24,13 +24,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Authenticate the user
+        
         $request->authenticate();
 
-        // Regenerate session
+        
         $request->session()->regenerate();
 
-        // Redirect based on account type
+        
         $user = Auth::user();
 
         if ($user->account_type == 'admin') {
@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->account_type == 'tutor') {
             return redirect()->route('tutor.dashboard'); 
         } else {
-            return redirect()->route('user.home');
+            return redirect()->route('user.select-profile');
         }
     }
 
@@ -55,4 +55,27 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function destroyUserProfile(Request $request): RedirectResponse
+    {
+        
+        $user = Auth::guard('web')->user();
+
+        
+        if ($user) {
+            $user->profile_id = null;
+            $user->save();
+        }
+
+        
+        Auth::guard('web')->logout();
+
+        
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        
+        return redirect('/');
+    }
+
 }

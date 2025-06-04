@@ -1,15 +1,15 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-  <div class="iq-breadcrumb" style="background-image: url(./assets/images/pages/01.webp);">
+  <div class="iq-breadcrumb" style="background-image: url(/frontend/assets/images/pages/pricing-plan.png);">
       <div class="container-fluid">
         <div class="row align-items-center">
               <div class="col-sm-12">
                   <nav aria-label="breadcrumb" class="text-center">
                       <h2 class="title">Pricing Plan</h2>
                       <ol class="breadcrumb justify-content-center">
-                          <li class="breadcrumb-item"><a href="./index.html">Home</a></li> 
-                          <li class="breadcrumb-item active">Pricing Plan</li>
+                          <li class="breadcrumb-item"><a href="/">Home</a></li> 
+                          <li class="breadcrumb-item">Pricing Plan</li>
                       </ol>
                   </nav>
               </div>

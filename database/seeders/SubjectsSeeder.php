@@ -35,6 +35,7 @@ class SubjectsSeeder extends Seeder
                     'grade_id' => $grade->id,
                     'name' => $subject,
                     'slug' => Str::slug($subject),
+                    'thumbnail' => Str::slug($subject) . '.png',
                     'status' => 'active',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_code');
             $table->string('user_id');
             $table->string('profile_id');
             $table->string('plan_id');

@@ -14,31 +14,24 @@ use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\SubscriptionPlanController;
-use App\Http\Controllers\User\FreeCourseController;
-use App\Http\Controllers\User\ProgramsController;
-use App\Http\Controllers\User\MyClassController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\WatchlistController;
-use App\Http\Controllers\User\UserSubscriptionController;
-use App\Http\Controllers\User\CourseAndTutorController;
 use App\Http\Controllers\Tutor\TutorPageController;
-use App\Http\Controllers\Tutor\TutorCourseController;
 use App\Http\Controllers\Tutor\TutorProfileController;
 
+Route::middleware(['check.profile'])->name('user.')->group(function () {
+    Route::get('/', [UserPageController::class, 'index'])->name('home');
+    Route::get('/subjects', [UserPageController::class, 'subjects'])->name('home.subjects');
+    Route::get('/tutors', [UserPageController::class, 'tutors'])->name('home.tutors');
+    Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
+});
 
-Route::get('/', [UserPageController::class, 'index']);
-Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
-Route::get('/free-course', [FreeCourseController::class, 'index']);
-Route::get('/free-course/{id}', [FreeCourseController::class, 'show']);
-Route::get('/programs', [ProgramsController::class, 'index']);
-Route::get('/course-and-tutor', [CourseAndTutorController::class, 'index']);
-Route::get('/course-and-tutor/{id}', [CourseAndTutorController::class, 'showCourse']);
+Route::middleware(['auth'])->name('user.')->group(function () {
+    Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');
+    Route::post('/change-profile', [UserProfileController::class, 'changeProfile'])->name('change-profile');
+});
 
-
-Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
-    Route::get('/home', [UserPageController::class, 'index'])->name('home');
-    Route::get('/class', [MyClassController::class, 'index']);
-    Route::get('/class/{slug}', [MyClassController::class, 'showDetail']);
+Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
 
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
     Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
@@ -49,7 +42,7 @@ Route::middleware(['auth', 'verified'])->name('user.')->group(function () {
 });
 
 
-Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminPageController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
@@ -69,7 +62,7 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->name('admin.')->group(
 });
 
 
-Route::prefix('tutor')->middleware(['auth', 'verified'])->name('tutor.')->group(function () {
+Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () {
     
     Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');

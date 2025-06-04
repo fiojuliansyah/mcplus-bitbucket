@@ -8,6 +8,7 @@ class Subscription extends Model
 {
     protected $fillable = [
         'user_id',
+        'transaction_code',
         'profile_id',
         'plan_id',
         'subject_id',
@@ -39,7 +40,7 @@ class Subscription extends Model
 
     public function subject()
     {
-        return $this->belongsTo(Plan::class, 'subject_id');
+        return $this->belongsTo(Subject::class, 'subject_id');
     }
 
     public function coupon()

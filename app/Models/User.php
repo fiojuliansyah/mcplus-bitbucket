@@ -19,6 +19,7 @@ class User extends Authenticatable
         'phone',
         'phone_verified',
         'status',
+        'profile_id',
         'account_type'
     ];
 
@@ -43,5 +44,15 @@ class User extends Authenticatable
     public function profiles()
     {
         return $this->hasMany(Profile::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function current_profile()
+    {
+        return $this->belongsTo(Profile::class, 'profile_id', 'id');
     }
 }

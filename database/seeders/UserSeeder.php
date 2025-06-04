@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Profile; 
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -13,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         
-        User::create([
+        $student = User::create([
             'name' => 'Student',
             'email' => 'student@gmail.com',
             'password' => bcrypt('password'), 
@@ -22,7 +23,19 @@ class UserSeeder extends Seeder
             'account_type' => 'student', 
         ]);
 
-        User::create([
+        
+        $studentProfile = Profile::create([
+            'user_id' => $student->id,
+            'name' => 'Student Profile',  
+            'avatar' => 'default-avatar.png',  
+        ]);
+
+        
+        $student->profile_id = $studentProfile->id;
+        $student->save();
+
+        
+        $parent = User::create([
             'name' => 'Parent',
             'email' => 'parent@gmail.com',
             'password' => bcrypt('password'), 
@@ -31,7 +44,19 @@ class UserSeeder extends Seeder
             'account_type' => 'parent', 
         ]);
 
-        User::create([
+        
+        $parentProfile = Profile::create([
+            'user_id' => $parent->id,
+            'name' => 'Parent Profile',  
+            'avatar' => 'default-avatar.png',  
+        ]);
+
+        
+        $parent->profile_id = $parentProfile->id;
+        $parent->save();
+
+        
+        $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
@@ -40,7 +65,19 @@ class UserSeeder extends Seeder
             'account_type' => 'admin', 
         ]);
 
-        User::create([
+        
+        $adminProfile = Profile::create([
+            'user_id' => $admin->id,
+            'name' => 'Admin Profile',  
+            'avatar' => 'default-avatar.png',  
+        ]);
+
+        
+        $admin->profile_id = $adminProfile->id;
+        $admin->save();
+
+        
+        $tutor = User::create([
             'name' => 'Tutor',
             'email' => 'tutor@gmail.com',
             'password' => bcrypt('password'),
@@ -48,5 +85,16 @@ class UserSeeder extends Seeder
             'status' => 'active',
             'account_type' => 'tutor', 
         ]);
+
+        
+        $tutorProfile = Profile::create([
+            'user_id' => $tutor->id,
+            'name' => 'Tutor Profile',  
+            'avatar' => 'default-avatar.png',  
+        ]);
+
+        
+        $tutor->profile_id = $tutorProfile->id;
+        $tutor->save();
     }
 }

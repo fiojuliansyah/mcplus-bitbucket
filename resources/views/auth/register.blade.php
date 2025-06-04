@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="vh-100"
-        style="background: url('/frontend/assets/images/pages/01.webp'); background-size: cover; background-repeat: no-repeat; position: relative;min-height:500px">
+        style="background: url('/frontend/assets/images/pages/bg-auth.jpg'); background-size: cover; background-repeat: no-repeat; position: relative;min-height:500px">
         <div class="container">
             <div class="row justify-content-center align-items-center height-self-center vh-100">
                 <div class="col-lg-8 col-md-12 align-self-center">

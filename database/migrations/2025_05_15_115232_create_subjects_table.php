@@ -15,6 +15,7 @@ return new class extends Migration
                 $table->id();
                 $table->string('grade_id');
                 $table->string('thumbnail')->nullable();
+                $table->string('cover')->nullable();
                 $table->string('name');
                 $table->string('slug');
                 $table->string('trailer')->nullable();

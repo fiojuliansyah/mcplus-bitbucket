@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('content')
-      <div class="iq-breadcrumb" style="background-image: url(../assets/images/pages/01.webp);">
+      <div class="iq-breadcrumb" style="background-image: url(/frontend/assets/images/pages/my-account.png);">
          <div class="container-fluid">
             <div class="row align-items-center">
                   <div class="col-sm-12">
@@ -52,13 +52,14 @@
                     <div class="tab-content" id="product-menu-content">
                         <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
                             <div class="myaccount-content text-body p-4">
-                                <p>Hello Jenny (not Jenny? <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>)</p>
+                                <p>Hello {{ $user->current_profile->name }} (not {{ $user->current_profile->name }}? <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>)</p>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
                                     @csrf
                                 </form>
                                 <p>From your account dashboard you can view your <a href="javascript:void(0)">recent subscriptions</a>,
-                                    manage your <a href="javascript:void(0)">shipping and billing addresses</a>, and <a href="javascript:void(0)">edit your password and account details</a>.
+                                    manage your <a href="javascript:void(0)" data-bs-toggle="tab"
+                                        data-bs-target="#profiles" type="button" role="tab" aria-selected="true">profiles</a>, and <a href="javascript:void(0)">edit your password and account details</a>.
                                 </p>
                             </div>
                         </div>
@@ -70,40 +71,40 @@
                                             <tr class="border-bottom">
                                                 <th class="fw-bolder p-3">Order</th>
                                                 <th class="fw-bolder p-3">Date</th>
+                                                <th class="fw-bolder p-3">User</th>
+                                                <th class="fw-bolder p-3">Plan</th>
+                                                <th class="fw-bolder p-3">Subject</th>
                                                 <th class="fw-bolder p-3">Status</th>
-                                                <th class="fw-bolder p-3">Total</th>
                                                 <th class="fw-bolder p-3">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="border-bottom">
-                                                <td class="text-primary fs-6">#32604</td>
-                                                <td>October 28, 2022</td>
-                                                <td>Cancelled</td>
-                                                <td>$215.00 For 0 Items</td>
-                                                <td>
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <div class="iq-button">
-                                                            <a href="javascript:void(0)" class="btn text-uppercase position-relative">
-                                                                <span class="button-text">pay</span>
-                                                                <i class="fa-solid fa-play"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="iq-button">
-                                                            <a href="javascript:void(0)" class="btn text-uppercase position-relative">
-                                                                <span class="button-text">view</span>
-                                                                <i class="fa-solid fa-play"></i>
-                                                            </a>
-                                                        </div>
-                                                        <div class="iq-button">
-                                                            <a href="javascript:void(0)" class="btn text-uppercase position-relative">
-                                                                <span class="button-text">cancel</span>
-                                                                <i class="fa-solid fa-play"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            @foreach ($subscriptions as $index => $subscription)
+                                                <tr class="border-bottom">
+                                                    <td class="text-primary fs-6">#{{ $subscription->transaction_code }}</td>
+                                                    <td>{{ $subscription->created_at->format('d M Y') }}</td>
+                                                    <td>{{ $subscription->profile->name  }}</td>
+                                                    <td>{{ $subscription->plan->name }}</td>
+                                                    <td>{{ $subscription->subject->name }}</td>
+                                                    <td>
+                                                        @if ($subscription->status == 'success')
+                                                            <span class="badge rounded-pill bg-primary">Success</span>
+                                                        @elseif ($subscription->status == 'canceled')
+                                                            <span class="badge rounded-pill bg-danger">Canceled</span>
+                                                        @else
+                                                            <span class="badge rounded-pill bg-warning">pending</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <a href="javascript:void(0)" class="badge bg-primary text-uppercase position-relative">
+                                                            <span class="button-text">pay</span>
+                                                        </a>
+                                                        <a href="javascript:void(0)" class="badge bg-danger text-uppercase position-relative">
+                                                            <span class="button-text">cancel</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -113,13 +114,68 @@
                             <div class="text-body p-4">
                                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
                                     <h4 class="mb-0">Profiles</h4>
-                                    <div class="iq-button">
-                                        <a href="#" class="btn text-uppercase position-relative" data-bs-toggle="collapse"
-                                        data-bs-target="#edit-address-1" aria-expanded="false">
-                                            <span class="button-text">Add Profile</span>
-                                            <i class="fa-solid fa-play"></i>
-                                        </a>
+                                </div>
+                                <div class="profiles-list mt-4">
+                                    @foreach (Auth::user()->profiles as $profile)
+                                        <div class="profile-item d-flex align-items-center justify-content-between mb-3 p-3 border rounded">
+                                            <div class="d-flex align-items-center gap-3">
+                                                @if($profile->avatar)
+                                                <img src="{{ asset('storage/' . $profile->avatar) }}" class="img-fluid" width="40" height="40" alt="Profile Avatar" style="border-radius: 5px">
+                                                @else
+                                                    <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                        <span class="fs-6">
+                                                            @foreach(explode(' ', $profile->name) as $word)
+                                                                {{ strtoupper($word[0]) }}
+                                                            @endforeach
+                                                        </span>
+                                                    </div>
+                                                @endif
+                                                <span class="font-size-14 fw-500 text-capitalize text-white">{{ $profile->name }}</span>
+                                            </div>
+                                            <div>
+                                                <a href="" class="badge bg-primary">Edit</a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <a href="#" class="btn btn-primary position-relative" data-bs-toggle="modal" data-bs-target="#addProfileModal">
+                                    <span class="button-text">Add Profile</span>
+                                </a>
+
+                                <div class="modal fade" id="addProfileModal" tabindex="-1" aria-labelledby="addProfileModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addProfileModalLabel">Add Profile</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="mb-3 pt-4">
+                                                        <label for="profile_name" class="form-label">Profile Name</label>
+                                                        <input type="text" class="form-control" id="profile_name" name="name" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="profile_avatar" class="form-label">Avatar</label>
+                                                        <input type="file" class="form-control" id="profile_avatar" name="avatar" accept="image/*" required>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Add Profile</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- <div class="tab-pane fade" id="profiles" role="tabpanel">
+                            <div class="text-body p-4">
+                                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
+                                    <h4 class="mb-0">Profiles</h4>
                                 </div>
                                 <div class="collapse p-4" id="edit-address-1">
                                     <form action="{{ route('user.profile.store') }}" method="POST" enctype="multipart/form-data">
@@ -142,19 +198,9 @@
                                 <div class="subscriptions-table text-body p-4">
                                     <div class="table-responsive">
                                         <table class="table">
-                                            <thead>
-                                                <tr class="border-bottom">
-                                                    <th class="fw-bolder p-3">No</th>
-                                                    <th class="fw-bolder p-3">Image</th>
-                                                    <th class="fw-bolder p-3">Name</th>
-                                                    <th class="fw-bolder p-3">PIN</th>
-                                                    <th class="fw-bolder p-3">Actions</th>
-                                                </tr>
-                                            </thead>
                                             <tbody>
                                                 @foreach ($profiles as $index => $profile)
-                                                    <tr class="border-bottom">
-                                                        <td class="text-primary fs-6">{{ $index + 1 }}</td>
+                                                    <tr class="border-bottom py-3">
                                                         <td>
                                                             @if($profile->avatar)
                                                                 <img src="{{ asset('storage/'.$profile->avatar) }}" alt="avatar" class="rounded-circle" width="40" height="40">
@@ -169,7 +215,6 @@
                                                             @endif
                                                         </td>
                                                         <td class="text-primary fs-6">{{ $profile->name }}</td>
-                                                        <td>{{ $profile->pin }}</td>
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <!-- Edit Button -->
@@ -179,50 +224,20 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-
-                                                    <!-- Modal for editing the profile -->
-                                                    <div class="modal fade" id="editProfileModal{{ $profile->id }}" tabindex="-1" aria-labelledby="editProfileModalLabel{{ $profile->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <form action="{{ route('user.profile.update', $profile->id) }}" method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    @method('POST')
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="editProfileModalLabel{{ $profile->id }}">Edit Profile</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <div class="mb-3">
-                                                                            <label for="name" class="form-label">Name</label>
-                                                                            <input type="text" class="form-control" id="name" name="name" value="{{ $profile->name }}" required>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="pin" class="form-label">PIN</label>
-                                                                            <input type="text" class="form-control" id="pin" name="pin" value="{{ $profile->pin }}">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="avatar" class="form-label">Avatar</label>
-                                                                            <input type="file" class="form-control" id="avatar" name="avatar">
-                                                                            @if($profile->avatar)
-                                                                                <img src="{{ asset('storage/'.$profile->avatar) }}" alt="avatar" class="mt-2 rounded-circle" width="50" height="50">
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                                <div class="iq-button">
+                                        <a href="#" class="btn text-uppercase position-relative" data-bs-toggle="collapse"
+                                        data-bs-target="#edit-address-1" aria-expanded="false">
+                                            <span class="button-text">Add Profile</span>
+                                            <i class="fa-solid fa-play"></i>
+                                        </a>
+                                    </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="tab-pane fade" id="account-details" role="tabpanel">
                             <div class=" p-4 text-body">
                                 <form>

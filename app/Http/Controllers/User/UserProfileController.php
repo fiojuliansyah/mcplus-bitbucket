@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
-    // Show the user's profile(s)
     public function index()
     {
         $user = Auth::user();
         $profiles = $user->profiles;
-        return view('frontend.profile', compact('user', 'profiles'));
+        $subscriptions = $user->subscriptions;
+        return view('frontend.profiles.index', compact('user', 'profiles', 'subscriptions'));
     }
 
-    // Store a new profile
     public function store(Request $request)
     {
         $request->validate([
@@ -38,7 +37,7 @@ class UserProfileController extends Controller
 
         $profile->save();
 
-        return redirect()->route('user.profile')->with('success', 'Profile added successfully!');
+        return redirect()->back()->with('success', 'Profile added successfully!');
     }
 
     public function update(Request $request, $id)
@@ -62,4 +61,38 @@ class UserProfileController extends Controller
 
         return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
     }
+
+    public function selectProfile()
+    {
+        $user = Auth::user();
+        $profiles = $user->profiles;
+        return view('frontend.profiles.select-profile', compact('user', 'profiles'));
+    }
+
+    public function changeProfile(Request $request)
+    {
+        
+        $request->validate([
+            'profile_id' => 'required|exists:profiles,id',
+            'pin' => 'required_if:profile_id,!=,null|numeric', 
+        ]);
+
+        $user = Auth::user();
+
+        
+        $profile = Profile::findOrFail($request->profile_id);
+
+        
+        if ($profile->pin && $request->pin !== $profile->pin) {
+            return redirect()->back()->with('error', 'Incorrect PIN!');
+        }
+
+        
+        $user->profile_id = $profile->id;
+        $user->save();
+
+        
+        return redirect()->route('user.home')->with('success', 'Profile updated successfully!');
+    }
+
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Grade;
+use App\Models\Subject;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserPageController extends Controller
 {
@@ -119,8 +122,16 @@ class UserPageController extends Controller
         return view('frontend.home', compact('movies', 'topTenSubject', 'mostLikedTutor'));
     }
 
-    // public function index()
-    // {
-    //     return view('frontend.home');
-    // }
+    public function subjects()
+    {
+        $grades = Grade::all();
+        $subjects = Subject::all();
+        return view('frontend.subjects', compact('subjects','grades'));
+    }
+
+    public function tutors()
+    {
+        $tutors = User::where('account_type', 'tutor')->get();
+        return view('frontend.tutors', compact('tutors'));
+    }
 }

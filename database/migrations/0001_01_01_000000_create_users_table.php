@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('account_type');
             $table->enum('phone_verified', ['verified', 'unverified'])->default('unverified');
             $table->enum('status', ['active', 'deactive'])->default('active');
+            $table->string('profile_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

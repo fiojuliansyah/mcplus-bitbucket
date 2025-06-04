@@ -322,9 +322,19 @@
                                 <a class="py-0 nav-link d-flex align-items-center ps-3" href="#"
                                     id="profile-setting" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <img src="/admin/assets/images/user/01.jpg" alt="User-Profile"
+                                    @if(Auth::user()->profiles->first()->avatar)
+                                    <img src="{{ asset('storage/'.Auth::user()->profiles->first()->avatar) }}" alt="User-Profile"
                                         class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded"
                                         loading="lazy">
+                                    @else
+                                        <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <span class="fs-6">
+                                                @foreach(explode(' ', Auth::user()->profiles->first()->name) as $word)
+                                                    {{ strtoupper($word[0]) }}
+                                                @endforeach
+                                            </span>
+                                        </div>
+                                    @endif
                                     <div class="caption ms-3 d-none d-md-block ">
                                         <h6 class="mb-0 caption-title">{{ Auth::user()->name }}</h6>
                                         <p class="mb-0 caption-sub-title">
