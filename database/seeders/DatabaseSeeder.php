@@ -8,6 +8,7 @@ use App\Models\Plan;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\GradesSeeder;
+use Database\Seeders\TopicsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             GradesSeeder::class,
             SubjectsSeeder::class,
             PlanSeeder::class,
+            TopicsSeeder::class,
         ]);
     }
 }

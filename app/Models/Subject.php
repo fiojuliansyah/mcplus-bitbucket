@@ -15,6 +15,11 @@ class Subject extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+
+    public function topics()
+    {
+        return $this->hasMany(Topics::class);
+    }
     
     public function users()
     {
