@@ -44,6 +44,7 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     
     // Test route for My Class
     Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
+    Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
 });
 
 

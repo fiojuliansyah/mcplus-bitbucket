@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Topic;
+use App\Models\UserAttendSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -166,6 +167,34 @@ class UserPageController extends Controller
         return view('frontend.myClass', compact('subjects', 'grades'));
     }
 
+    public function mySubject($slugGrade, $slugSubject)
+    {
+        $userId = Auth::id();
+
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+
+        $subject = Subject::where('slug', $slugSubject)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        // Get attended topic IDs using the model
+        $attendedSubjectIds = UserAttendSubject::where('user_id', $userId)
+            ->where('subject_id', $subject->id)
+            ->pluck('topic_id')
+            ->toArray();
+
+        // Fetch all topics and mark them as attended or not
+        $topics = Topic::where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->with('grades')
+                    ->get()
+                    ->map(function ($topic) use ($attendedSubjectIds) {
+                        $topic->attended = in_array($topic->id, $attendedSubjectIds);
+                        return $topic;
+                    });
+
+        return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
+    }
 
 
     public function tutors()

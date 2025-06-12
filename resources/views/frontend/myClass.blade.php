@@ -43,7 +43,7 @@
                                     <img src="/frontend/assets/images/subjects/{{ $subject->thumbnail }}" alt="subject-img" class="img-fluid object-cover w-100 rounded">
                                     <div class="blog-description">
                                         <h6 class="mb-0 iq-title">
-                                            <a href="{{ route('user.home.subjectDetail', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none text-capitalize line-count-2 p-2">
+                                            <a href="{{ route('user.my-class.subject', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none text-capitalize line-count-2 p-2">
                                                 {{ $subject->name }}
                                             </a>
                                         </h6>
