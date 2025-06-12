@@ -7,6 +7,8 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\Controller;
 
 class UserPageController extends Controller
@@ -144,6 +146,26 @@ class UserPageController extends Controller
 
         return view('frontend.subjectDetail', compact('grade', 'subject', 'topics'));
     }
+
+    public function myClass()
+    {
+        $userId = Auth::id();
+
+        // Get all grades for filter navigation
+        $grades = Grade::all();
+
+        // Get subjects joined through user_has_class using Eloquent
+        $subjects = Subject::with('grade') // eager load grade relationship
+            ->whereIn('id', function ($query) use ($userId) {
+                $query->select('subject_id')
+                    ->from('user_has_subjects')
+                    ->where('user_id', $userId);
+            })
+            ->get();
+
+        return view('frontend.myClass', compact('subjects', 'grades'));
+    }
+
 
 
     public function tutors()
