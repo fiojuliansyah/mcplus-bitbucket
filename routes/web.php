@@ -22,6 +22,7 @@ use App\Http\Controllers\Tutor\TutorProfileController;
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
     Route::get('/subjects', [UserPageController::class, 'subjects'])->name('home.subjects');
+    Route::get('/subjects/{slugGrade}/{slugSubject}', [UserPageController::class, 'subjectDetail'])->name('home.subjectDetail');
     Route::get('/tutors', [UserPageController::class, 'tutors'])->name('home.tutors');
     Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
 });

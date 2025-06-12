@@ -18,7 +18,7 @@ class Subject extends Model
 
     public function topics()
     {
-        return $this->hasMany(Topics::class);
+        return $this->hasMany(Topic::class);
     }
     
     public function users()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -128,6 +129,22 @@ class UserPageController extends Controller
         $subjects = Subject::all();
         return view('frontend.subjects', compact('subjects','grades'));
     }
+
+    public function subjectDetail($slugGrade, $slugSubject)
+    {
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+        $subject = Subject::where('slug', $slugSubject)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        $topics = Topic::where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->with('grades')
+                    ->get();
+
+        return view('frontend.subjectDetail', compact('grade', 'subject', 'topics'));
+    }
+
 
     public function tutors()
     {

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('subject_id');
+            $table->string('grade_id');
             $table->string('status'); // assuming status is a boolean
             $table->timestamps();
         });
