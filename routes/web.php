@@ -46,6 +46,8 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
     Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
     Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
+    
+    Route::get('/learning-progress', [UserPageController::class, 'learningProgress'])->name('learning-progress');
 });
 
 

@@ -63,7 +63,7 @@
                                 </a>
                             </li>
 
-                            @auth
+                            {{-- @auth
                                 @if (auth()->user()->account_type === 'student')
                                     <li class="nav-item">
                                         <a class="nav-link {{ Route::is(['user.my-class']) ? 'active' : '' }}" href="{{ route('user.my-class') }}">
@@ -71,7 +71,7 @@
                                         </a>
                                     </li>
                                 @endif
-                            @endauth
+                            @endauth --}}
 
                         </ul>
                     </div>
@@ -242,6 +242,16 @@
                                                         fill="currentColor" />
                                                 </svg>
                                                 <h6 class="mb-0 font-size-14 fw-normal">Watchlist</h6>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{ route('user.learning-progress') }}" class="iq-sub-card d-flex align-items-center gap-3">
+                                            {{-- <a href="#" class="iq-sub-card d-flex align-items-center gap-3"> --}}
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+                                                </svg>
+                                                <h6 class="mb-0 font-size-14 fw-normal">Learning Progress</h6>
                                             </a>
                                         </li>
 
