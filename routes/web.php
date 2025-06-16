@@ -22,8 +22,10 @@ use App\Http\Controllers\Tutor\TutorProfileController;
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
     Route::get('/subjects', [UserPageController::class, 'subjects'])->name('home.subjects');
+    Route::get('/subjects/{slugGrade}/{slugSubject}', [UserPageController::class, 'subjectDetail'])->name('home.subjectDetail');
     Route::get('/tutors', [UserPageController::class, 'tutors'])->name('home.tutors');
     Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
+
 });
 
 Route::middleware(['auth'])->name('user.')->group(function () {
@@ -33,13 +35,18 @@ Route::middleware(['auth'])->name('user.')->group(function () {
 });
 
 Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
-
+    
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
     Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
     Route::post('/profile/update/{id}', [UserProfileController::class, 'update'])->name('profile.update');
-
+    
     Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist');
     Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);
+    
+    // Test route for My Class
+    Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
+    Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
+    Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
 });
 
 

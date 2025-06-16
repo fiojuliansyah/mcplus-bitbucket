@@ -62,6 +62,17 @@
                                     <span class="item-name">Subscription</span>
                                 </a>
                             </li>
+
+                            @auth
+                                @if (auth()->user()->account_type === 'student')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Route::is(['user.my-class']) ? 'active' : '' }}" href="{{ route('user.my-class') }}">
+                                            <span class="item-name">My Class</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endauth
+
                         </ul>
                     </div>
                     <!-- container-fluid.// -->

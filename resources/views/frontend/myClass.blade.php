@@ -2,35 +2,32 @@
 
 @section('content')
 <div class="iq-breadcrumb" style="background-image: url(/frontend/assets/images/pages/subjects.png);">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-12">
-                    <nav aria-label="breadcrumb" class="text-center">
-                        <h2 class="title">Subjects</h2>
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item">Subjects</li>
-                        </ol>
-                    </nav>
-                </div>
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-sm-12">
+                <nav aria-label="breadcrumb" class="text-center">
+                    <h2 class="title">My Classes</h2>
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item">My Classes</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-    </div> 
-     <section class="section-padding">
+    </div>
+</div> 
+
+@if ($subjects->isEmpty())
+    <section class="section-padding">
         <div class="container-fluid">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6">
-                @foreach ($grades as $grade)
-                    <div class="col">
-                        <a href="#section-{{ $grade->id }}" class="iq-tag-box">
-                            <span class="iq-tag">
-                                {{ $grade->name }}
-                            </span>
-                        </a>
-                    </div>
-                @endforeach
+            <div class="text-center">
+                <h4 class="text-muted">You have no classes at the moment.</h4>
+                <p>Explore our available subjects and enroll to get started!</p>
+                <a href="{{ route('user.home.subjects') }}" class="btn btn-primary mt-3">Browse Subjects</a>
             </div>
         </div>
     </section>
+@else
     @foreach ($subjects->groupBy('grade_id') as $gradeId => $subjectGroup)
         <section id="section-{{ $subjectGroup->first()->grade->id }}" class="section-padding">
             <div class="container-fluid">
@@ -43,11 +40,10 @@
                         <div class="iq-card-geners card-hover-style-two">
                             <div class="block-images position-relative w-100">
                                 <div class="img-box rounded position-relative">
-                                    {{-- <img src="{{ asset('storage/' . $subject->thumbnail) }}" alt="geners-img" class="img-fluid object-cover w-100 rounded"> --}}
-                                    <img src="/frontend/assets/images/subjects/{{ $subject->thumbnail }}" alt="geners-img" class="img-fluid object-cover w-100 rounded">
+                                    <img src="/frontend/assets/images/subjects/{{ $subject->thumbnail }}" alt="subject-img" class="img-fluid object-cover w-100 rounded">
                                     <div class="blog-description">
                                         <h6 class="mb-0 iq-title">
-                                            <a href="{{ route('user.home.subjectDetail', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none text-capitalize line-count-2 p-2">
+                                            <a href="{{ route('user.my-class.subject', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none text-capitalize line-count-2 p-2">
                                                 {{ $subject->name }}
                                             </a>
                                         </h6>
@@ -61,4 +57,5 @@
             </div>
         </section>
     @endforeach
+@endif
 @endsection
