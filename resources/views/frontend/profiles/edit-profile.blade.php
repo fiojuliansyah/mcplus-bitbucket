@@ -8,19 +8,12 @@
       <div class="col-lg-8">
         <div class="row">
           <div class="col-lg-12">
-            <h4 class="fw-semibold mb-4 text-center">Select Your Profile</h4>
+            <h4 class="fw-semibold mb-4 text-center">Manage Profile :</h4>
             <div class="row">
                 @foreach ($user->profiles as $profile)
                     <div class="col-6 col-sm-4 col-md-3 mb-4">
-                        <div class="card shadow-sm border-0" style="cursor: pointer;" 
-                            @if ($profile->pin != null) 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#pinModal-{{ $profile->id }}"
-                            @else 
-                                onclick="document.getElementById('change-profile-{{ $profile->id }}').submit();"
-                            @endif
-                        >
-                            <div class="d-flex justify-content-center mt-4">
+                        <div class="card shadow-sm border-0" style="cursor: pointer;">
+                            <div class="d-flex justify-content-center mt-4 position-relative">
                                 @if($profile->avatar)
                                     <img src="{{ asset('storage/' . $profile->avatar) }}" class="card-img-top" alt="Profile Avatar" style="width: 200px; height: 200px; object-fit: cover; border-radius: 10px">
                                 @else
@@ -32,15 +25,16 @@
                                         </span>
                                     </div>
                                 @endif
+
+                                <!-- Pencil Icon to Edit Profile, placed in the center -->
+                                <a href="{{ route('user.edit-profile', $profile->id) }}" class="position-absolute top-50 start-50 translate-middle p-2" style="background-color: rgba(0, 0, 0, 0.5); border-radius: 50%; color: white; font-size: 12px;">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
                             </div>
 
                             <div class="card-body text-center">
                                 <h5 class="card-title">{{ $profile->name }}</h5>
                             </div>
-                            <form action="{{ route('user.change-profile', $profile->id) }}" method="POST" id="change-profile-{{ $profile->id }}" style="display: none;">
-                                @csrf
-                                <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                            </form>
                         </div>
                     </div>
                 @endforeach
@@ -60,7 +54,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <a href="{{ route('user.edit-profile') }}" class="btn btn-light btn-sm">Manage Profile</a>
+                <a href="{{ route('user.select-profile') }}" class="btn btn-light btn-sm">Finish</a>
             </div>
           </div>
         </div>
@@ -69,38 +63,6 @@
     </div>
   </div>
 </div>
-
-<!-- Modal for Entering PIN -->
-@foreach ($user->profiles as $profile)
-    @if ($profile->pin != null)
-        <div class="modal fade" id="pinModal-{{ $profile->id }}" tabindex="-1" aria-labelledby="pinModalLabel-{{ $profile->id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pinModalLabel-{{ $profile->id }}">Enter PIN to Access Profile</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="{{ route('user.change-profile', $profile->id) }}">
-                            @csrf
-                            <div class="mb-3">
-                                <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                                <label for="pin" class="form-label">PIN</label>
-                                <input type="password" class="form-control" id="pin" name="pin" required>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-@endforeach
-
-<!-- Modal Add Profile -->
 <div class="modal fade" id="addProfileModal" tabindex="-1" aria-labelledby="addProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

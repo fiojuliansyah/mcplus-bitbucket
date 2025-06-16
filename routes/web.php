@@ -28,6 +28,7 @@ Route::middleware(['check.profile'])->name('user.')->group(function () {
 
 Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');
+    Route::get('/edit-profile', [UserProfileController::class, 'editProfile'])->name('edit-profile');
     Route::post('/change-profile', [UserProfileController::class, 'changeProfile'])->name('change-profile');
 });
 
