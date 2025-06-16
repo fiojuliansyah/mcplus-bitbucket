@@ -29,16 +29,14 @@
                 <div class="timeline-item">
                     <div class="timeline-icon"></div>
                     <div class="timeline-content">
-                        <button class="btn btn-dark w-100 text-start fw-bold shadow-sm">
-                            {{ $topic->name }}
-
-                            {{-- Attendance Badge --}}
-                            @if ($topic->attended)
-                                <span class="badge bg-success float-end ms-2">Attended</span>
-                            @else
-                                <span class="badge bg-secondary float-end ms-2">Not Attended</span>
-                            @endif
-                        </button>
+                        <a href="{{ route('user.my-class.subject.topic', [$grade->slug, $subject->slug, $topic->slug]) }}" class="btn btn-dark w-100 text-start fw-bold shadow-sm text-white">
+                        {{ $topic->name }}
+                        @if ($topic->attended)
+                            <span class="badge bg-success float-end ms-2">Attended</span>
+                        @else
+                            <span class="badge bg-secondary float-end ms-2">Not Attended</span>
+                        @endif
+                        </a>
                     </div>
                 </div>
             @empty

@@ -196,6 +196,20 @@ class UserPageController extends Controller
         return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
     }
 
+    public function myTopic($slugGrade, $slugSubject, $topicSlug)
+    {
+        $userId = Auth::id();
+
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+        $subject = Subject::where('slug', $slugSubject)->where('grade_id', $grade->id)->firstOrFail();
+        $topic = Topic::where('slug', $topicSlug)
+                    ->where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        return view('frontend.myTopic', compact('grade', 'subject', 'topic'));
+    }
+
 
     public function tutors()
     {
