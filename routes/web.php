@@ -18,6 +18,7 @@ use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\Tutor\TutorPageController;
 use App\Http\Controllers\Tutor\TutorProfileController;
+use App\Http\Controllers\Tutor\TutorCourseController;
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -75,8 +76,8 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     
     Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
-    Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
-    Route::post('/upload-course', [TutorCourseController::class, 'store'])->name('upload-course.store');
+    // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
+    Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 
     Route::middleware('auth')->group(function () {

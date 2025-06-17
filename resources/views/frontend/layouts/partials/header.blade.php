@@ -63,6 +63,16 @@
                                 </a>
                             </li>
 
+                            @auth
+                                @if (auth()->user()->account_type === 'tutor')
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Route::is(['tutor.my-course']) ? 'active' : '' }}" href="{{ route('tutor.my-course') }}">
+                                            <span class="item-name">My Course</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endauth
+
                             {{-- @auth
                                 @if (auth()->user()->account_type === 'student')
                                     <li class="nav-item">

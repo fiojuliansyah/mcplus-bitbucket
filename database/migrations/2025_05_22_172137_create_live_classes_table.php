@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('live_classes', function (Blueprint $table) {
             $table->id();
-            $table->string('topic'); 
+            $table->string('grade_id');
+            $table->string('subject_id');
+            $table->string('topic');
             $table->text('agenda'); 
             $table->integer('type'); 
             $table->integer('duration'); 

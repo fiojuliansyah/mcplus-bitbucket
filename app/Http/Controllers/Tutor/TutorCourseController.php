@@ -2,44 +2,49 @@
 
 namespace App\Http\Controllers\Tutor;
 
+use App\Models\Grade;
+use App\Models\Subject;
+use App\Models\Topic;
+use App\Models\LiveClass;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TutorCourseController extends Controller
 {
     public function index(Request $request)
     {
-        $teacherName = 'Mr. John Doe'; // Replace this with the actual authenticated teacher's name
+        $userId = Auth::id();
 
-        $allCourses = [
-            [
-                'id' => 0,
-                'title' => 'Math Basics',
-                'subject' => 'Mathematics',
-                'form' => 1,
-                'image' => 'frontend/assets/images/courses/basic-math.png',
-                'tutor' => 'Mr. John Doe',
-                'description' => 'Learn the basics of math including addition, subtraction, multiplication and division.',
-                'video_url' => 'https://youtu.be/ClXirO-pqp4?si=ewWNq_Ft8_AZgrna'
-            ],
-            [
-                'id' => 1,
-                'title' => 'Intro to Science',
-                'subject' => 'Science',
-                'form' => 1,
-                'image' => 'frontend/assets/images/courses/intro-science.jpg',
-                'tutor' => 'Ms. Jane Smith',
-                'description' => 'An introduction to scientific concepts and methods through fun examples.',
-                'video_url' => 'https://youtu.be/ClXirO-pqp4?si=ewWNq_Ft8_AZgrna'
-            ],
-        ];
+        // Get subject IDs assigned to this tutor
+        $subjectIds = DB::table('model_has_subjects')
+            ->where('user_id', $userId)
+            ->pluck('subject_id');
 
-        $myCourses = array_filter($allCourses, function ($course) use ($teacherName) {
-            return $course['tutor'] === $teacherName;
-        });
+        // Load grades with subjects and topics
+        $grades = Grade::with(['subjects' => function ($subjectQuery) use ($subjectIds) {
+                $subjectQuery->whereIn('id', $subjectIds)
+                    ->with(['topics' => function ($topicQuery) {
+                        $topicQuery->where('status', 'active');
+                    }]);
+            }])
+            ->whereHas('subjects', function ($query) use ($subjectIds) {
+                $query->whereIn('id', $subjectIds);
+            })
+            ->get();
 
-        return view('tutor.courses.myCourse', ['myCourses' => $myCourses]);
+        // Load LiveClasses grouped by subject_id
+        $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
+            ->get()
+            ->groupBy('subject_id');
+
+        // Load the user if needed
+        $user = Auth::user()->load('current_profile');
+
+        return view('tutor.courses.myCourse', compact('grades', 'liveClasses', 'user'));
     }
+
 
     public function create()
     {
@@ -48,7 +53,22 @@ class TutorCourseController extends Controller
 
     public function store(Request $request)
     {
-        // Dummy handler, replace with actual logic to save course
-        return redirect()->route('tutor.my-course')->with('success', 'Course uploaded (demo)');
+        LiveClass::create([
+            'grade_id'         => $request->grade_id,
+            'subject_id'       => $request->subject_id,
+            'topic'            => $request->topic,
+            'agenda'           => $request->agenda,
+            'type'             => $request->type ?? 2,
+            'duration'         => $request->duration,
+            'timezone'         => $request->timezone,
+            'password'         => $request->password,
+            'start_time'       => $request->start_time,
+            'settings'         => $request->settings ?? 'tbd',
+            'zoom_meeting_id'  => $request->zoom_meeting_id,
+            'zoom_join_url'    => $request->zoom_join_url,
+            'status'           => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Live class added successfully.');
     }
 }
