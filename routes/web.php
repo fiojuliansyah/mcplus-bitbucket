@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
@@ -67,6 +68,11 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::put('subjects/{subject}', [SubjectController::class, 'update'])->name('subjects.update'); 
     Route::delete('subjects/{subject}', [SubjectController::class, 'destroy'])->name('subjects.destroy'); 
     
+    Route::get('{formSlug}/{subjectSlug}/topics', [TopicController::class, 'index'])->name('topics.index'); 
+    Route::post('{form}/{subject}/topics', [TopicController::class, 'store'])->name('topics.store'); 
+    Route::put('topic/{topicId}', [TopicController::class, 'update'])->name('topics.update'); 
+    Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
+
     Route::resource('tutors', TutorController::class);
     Route::post('admin/tutors/{tutorId}/assign-subjects', [TutorController::class, 'assignSubjects'])->name('tutors.assign-subjects');
 });

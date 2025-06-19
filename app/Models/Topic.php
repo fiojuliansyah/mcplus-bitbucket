@@ -11,12 +11,12 @@ class Topic extends Model
 
     protected $fillable = ['name', 'slug', 'subject_id', 'grade_id', 'status'];
 
-    public function subjects()
+    public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function grades()
+    public function grade()
     {
         return $this->belongsTo(Grade::class);
     }
