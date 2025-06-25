@@ -63,4 +63,13 @@ class TopicController extends Controller
 
         return redirect()->back()->with('success', 'Topic deleted successfully.');
     }
+
+    public function bySubject($gradeId, $subjectId)
+    {
+        $topics = Topic::where('grade_id', $gradeId)
+                    ->where('subject_id', $subjectId)
+                    ->get(['id', 'name']);
+        return response()->json($topics);
+    }
+
 }

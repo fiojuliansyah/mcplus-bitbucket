@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('grade_id');
             $table->string('subject_id');
-            $table->string('topic');
+            $table->string('topic_id');
+            $table->string('user_id');
             $table->text('agenda'); 
-            $table->integer('type'); 
+            $table->integer('type');
             $table->integer('duration'); 
             $table->string('timezone')->default('Asia/Dhaka'); 
             $table->string('password')->nullable(); 

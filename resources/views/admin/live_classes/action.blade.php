@@ -20,7 +20,8 @@
 <div class="modal fade" id="editModal-{{ $row->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('admin.live_classes.update', $row->id) }}" method="POST">
+            {{-- <form action="{{ route('admin.live_classes.update', $row->id) }}" method="POST"> --}}
+            <form action="" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -38,7 +39,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Start Time</label>
-                        <input type="datetime-local" class="form-control" name="start_time" value="{{ $row->start_time->format('Y-m-d\TH:i') }}" required>
+                        <input type="datetime-local" class="form-control" name="start_time" value="{{ \Carbon\Carbon::parse($row->start_time)->format('Y-m-d\TH:i') }}" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Duration (Minutes)</label>
@@ -108,7 +109,8 @@
 <div class="modal fade" id="deleteModal-{{ $row->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST">
+            {{-- <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST"> --}}
+            <form action="" method="POST">
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">

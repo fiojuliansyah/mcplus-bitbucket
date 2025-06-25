@@ -9,7 +9,8 @@ class LiveClass extends Model
     protected $fillable = [
         'grade_id', 
         'subject_id', 
-        'topic', 
+        'topic_id', 
+        'user_id', 
         'agenda', 
         'type', 
         'duration', 
@@ -26,14 +27,24 @@ class LiveClass extends Model
         'settings' => 'array',
     ];
 
-    public function subjects()
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
+    public function subject()
     {
         return $this->belongsTo(Subject::class);
     }
 
-    public function grades()
+    public function topic()
     {
-        return $this->belongsTo(Grade::class);
+        return $this->belongsTo(Topic::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     // public function topics()

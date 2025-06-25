@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Subject;
+use App\Models\Grade;
 use App\Models\LiveClass;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -15,72 +16,80 @@ class LiveClassController extends Controller
 {
     public function index(LiveClassDataTable $dataTable)
     {
+        $grades = Grade::all();
         $subjects = Subject::with('grade')->get();
-        return $dataTable->render('admin.live_classes.index',compact('subjects'));
+        return $dataTable->render('admin.live_classes.index',compact('subjects','grades'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'subject_id' => 'required|string|max:255',
-            'topic' => 'required|string|max:255',
-            'agenda' => 'required|string',
-            'type' => 'required|integer',
-            'duration' => 'required|integer',
-            'start_time' => 'required|date',
-            'settings' => 'nullable|array', 
+            'grade_id'     => 'required|exists:grades,id',
+            'subject_id'   => 'required|exists:subjects,id',
+            'topic_id'     => 'required|exists:topics,id',
+            'user_id'      => 'required|exists:users,id', // tutor
+            'agenda'       => 'required|string|max:1000',
+            'start_time'   => 'required|date',
+            'duration'     => 'required|integer|min:1',
+            'type'         => 'nullable|in:0,1', // 1 = Zoom
+            'password'     => 'nullable|string|max:100',
+            'settings'     => 'nullable|array',
         ]);
 
-        
+        // Merge default Zoom settings with request
+        $zoomSettings = array_merge([
+            'join_before_host'   => false,
+            'host_video'         => false,
+            'participant_video'  => false,
+            'mute_upon_entry'    => false,
+            'waiting_room'       => false,
+            'audio'              => 'both',
+            'auto_recording'     => 'none',
+            'approval_type'      => 0,
+        ], $request->input('settings', []));
+
+        // Create the LiveClass record first
         $liveClass = LiveClass::create([
-            'subject_id' => $request->subject_id,
-            'topic' => $request->topic,
-            'agenda' => $request->agenda,
-            'type' => $request->type,
-            'duration' => $request->duration,
-            'start_time' => Carbon::parse($request->start_time),
-            'timezone' => 'Asia/Dhaka',
-            'status' => 'scheduled',
+            'grade_id'       => $request->grade_id,
+            'subject_id'     => $request->subject_id,
+            'topic_id'       => $request->topic_id,
+            'user_id'        => $request->user_id,
+            'agenda'         => $request->agenda,
+            'type'           => $request->type ?? 1,
+            'duration'       => $request->duration,
+            'start_time'     => \Carbon\Carbon::parse($request->start_time),
+            'timezone'       => 'Asia/Dhaka',
+            'password'       => $request->password ?? 'default_password',
+            'status'         => 'scheduled',
+            'settings'       => $zoomSettings, // ✅ Save to DB
         ]);
 
-        
+        // If type is Zoom, create Zoom meeting
         if ($request->type == 1) {
-            
-            $zoomSettings = $request->input('settings', []);
-
-            
-            $zoomSettings = array_merge([
-                'join_before_host' => false,
-                'host_video' => false,
-                'participant_video' => false,
-                'mute_upon_entry' => false,
-                'waiting_room' => false,
-                'audio' => 'both',
-                'auto_recording' => 'none',
-                'approval_type' => 0,
-            ], $zoomSettings);
-
-            
-            $meetings = Zoom::createMeeting([
-                "agenda" => $request->agenda,
-                "topic" => $request->topic,
-                "type" => 2, 
-                "duration" => $request->duration,
-                "timezone" => 'Asia/Dhaka',
-                "password" => $request->password ?? 'default_password',
-                "start_time" => $liveClass->start_time->toDateTimeString(),
-                "settings" => $zoomSettings,
+            $meeting = Zoom::createMeeting([
+                'agenda'     => $request->agenda,
+                'topic'      => $liveClass->topic->name ?? 'Live Class', // Optional: Use topic name
+                'type'       => 2, // Scheduled meeting
+                'duration'   => $request->duration,
+                'timezone'   => 'Asia/Dhaka',
+                'password'   => $liveClass->password,
+                'start_time' => $liveClass->start_time->toDateTimeString(),
+                'settings'   => $zoomSettings,
             ]);
 
-            
+            // Update with Zoom meeting data
             $liveClass->update([
-                'zoom_meeting_id' => $meetings->id,
-                'zoom_join_url' => $meetings->join_url,
+                'zoom_meeting_id' => $meeting->id,
+                'zoom_join_url'   => $meeting->join_url,
             ]);
         }
 
-        return redirect()->route('admin.live_classes.index')->with('success', 'Live Class created successfully.');
+        return redirect()
+            ->route('admin.live-classes.index')
+            ->with('success', 'Live Class created successfully.');
     }
+
+
 
     public function update(Request $request, $id)
     {

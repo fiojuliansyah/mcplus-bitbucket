@@ -73,6 +73,13 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::put('topic/{topicId}', [TopicController::class, 'update'])->name('topics.update'); 
     Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
 
+    // Get JSON dynamic data
+    Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);
+    Route::get('/topics/by-subject/{grade}/{subject}', [TopicController::class, 'bySubject']);
+    Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
+
+
+
     Route::resource('tutors', TutorController::class);
     Route::post('admin/tutors/{tutorId}/assign-subjects', [TutorController::class, 'assignSubjects'])->name('tutors.assign-subjects');
 });
@@ -85,6 +92,8 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
+
+    
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

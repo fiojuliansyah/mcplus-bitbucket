@@ -21,10 +21,10 @@ class Topic extends Model
         return $this->belongsTo(Grade::class);
     }
 
-    //     public function liveClass()
-    // {
-    //     return $this->hasMany(LiveClass::class);
-    // }
+    public function liveClasses()
+    {
+        return $this->hasMany(LiveClass::class);
+    }
 
         // This can be added for grading the topics for student/user
         
