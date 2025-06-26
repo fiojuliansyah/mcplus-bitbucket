@@ -142,4 +142,13 @@
 @push('js')
     {!! $dataTable->scripts() !!}
     <script src="{{ asset('admin/assets/js/live-class-form.js') }}"></script>
+    <script>
+        // Re-bind dropdowns every time DataTable redraws
+        $(document).on('draw.dt', function () {
+            if (typeof bindEditDropdowns === 'function') {
+                bindEditDropdowns();
+            }
+        });
+    </script>
 @endpush
+

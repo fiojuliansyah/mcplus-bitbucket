@@ -21,7 +21,8 @@ class LiveClassDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
                 $subjects = Subject::with('grade')->get();
-                return view('admin.live_classes.action', compact('row','subjects'))->render();
+                $grades = Grade::all();
+                return view('admin.live_classes.action', compact('row','subjects', 'grades'))->render();
             })
             ->editColumn('start_time', function ($row) {
                 return \Carbon\Carbon::parse($row->start_time)->format('d M Y H:i');
@@ -56,6 +57,7 @@ class LiveClassDataTable extends DataTable
                 ->title('No.')
                 ->searchable(false)
                 ->orderable(false),
+            Column::make('id'),
             Column::make('grade.name')->title('Grade'),
             Column::make('subject.name')->title('Subject'),
             Column::make('topic.name')->title('Topic'),

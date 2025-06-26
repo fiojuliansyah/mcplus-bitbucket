@@ -16,12 +16,10 @@
 </div>
 
 <!-- Modal Edit Live Class -->
-<!-- Modal Edit Live Class -->
 <div class="modal fade" id="editModal-{{ $row->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            {{-- <form action="{{ route('admin.live_classes.update', $row->id) }}" method="POST"> --}}
-            <form action="" method="POST">
+            <form action="{{ route('admin.live-classes.update', $row->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -29,18 +27,67 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
+                    <!-- Grade -->
+                    <div class="mb-3">
+                        <label class="form-label">Grade</label>
+                        <select class="form-select" id="editGradeDropdown-{{ $row->id }}" name="grade_id" required>
+                            <option value="">Select Grade</option>
+                            @foreach ($grades as $grade)
+                                <option value="{{ $grade->id }}" {{ $row->grade_id == $grade->id ? 'selected' : '' }}>{{ $grade->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="mb-3">
+                        <label class="form-label">Subject</label>
+                        <select class="form-select" id="editSubjectDropdown-{{ $row->id }}" name="subject_id" required>
+                            @if($row->subject)
+                                <option value="{{ $row->subject->id }}">{{ $row->subject->name }}</option>
+                            @else
+                                <option value="">Select Subject</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Topic -->
                     <div class="mb-3">
                         <label class="form-label">Topic</label>
-                        <input type="text" class="form-control" name="topic" value="{{ $row->topic }}" required>
+                        <select class="form-select" id="editTopicDropdown-{{ $row->id }}" name="topic_id" required>
+                            @if($row->topic)
+                                <option value="{{ $row->topic->id }}">{{ $row->topic->name }}</option>
+                            @else
+                                <option value="">Select Topic</option>
+                            @endif
+                        </select>
                     </div>
+
+                    <!-- Tutor -->
+                    <div class="mb-3">
+                        <label class="form-label">Tutor</label>
+                        <select class="form-select" id="editTutorDropdown-{{ $row->id }}" name="user_id" required>
+                            @if($row->user)
+                                <option value="{{ $row->user->id }}">{{ $row->user->name }}</option>
+                            @else
+                                <option value="">Select Tutor</option>
+                            @endif
+                        </select>
+                    </div>
+
+                    <!-- Agenda -->
                     <div class="mb-3">
                         <label class="form-label">Agenda</label>
                         <textarea class="form-control" name="agenda" rows="3" required>{{ $row->agenda }}</textarea>
                     </div>
+
+                    <!-- Start Time -->
                     <div class="mb-3">
                         <label class="form-label">Start Time</label>
                         <input type="datetime-local" class="form-control" name="start_time" value="{{ \Carbon\Carbon::parse($row->start_time)->format('Y-m-d\TH:i') }}" required>
                     </div>
+
+                    <!-- Duration -->
                     <div class="mb-3">
                         <label class="form-label">Duration (Minutes)</label>
                         <input type="number" class="form-control" name="duration" value="{{ $row->duration }}" required>
@@ -49,51 +96,53 @@
                     <!-- Zoom Settings -->
                     <div class="mb-3">
                         <label class="form-label">Zoom Settings</label>
+                        @php $settings = $row->settings ?? []; @endphp
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="settings[join_before_host]" value="1" {{ isset($row->settings['join_before_host']) && $row->settings['join_before_host'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="settings[join_before_host]" value="1" {{ $settings['join_before_host'] ?? false ? 'checked' : '' }}>
                             <label class="form-check-label">Join Before Host</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="settings[host_video]" value="1" {{ isset($row->settings['host_video']) && $row->settings['host_video'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="settings[host_video]" value="1" {{ $settings['host_video'] ?? false ? 'checked' : '' }}>
                             <label class="form-check-label">Host Video</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="settings[participant_video]" value="1" {{ isset($row->settings['participant_video']) && $row->settings['participant_video'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="settings[participant_video]" value="1" {{ $settings['participant_video'] ?? false ? 'checked' : '' }}>
                             <label class="form-check-label">Participant Video</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="settings[mute_upon_entry]" value="1" {{ isset($row->settings['mute_upon_entry']) && $row->settings['mute_upon_entry'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="settings[mute_upon_entry]" value="1" {{ $settings['mute_upon_entry'] ?? false ? 'checked' : '' }}>
                             <label class="form-check-label">Mute Upon Entry</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="settings[waiting_room]" value="1" {{ isset($row->settings['waiting_room']) && $row->settings['waiting_room'] ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="settings[waiting_room]" value="1" {{ $settings['waiting_room'] ?? false ? 'checked' : '' }}>
                             <label class="form-check-label">Waiting Room</label>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Audio</label>
                             <select class="form-select" name="settings[audio]">
-                                <option value="both" {{ isset($row->settings['audio']) && $row->settings['audio'] == 'both' ? 'selected' : '' }}>Both</option>
-                                <option value="telephony" {{ isset($row->settings['audio']) && $row->settings['audio'] == 'telephony' ? 'selected' : '' }}>Telephony</option>
-                                <option value="voip" {{ isset($row->settings['audio']) && $row->settings['audio'] == 'voip' ? 'selected' : '' }}>VoIP</option>
+                                <option value="both" {{ $settings['audio'] == 'both' ? 'selected' : '' }}>Both</option>
+                                <option value="telephony" {{ $settings['audio'] == 'telephony' ? 'selected' : '' }}>Telephony</option>
+                                <option value="voip" {{ $settings['audio'] == 'voip' ? 'selected' : '' }}>VoIP</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Auto Recording</label>
                             <select class="form-select" name="settings[auto_recording]">
-                                <option value="none" {{ isset($row->settings['auto_recording']) && $row->settings['auto_recording'] == 'none' ? 'selected' : '' }}>None</option>
-                                <option value="local" {{ isset($row->settings['auto_recording']) && $row->settings['auto_recording'] == 'local' ? 'selected' : '' }}>Local</option>
-                                <option value="cloud" {{ isset($row->settings['auto_recording']) && $row->settings['auto_recording'] == 'cloud' ? 'selected' : '' }}>Cloud</option>
+                                <option value="none" {{ $settings['auto_recording'] == 'none' ? 'selected' : '' }}>None</option>
+                                <option value="local" {{ $settings['auto_recording'] == 'local' ? 'selected' : '' }}>Local</option>
+                                <option value="cloud" {{ $settings['auto_recording'] == 'cloud' ? 'selected' : '' }}>Cloud</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Approval Type</label>
                             <select class="form-select" name="settings[approval_type]">
-                                <option value="0" {{ isset($row->settings['approval_type']) && $row->settings['approval_type'] == 0 ? 'selected' : '' }}>Automatically Approve</option>
-                                <option value="1" {{ isset($row->settings['approval_type']) && $row->settings['approval_type'] == 1 ? 'selected' : '' }}>Manually Approve</option>
-                                <option value="2" {{ isset($row->settings['approval_type']) && $row->settings['approval_type'] == 2 ? 'selected' : '' }}>No Registration Required</option>
+                                <option value="0" {{ $settings['approval_type'] == 0 ? 'selected' : '' }}>Automatically Approve</option>
+                                <option value="1" {{ $settings['approval_type'] == 1 ? 'selected' : '' }}>Manually Approve</option>
+                                <option value="2" {{ $settings['approval_type'] == 2 ? 'selected' : '' }}>No Registration Required</option>
                             </select>
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
@@ -105,12 +154,14 @@
 </div>
 
 
+
+
 <!-- Modal Confirm Delete -->
 <div class="modal fade" id="deleteModal-{{ $row->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            {{-- <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST"> --}}
-            <form action="" method="POST">
+            <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST">
+            {{-- <form action="" method="POST"> --}}
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">
@@ -118,7 +169,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete the live class <strong>{{ $row->topic }}</strong>?</p>
+                    <p>Are you sure you want to delete the live class <strong>{{ $row->topic->name }}</strong>?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>

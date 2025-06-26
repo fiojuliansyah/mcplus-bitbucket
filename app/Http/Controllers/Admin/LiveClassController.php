@@ -94,47 +94,60 @@ class LiveClassController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'topic' => 'required|string|max:255',
-            'agenda' => 'required|string',
-            'type' => 'required|integer',
-            'duration' => 'required|integer',
-            'start_time' => 'required|date',
-            'settings' => 'nullable|array', 
+            'grade_id'     => 'required|exists:grades,id',
+            'subject_id'   => 'required|exists:subjects,id',
+            'topic_id'     => 'required|exists:topics,id',
+            'user_id'      => 'required|exists:users,id', // tutor
+            'agenda'       => 'required|string|max:1000',
+            'start_time'   => 'required|date',
+            'duration'     => 'required|integer|min:1',
+            'type'         => 'nullable|in:0,1', // 1 = Zoom
+            'password'     => 'nullable|string|max:100',
+            'settings'     => 'nullable|array',
         ]);
+
+        $zoomSettings = array_merge([
+            'join_before_host'   => false,
+            'host_video'         => false,
+            'participant_video'  => false,
+            'mute_upon_entry'    => false,
+            'waiting_room'       => false,
+            'audio'              => 'both',
+            'auto_recording'     => 'none',
+            'approval_type'      => 0,
+        ], $request->input('settings', []));
 
         $liveClass = LiveClass::findOrFail($id);
 
-        
         $liveClass->update([
-            'topic' => $request->topic,
+            'grade_id' => $request->grade_id,
+            'subject_id' => $request->subject_id,
+            'topic_id' => $request->topic_id,
+            'user_id' => $request->user_id,
             'agenda' => $request->agenda,
-            'type' => $request->type,
+            'type' => $request->type ?? 1,
             'duration' => $request->duration,
             'start_time' => Carbon::parse($request->start_time),
+            'settings'       => $zoomSettings,
         ]);
 
-        
         if ($liveClass->type == 1 && $liveClass->zoom_meeting_id) {
-            
-            $zoomSettings = $request->input('settings', []);
+            // $zoomSettings = $request->input('settings', []);
 
-            
-            $zoomSettings = array_merge([
-                'join_before_host' => false,
-                'host_video' => false,
-                'participant_video' => false,
-                'mute_upon_entry' => false,
-                'waiting_room' => false,
-                'audio' => 'both',
-                'auto_recording' => 'none',
-                'approval_type' => 0,
-            ], $zoomSettings);
+            // $zoomSettings = array_merge([
+            //     'join_before_host' => false,
+            //     'host_video' => false,
+            //     'participant_video' => false,
+            //     'mute_upon_entry' => false,
+            //     'waiting_room' => false,
+            //     'audio' => 'both',
+            //     'auto_recording' => 'none',
+            //     'approval_type' => 0,
+            // ], $zoomSettings);
 
-            
             $zoomMeeting = Zoom::meeting()->find($liveClass->zoom_meeting_id);
 
             if ($zoomMeeting) {
-                
                 $zoomMeeting->update([
                     'topic' => $request->topic,
                     'start_time' => $liveClass->start_time->toDateTimeString(),
@@ -146,8 +159,9 @@ class LiveClassController extends Controller
             }
         }
 
-        return redirect()->route('admin.live_classes.index')->with('success', 'Live Class updated successfully.');
+        return redirect()->route('admin.live-classes.index')->with('success', 'Live Class updated successfully.');
     }
+
 
 
     public function destroy($id)
@@ -164,6 +178,6 @@ class LiveClassController extends Controller
 
         $liveClass->delete();
 
-        return redirect()->route('admin.live_classes.index')->with('success', 'Live Class deleted successfully.');
+        return redirect()->route('admin.live-classes.index')->with('success', 'Live Class deleted successfully.');
     }
 }
