@@ -19,7 +19,7 @@
 <div class="modal fade" id="editModal-{{ $row->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST">
+            <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST"  enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -83,7 +83,7 @@
                                 Check to update replay video
                             </label>
                         </div>
-                        <input type="file" class="form-control" name="media_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}" disabled>
+                        <input type="file" class="form-control" name="upload_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}">
                     </div>
 
                 </div>

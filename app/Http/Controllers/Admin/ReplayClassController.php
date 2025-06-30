@@ -89,9 +89,41 @@ class ReplayClassController extends Controller
         $replayClass->topic_id = $validated['topic_id'];
         $replayClass->user_id = $validated['user_id'];
 
-        if ($request->has('update_media') && $request->hasFile('media_file')) {
-            // $path = $request->file('media_file')->store('replay_classes', 'public');
-            // $replayClass->media_path = $path;
+        if ($request->update_media && $request->upload_file) {
+            // Init Cloudinary
+            // dd($request);
+            $cloudinary = new Cloudinary(
+                Configuration::instance(config('cloudinary'))
+            );
+
+            // Delete old file from Cloudinary
+            if ($replayClass->replay_public_id) {
+                $cloudinary->uploadApi()->destroy($replayClass->replay_public_id, [
+                    'resource_type' => 'image', // or 'image', or 'auto'
+                ]);
+            }
+
+            // Reconstruct new filename/folder
+            $topic = Topic::with(['grade', 'subject'])->findOrFail($validated['topic_id']);
+            $tutor = User::findOrFail($validated['user_id']);
+
+            $videoName = "{$topic->grade->name}_{$topic->subject->name}_{$topic->name}_{$tutor->name}";
+            $cloudinaryFolder = "replay_class/{$topic->grade->name}/{$topic->subject->name}/{$topic->name}";
+
+            // Upload file to Cloudinary
+            $uploadedFile = $cloudinary->uploadApi()->upload(
+                $request->file('upload_file')->getRealPath(),
+                [
+                    'folder' => $cloudinaryFolder,
+                    'public_id' => $videoName,
+                    'resource_type' => 'auto',
+                ]
+            );
+
+
+            // Update Cloudinary fields
+            $replayClass->replay_url = $uploadedFile['secure_url'];
+            $replayClass->replay_public_id = $uploadedFile['public_id'];
         }
 
         $replayClass->save();
@@ -103,8 +135,16 @@ class ReplayClassController extends Controller
     {
         $replayClass = ReplayClass::findOrFail($id);
 
+        $cloudinary = new Cloudinary(
+            Configuration::instance(config('cloudinary'))
+        );
+
+        $cloudinary->uploadApi()->destroy($replayClass->replay_public_id, [
+            'resource_type' => 'video', // or 'image' / 'auto'
+        ]);
+
         $replayClass->delete();
 
-        return redirect()->back()->with('success', 'Live Class deleted successfully.');
+        return redirect()->back()->with('success', 'Replay Class deleted successfully.');
     }
 }

@@ -24,7 +24,10 @@ class ReplayClassDataTable extends DataTable
                 $grades = Grade::all();
                 return view('admin.replay_classes.action', compact('row','subjects', 'grades'))->render();
             })
-            ->rawColumns(['action'])
+            ->addColumn('video', function ($row) {
+                return view('admin.replay_classes.video', compact('row'))->render();
+            })
+            ->rawColumns(['action', 'video'])
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -58,8 +61,7 @@ class ReplayClassDataTable extends DataTable
             Column::make('subject.name')->title('Subject'),
             Column::make('topic.name')->title('Topic'),
             Column::make('user.name')->title('User'),
-            Column::make('replay_url')->title('Video'),
-            Column::make('replay_public_id')->title('Address'),
+            Column::make('video')->title('Video')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
