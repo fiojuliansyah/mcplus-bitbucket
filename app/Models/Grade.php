@@ -26,4 +26,9 @@ class Grade extends Model
             return $this->hasMany(LiveClass::class);
         }
 
+        public function replayClass()
+        {
+            return $this->hasMany(ReplayClass::class);
+        }
+
 }

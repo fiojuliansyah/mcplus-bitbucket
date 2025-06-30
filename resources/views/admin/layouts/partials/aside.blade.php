@@ -71,6 +71,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ Route::is(['admin.replay-classes.index']) ? 'active' : '' }}" href="{{ route('admin.replay-classes.index') }}">
+                            <i class="fa fa-fast-backward" aria-hidden="true"></i>
+                            <span class="item-name">Replay Class</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-Classes" role="button" aria-expanded="false"
                             aria-controls="sidebar-user">
                             <i class="icon">

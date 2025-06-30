@@ -30,4 +30,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class, 'model_has_subjects', 'subject_id', 'user_id');
     }
+
+    public function replayClass()
+    {
+        return $this->hasMany(ReplayClass::class);
+    }
 }

@@ -26,6 +26,11 @@ class Topic extends Model
         return $this->hasMany(LiveClass::class);
     }
 
+    public function replayClass()
+    {
+        return $this->hasMany(ReplayClass::class);
+    }
+
         // This can be added for grading the topics for student/user
         
 

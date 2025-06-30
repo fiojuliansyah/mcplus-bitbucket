@@ -46,6 +46,11 @@ class User extends Authenticatable
         return $this->belongsToMany(LiveClass::class, 'user_id');
     }
 
+    public function replayClass()
+    {
+        return $this->hasMany(ReplayClass::class);
+    }
+
     public function profiles()
     {
         return $this->hasMany(Profile::class);
