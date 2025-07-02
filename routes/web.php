@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\ReplayClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\User\UserProfileController;
@@ -64,6 +65,7 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::resource('subscriptions', SubscriptionController::class);
     Route::resource('live-classes', LiveClassController::class);
     Route::resource('replay-classes', ReplayClassController::class);
+    Route::resource('faqs', FaqController::class);
     
     Route::get('{slug}/subjects', [SubjectController::class, 'index'])->name('subjects.index'); 
     Route::post('{slug}/subjects', [SubjectController::class, 'store'])->name('subjects.store'); 
