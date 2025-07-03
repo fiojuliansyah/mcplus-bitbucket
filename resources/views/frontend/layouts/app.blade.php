@@ -99,6 +99,21 @@
     <!-- Streamit Script -->
     <script src="/frontend/assets/js/streamit.js" defer></script>
     <script src="/frontend/assets/js/swiper.js" defer></script>
+    
+    <!-- Start of Async Callbell Code -->
+    <script>
+        if (!window.callbellSettings) {
+            window.callbellSettings = {}
+        }
+        window.callbellSettings["uuid"] = "a90d55b2-8e4b-4b17-820f-ac310a969c64";
+        window.callbellSettings["script_token"] = "5ugemXb7vXT48YGyEsUkXTVk";
+        </script>
+        <script>
+        (function(){var w=window;var d=document;var l=function(){var s=d.createElement('script');s.async=true;s.src='https://dash.callbell.eu/include/livechat/'+window.callbellSettings.script_token+'/'+window.callbellSettings.uuid+'.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};w.addEventListener('load',l,false);})();
+    </script>
+    <!-- End of Async Callbell Code -->
+
+
 </body>
 
 </html>
