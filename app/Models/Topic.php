@@ -31,7 +31,8 @@ class Topic extends Model
         return $this->hasMany(ReplayClass::class);
     }
 
-        // This can be added for grading the topics for student/user
-        
-
+    public function quizz()
+    {
+        return $this->hasMany(Quizz::class);
+    }
 }

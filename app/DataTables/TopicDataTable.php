@@ -27,10 +27,13 @@ class TopicDataTable extends DataTable
                     ? '<span class="badge rounded-pill border border-danger text-danger">Deactive</span>'
                     : '<span class="badge rounded-pill border border-success text-success">Active</span>';
             })
+            ->addColumn('quizz_management', function ($row) {
+                return view('admin.topics.quizz_management', compact('row'))->render();
+            })
             ->editColumn('created_at', fn($row) => $row->created_at->format('d M Y'))
             ->setRowId('id')
             ->addIndexColumn()
-            ->rawColumns(['action', 'status']);
+            ->rawColumns(['action', 'status', 'quizz_management']);
     }
 
 
@@ -43,7 +46,7 @@ class TopicDataTable extends DataTable
         $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
 
         if($grade && $subject){
-            return $model->newQuery()->where('grade_id', $grade->id);
+            return $model->newQuery()->where('grade_id', $grade->id)->where('subject_id', $subject->id);
         }
 
         return $model->newQuery()->whereRaw('1 = 0');
@@ -79,6 +82,7 @@ class TopicDataTable extends DataTable
             Column::make('subject_id')->title('Subject'),
             Column::make('name')->title('Topic'),
             Column::make('status'),
+            Column::make('quizz_management')->title('Quizz Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::make('created_at')->title('Created At'),
             Column::computed('action')
                 ->exportable(false)

@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     bindCreateDropdowns();
     bindEditDropdowns(); // Initial bind (e.g. on page load)
-
 });
 
 function bindCreateDropdowns() {

@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class);
     }
 
+    public function quizz()
+    {
+        return $this->hasMany(Quizz::class);
+    }
+
     public function current_profile()
     {
         return $this->belongsTo(Profile::class, 'profile_id', 'id');

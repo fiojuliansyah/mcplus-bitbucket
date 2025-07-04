@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TopicController;
+use App\Http\Controllers\Admin\QuizzController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Admin\ReplayClassController;
@@ -75,7 +76,13 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::get('{formSlug}/{subjectSlug}/topics', [TopicController::class, 'index'])->name('topics.index'); 
     Route::post('{form}/{subject}/topics', [TopicController::class, 'store'])->name('topics.store'); 
     Route::put('topic/{topicId}', [TopicController::class, 'update'])->name('topics.update'); 
-    Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
+    Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy');
+    
+    Route::get('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'index'])->name('quizzes.index');
+    Route::post('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'store'])->name('quizzes.store');
+    Route::put('quizz/{quizzId}', [QuizzController::class, 'update'])->name('quizzes.update');
+    Route::delete('quizz/{quizzId}', [QuizzController::class, 'destroy'])->name('quizzes.destroy');
+
 
     // Get JSON dynamic data
     Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);
