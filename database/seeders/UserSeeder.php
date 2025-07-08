@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         $studentProfile = Profile::create([
             'user_id' => $student->id,
             'name' => 'Student Profile',  
-            'avatar' => 'default-avatar.png',  
+            // 'avatar' => 'default-avatar.png',  
         ]);
 
         
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
         $parentProfile = Profile::create([
             'user_id' => $parent->id,
             'name' => 'Parent Profile',  
-            'avatar' => 'default-avatar.png',  
+            // 'avatar' => 'default-avatar.png',  
         ]);
 
         
@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
         $adminProfile = Profile::create([
             'user_id' => $admin->id,
             'name' => 'Admin Profile',  
-            'avatar' => 'default-avatar.png',  
+            // 'avatar' => 'default-avatar.png',  
         ]);
 
         
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
         $tutorProfile = Profile::create([
             'user_id' => $tutor->id,
             'name' => 'Tutor Profile',  
-            'avatar' => 'default-avatar.png',  
+            // 'avatar' => 'default-avatar.png',  
         ]);
 
         

@@ -5,7 +5,7 @@ namespace App\DataTables;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\Grade;
-use App\Models\LiveClass;
+use App\Models\ReplayClass;
 use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -14,7 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class LiveClassDataTable extends DataTable
+class ReplayClassDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
@@ -22,27 +22,26 @@ class LiveClassDataTable extends DataTable
             ->addColumn('action', function ($row) {
                 $subjects = Subject::with('grade')->get();
                 $grades = Grade::all();
-                return view('admin.live_classes.action', compact('row','subjects', 'grades'))->render();
+                return view('admin.replay_classes.action', compact('row','subjects', 'grades'))->render();
             })
-            ->editColumn('start_time', function ($row) {
-                return \Carbon\Carbon::parse($row->start_time)->format('d M Y H:i');
+            ->addColumn('video', function ($row) {
+                return view('admin.replay_classes.video', compact('row'))->render();
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'video'])
             ->setRowId('id')
             ->addIndexColumn();
     }
 
-    public function query(LiveClass $model): QueryBuilder
+    public function query(ReplayClass $model): QueryBuilder
     {
         return $model->newQuery()
             ->with(['grade', 'subject', 'topic', 'user']);
     }
 
-
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('live-class-table')
+            ->setTableId('replay-class-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
@@ -62,19 +61,12 @@ class LiveClassDataTable extends DataTable
             Column::make('subject.name')->title('Subject'),
             Column::make('topic.name')->title('Topic'),
             Column::make('user.name')->title('User'),
-            Column::make('agenda')->title('Agenda'),
-            Column::make('start_time')->title('Start Time'),
-            Column::make('status')->title('Status'),
+            Column::make('video')->title('Video')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->orderable(false),
-                // ->addClass('text-center')
+                ->orderable(false)
+                ->addClass('text-center')
         ];
-    }
-
-    protected function filename(): string
-    {
-        return 'LiveClasses_' . date('YmdHis');
     }
 }

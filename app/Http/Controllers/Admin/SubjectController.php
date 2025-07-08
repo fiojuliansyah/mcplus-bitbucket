@@ -81,6 +81,13 @@ class SubjectController extends Controller
         $subject = Subject::findOrFail($id);
         $subject->delete();
 
-        return redirect()->route('admin.subjects.index')->with('success', 'Subject deleted successfully.');
+        return redirect()->back()->with('success', 'Subject deleted successfully.');
     }
+
+    public function byGrade($gradeId)
+    {
+        $subjects = Subject::where('grade_id', $gradeId)->get(['id', 'name']);
+        return response()->json($subjects);
+    }
+
 }

@@ -9,15 +9,20 @@ use App\Http\Controllers\Admin\GradeController;
 use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TopicController;
+use App\Http\Controllers\Admin\QuizzController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
+use App\Http\Controllers\Admin\ReplayClassController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\Tutor\TutorPageController;
 use App\Http\Controllers\Tutor\TutorProfileController;
+use App\Http\Controllers\Tutor\TutorCourseController;
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -47,6 +52,8 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
     Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
     Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
+    
+    Route::get('/learning-progress', [UserPageController::class, 'learningProgress'])->name('learning-progress');
 });
 
 
@@ -59,12 +66,32 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::resource('coupons', CouponController::class);
     Route::resource('subscriptions', SubscriptionController::class);
     Route::resource('live-classes', LiveClassController::class);
+    Route::resource('replay-classes', ReplayClassController::class);
+    Route::resource('faqs', FaqController::class);
     
     Route::get('{slug}/subjects', [SubjectController::class, 'index'])->name('subjects.index'); 
     Route::post('{slug}/subjects', [SubjectController::class, 'store'])->name('subjects.store'); 
     Route::put('subjects/{subject}', [SubjectController::class, 'update'])->name('subjects.update'); 
     Route::delete('subjects/{subject}', [SubjectController::class, 'destroy'])->name('subjects.destroy'); 
     
+    Route::get('{formSlug}/{subjectSlug}/topics', [TopicController::class, 'index'])->name('topics.index'); 
+    Route::post('{form}/{subject}/topics', [TopicController::class, 'store'])->name('topics.store'); 
+    Route::put('topic/{topicId}', [TopicController::class, 'update'])->name('topics.update'); 
+    Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy');
+    
+    Route::get('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'index'])->name('quizzes.index');
+    Route::post('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'store'])->name('quizzes.store');
+    Route::put('quizz/{quizzId}', [QuizzController::class, 'update'])->name('quizzes.update');
+    Route::delete('quizz/{quizzId}', [QuizzController::class, 'destroy'])->name('quizzes.destroy');
+
+
+    // Get JSON dynamic data
+    Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);
+    Route::get('/topics/by-subject/{grade}/{subject}', [TopicController::class, 'bySubject']);
+    Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
+
+
+
     Route::resource('tutors', TutorController::class);
     Route::post('admin/tutors/{tutorId}/assign-subjects', [TutorController::class, 'assignSubjects'])->name('tutors.assign-subjects');
 });
@@ -74,9 +101,11 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     
     Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
-    Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
-    Route::post('/upload-course', [TutorCourseController::class, 'store'])->name('upload-course.store');
+    // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
+    Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
+
+    
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

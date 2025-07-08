@@ -210,10 +210,43 @@ class UserPageController extends Controller
         return view('frontend.myTopic', compact('grade', 'subject', 'topic'));
     }
 
+    public function learningProgress()
+    {
+        $progress = [
+            [
+                'subject' => 'Math',
+                'topics' => [
+                    ['name' => 'Algebra', 'score' => 70],
+                    ['name' => 'Geometry', 'score' => 85],
+                    ['name' => 'Trigonometry', 'score' => 65],
+                ],
+            ],
+            [
+                'subject' => 'Science',
+                'topics' => [
+                    ['name' => 'Biology', 'score' => 78],
+                    ['name' => 'Chemistry', 'score' => 82],
+                    ['name' => 'Physics', 'score' => 74],
+                ],
+            ],
+            [
+                'subject' => 'English',
+                'topics' => [
+                    ['name' => 'Grammar', 'score' => 88],
+                    ['name' => 'Literature', 'score' => 91],
+                    ['name' => 'Writing', 'score' => 84],
+                ],
+            ],
+        ];
+
+        return view('frontend.learningProgress', compact('progress'));
+    }
 
     public function tutors()
     {
         $tutors = User::where('account_type', 'tutor')->get();
         return view('frontend.tutors', compact('tutors'));
     }
+
+
 }

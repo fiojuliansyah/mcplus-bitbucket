@@ -21,4 +21,19 @@ class Grade extends Model
             return $this->hasMany(Topic::class);
         }
 
+        public function liveClass()
+        {
+            return $this->hasMany(LiveClass::class);
+        }
+
+        public function replayClass()
+        {
+            return $this->hasMany(ReplayClass::class);
+        }
+
+        public function quizz()
+        {
+            return $this->hasMany(Quizz::class);
+        }
+
 }

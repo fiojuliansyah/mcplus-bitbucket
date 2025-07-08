@@ -32,18 +32,41 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <!-- Grade -->
                         <div class="mb-3">
-                            <label class="form-label">Subject</label>
-                            <select class="form-control" name="subject_id">
-                                @foreach ($subjects as $subject)
-                                    <option value="{{ $subject->id }}">{{ $subject->grade->name }} - {{ $subject->name }}</option>
+                            <label class="form-label">Grade</label>
+                            <select class="form-select" id="gradeDropdown" name="grade_id" required>
+                                <option value="">Select Grade</option>
+                                @foreach($grades as $grade)
+                                    <option value="{{ $grade->id }}">{{ $grade->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+
+                        <!-- Subject (depends on Grade) -->
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <select class="form-select" id="subjectDropdown" name="subject_id" required>
+                                <option value="">Select Subject</option>
+                            </select>
+                        </div>
+
+                        <!-- Topic (depends on Subject & Grade) -->
                         <div class="mb-3">
                             <label class="form-label">Topic</label>
-                            <input type="text" class="form-control" name="topic" required>
+                            <select class="form-select" id="topicDropdown" name="topic_id" required>
+                                <option value="">Select Topic</option>
+                            </select>
                         </div>
+
+                        <!-- Tutor (depends on Subject) -->
+                        <div class="mb-3">
+                            <label class="form-label">Tutor</label>
+                            <select class="form-select" id="tutorDropdown" name="user_id" required>
+                                <option value="">Select Tutor</option>
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Agenda</label>
                             <textarea class="form-control" name="agenda" rows="3" required></textarea>
@@ -118,4 +141,14 @@
 
 @push('js')
     {!! $dataTable->scripts() !!}
+    <script src="{{ asset('admin/assets/js/live-class-form.js') }}"></script>
+    <script>
+        // Re-bind dropdowns every time DataTable redraws
+        $(document).on('draw.dt', function () {
+            if (typeof bindEditDropdowns === 'function') {
+                bindEditDropdowns();
+            }
+        });
+    </script>
 @endpush
+
