@@ -69,6 +69,14 @@ class UserProfileController extends Controller
         return view('frontend.profiles.select-profile', compact('user', 'profiles'));
     }
 
+    public function editProfile()
+    {
+        $user = Auth::user();
+        $profiles = $user->profiles;
+        return view('frontend.profiles.edit-profile', compact('user', 'profiles'));
+    }
+
+
     public function changeProfile(Request $request)
     {
         

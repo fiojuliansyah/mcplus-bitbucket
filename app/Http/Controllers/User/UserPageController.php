@@ -5,7 +5,11 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\Topic;
+use App\Models\UserAttendSubject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Http\Controllers\Controller;
 
 class UserPageController extends Controller
@@ -129,9 +133,120 @@ class UserPageController extends Controller
         return view('frontend.subjects', compact('subjects','grades'));
     }
 
+    public function subjectDetail($slugGrade, $slugSubject)
+    {
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+        $subject = Subject::where('slug', $slugSubject)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        $topics = Topic::where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->with('grades')
+                    ->get();
+
+        return view('frontend.subjectDetail', compact('grade', 'subject', 'topics'));
+    }
+
+    public function myClass()
+    {
+        $userId = Auth::id();
+
+        // Get all grades for filter navigation
+        $grades = Grade::all();
+
+        // Get subjects joined through user_has_class using Eloquent
+        $subjects = Subject::with('grade') // eager load grade relationship
+            ->whereIn('id', function ($query) use ($userId) {
+                $query->select('subject_id')
+                    ->from('user_has_subjects')
+                    ->where('user_id', $userId);
+            })
+            ->get();
+
+        return view('frontend.myClass', compact('subjects', 'grades'));
+    }
+
+    public function mySubject($slugGrade, $slugSubject)
+    {
+        $userId = Auth::id();
+
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+
+        $subject = Subject::where('slug', $slugSubject)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        // Get attended topic IDs using the model
+        $attendedSubjectIds = UserAttendSubject::where('user_id', $userId)
+            ->where('subject_id', $subject->id)
+            ->pluck('topic_id')
+            ->toArray();
+
+        // Fetch all topics and mark them as attended or not
+        $topics = Topic::where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->with('grades')
+                    ->get()
+                    ->map(function ($topic) use ($attendedSubjectIds) {
+                        $topic->attended = in_array($topic->id, $attendedSubjectIds);
+                        return $topic;
+                    });
+
+        return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
+    }
+
+    public function myTopic($slugGrade, $slugSubject, $topicSlug)
+    {
+        $userId = Auth::id();
+
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+        $subject = Subject::where('slug', $slugSubject)->where('grade_id', $grade->id)->firstOrFail();
+        $topic = Topic::where('slug', $topicSlug)
+                    ->where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        return view('frontend.myTopic', compact('grade', 'subject', 'topic'));
+    }
+
+    public function learningProgress()
+    {
+        $progress = [
+            [
+                'subject' => 'Math',
+                'topics' => [
+                    ['name' => 'Algebra', 'score' => 70],
+                    ['name' => 'Geometry', 'score' => 85],
+                    ['name' => 'Trigonometry', 'score' => 65],
+                ],
+            ],
+            [
+                'subject' => 'Science',
+                'topics' => [
+                    ['name' => 'Biology', 'score' => 78],
+                    ['name' => 'Chemistry', 'score' => 82],
+                    ['name' => 'Physics', 'score' => 74],
+                ],
+            ],
+            [
+                'subject' => 'English',
+                'topics' => [
+                    ['name' => 'Grammar', 'score' => 88],
+                    ['name' => 'Literature', 'score' => 91],
+                    ['name' => 'Writing', 'score' => 84],
+                ],
+            ],
+        ];
+
+        return view('frontend.learningProgress', compact('progress'));
+    }
+
     public function tutors()
     {
         $tutors = User::where('account_type', 'tutor')->get();
         return view('frontend.tutors', compact('tutors'));
     }
+
+
 }

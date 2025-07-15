@@ -46,7 +46,11 @@
                                     {{-- <img src="{{ asset('storage/' . $subject->thumbnail) }}" alt="geners-img" class="img-fluid object-cover w-100 rounded"> --}}
                                     <img src="/frontend/assets/images/subjects/{{ $subject->thumbnail }}" alt="geners-img" class="img-fluid object-cover w-100 rounded">
                                     <div class="blog-description">
-                                        <h6 class="mb-0 iq-title"><a href="view-all-movie.html" class="text-decoration-none text-capitalize line-count-2 p-2">{{ $subject->name }}</a></h6>
+                                        <h6 class="mb-0 iq-title">
+                                            <a href="{{ route('user.home.subjectDetail', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none text-capitalize line-count-2 p-2">
+                                                {{ $subject->name }}
+                                            </a>
+                                        </h6>
                                     </div>
                                 </div>
                             </div>

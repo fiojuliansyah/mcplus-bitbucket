@@ -3,7 +3,10 @@
 namespace App\DataTables;
 
 use App\Models\Subject;
+use App\Models\Topic;
+use App\Models\Grade;
 use App\Models\LiveClass;
+use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\EloquentDataTable;
@@ -18,10 +21,11 @@ class LiveClassDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($row) {
                 $subjects = Subject::with('grade')->get();
-                return view('admin.live_classes.action', compact('row','subjects'))->render();
+                $grades = Grade::all();
+                return view('admin.live_classes.action', compact('row','subjects', 'grades'))->render();
             })
             ->editColumn('start_time', function ($row) {
-                return $row->start_time->format('d M Y H:i');
+                return \Carbon\Carbon::parse($row->start_time)->format('d M Y H:i');
             })
             ->rawColumns(['action'])
             ->setRowId('id')
@@ -30,8 +34,10 @@ class LiveClassDataTable extends DataTable
 
     public function query(LiveClass $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with(['grade', 'subject', 'topic', 'user']);
     }
+
 
     public function html(): HtmlBuilder
     {
@@ -51,10 +57,19 @@ class LiveClassDataTable extends DataTable
                 ->title('No.')
                 ->searchable(false)
                 ->orderable(false),
-            Column::make('topic')->searchable(true),
-            Column::make('start_time'),
-            Column::make('status'),
-            Column::computed('action')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+            Column::make('id'),
+            Column::make('grade.name')->title('Grade'),
+            Column::make('subject.name')->title('Subject'),
+            Column::make('topic.name')->title('Topic'),
+            Column::make('user.name')->title('User'),
+            Column::make('agenda')->title('Agenda'),
+            Column::make('start_time')->title('Start Time'),
+            Column::make('status')->title('Status'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->orderable(false),
+                // ->addClass('text-center')
         ];
     }
 

@@ -41,6 +41,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Subject::class, 'model_has_subjects', 'user_id', 'subject_id');
     }
 
+    public function liveClasses()
+    {
+        return $this->belongsToMany(LiveClass::class, 'user_id');
+    }
+
+    public function replayClass()
+    {
+        return $this->hasMany(ReplayClass::class);
+    }
+
     public function profiles()
     {
         return $this->hasMany(Profile::class);
@@ -49,6 +59,11 @@ class User extends Authenticatable
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function quizz()
+    {
+        return $this->hasMany(Quizz::class);
     }
 
     public function current_profile()

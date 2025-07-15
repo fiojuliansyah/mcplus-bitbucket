@@ -60,7 +60,7 @@
                 </div>
             </div>
             <div class="row align-items-center">
-                <a class="btn btn-light btn-sm">Manage Profile</a>
+                <a href="{{ route('user.edit-profile') }}" class="btn btn-light btn-sm">Manage Profile</a>
             </div>
           </div>
         </div>

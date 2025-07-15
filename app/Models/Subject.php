@@ -15,9 +15,29 @@ class Subject extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+
+    public function topics()
+    {
+        return $this->hasMany(Topic::class);
+    }
+
+    public function liveClass()
+    {
+        return $this->hasMany(LiveClass::class);
+    }
     
     public function users()
     {
         return $this->belongsToMany(User::class, 'model_has_subjects', 'subject_id', 'user_id');
+    }
+
+    public function replayClass()
+    {
+        return $this->hasMany(ReplayClass::class);
+    }
+
+    public function quizz()
+    {
+        return $this->hasMany(Quizz::class);
     }
 }

@@ -89,4 +89,13 @@ class TutorController extends Controller
 
         return redirect()->route('admin.tutors.index')->with('success', 'Subjects assigned to tutor successfully.');
     }
+
+    public function bySubject($subjectId)
+    {
+        $tutors = User::whereHas('subjects', fn($q) => $q->where('subject_id', $subjectId))
+                    // ->role('tutor') Optional if using spatie roles
+                    ->get(['id', 'name']);
+        return response()->json($tutors);
+    }
+
 }
