@@ -6,6 +6,7 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\LiveClass;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,14 +36,18 @@ class TutorCourseController extends Controller
             ->get();
 
         // Load LiveClasses grouped by subject_id
-        $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
+            // $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
+            //     ->get()
+            //     ->groupBy('subject_id');
+
+        $topics = Topic::whereIn('subject_id', $subjectIds)
             ->get()
             ->groupBy('subject_id');
 
         // Load the user if needed
         $user = Auth::user()->load('current_profile');
 
-        return view('tutor.courses.myCourse', compact('grades', 'liveClasses', 'user'));
+        return view('tutor.courses.myCourse', compact('grades', 'topics', 'user'));
     }
 
 
@@ -53,22 +58,41 @@ class TutorCourseController extends Controller
 
     public function store(Request $request)
     {
-        LiveClass::create([
-            'grade_id'         => $request->grade_id,
-            'subject_id'       => $request->subject_id,
-            'topic'            => $request->topic,
-            'agenda'           => $request->agenda,
-            'type'             => $request->type ?? 2,
-            'duration'         => $request->duration,
-            'timezone'         => $request->timezone,
-            'password'         => $request->password,
-            'start_time'       => $request->start_time,
-            'settings'         => $request->settings ?? 'tbd',
-            'zoom_meeting_id'  => $request->zoom_meeting_id,
-            'zoom_join_url'    => $request->zoom_join_url,
-            'status'           => $request->status,
+        Topic::create([
+            'grade_id'      => $request->grade_id,
+            'subject_id'    => $request->subject_id,
+            'name'          => $request->topic,
+            'slug'          => Str::slug($request->topic),
+            'status'        => $request->status
+
         ]);
 
-        return redirect()->back()->with('success', 'Live class added successfully.');
+        return redirect()->back()->with('success', 'Topic added successfully.');
     }
+
+    public function update(Request $request, $id)
+    {
+
+        $topic = Topic::findOrFail($id);
+        $topic->name = $request->name;
+        $topic->status = $request->status;
+        $topic->save();
+
+        return redirect()->back()->with('success', 'Topic updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $topic = Topic::findOrFail($id);
+        $topic->delete();
+
+        return redirect()->back()->with('success', 'Topic deleted successfully.');
+    }
+
+    public function showClass($id)
+    {
+       $topic = Topic::with('grade', 'subject')->findOrFail($id);
+        return view('tutor.courses.showClass', compact('topic'));
+    }
+
 }

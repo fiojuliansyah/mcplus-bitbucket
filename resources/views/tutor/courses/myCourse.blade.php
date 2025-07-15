@@ -48,41 +48,61 @@
                     @foreach($grades as $index => $grade)
                         <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="grade-{{ $grade->id }}" role="tabpanel">
                             <div class="card p-4 mb-4">
-                                <h4 class="mb-4">{{ $grade->name }} - Subjects</h4>
+                                <h3 class="mb-4">{{ $grade->name }} - Subjects</h3>
 
                                 @forelse($grade->subjects as $subject)
                                   <div class="mb-5">
                                       <div class="mb-3 d-flex justify-content-between align-items-center">
-                                          <h6 class="fw-bold mb-0">{{ $subject->name }}</h6>
+                                          <h4 class="fw-bold mb-0">{{ $subject->name }}</h4>
 
                                           <!-- Trigger Modal -->
-                                          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addClassModal-{{ $subject->id }}">
-                                              Add Class
+                                          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTopicModal-{{ $subject->id }}">
+                                              Add Topic
                                           </button>
                                       </div>
 
-                                      @include('tutor.courses.modals.add-class', ['subject' => $subject])
+                                      @include('tutor.courses.modals.add-topic', ['subject' => $subject])
 
-                                      @if($liveClasses->has($subject->id) && $liveClasses->get($subject->id)->isNotEmpty())
-                                          <ul class="list-group">
-                                              @foreach($liveClasses->get($subject->id) as $class)
-                                                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                      <div class="col-md-4 fw-bold">
-                                                          {{ $class->topic }}
-                                                      </div>
+                                      @if($topics->has($subject->id) && $topics->get($subject->id)->isNotEmpty())
+                                        <ul class="list-group">
+                                            @foreach($topics->get($subject->id) as $topic)
+                                                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                    <div>
+                                                        <div class="fw-bold">
+                                                            {{ $topic->name }}
 
-                                                      <div class="col-md-4 text-muted text-center small">
-                                                          {{ \Carbon\Carbon::parse($class->start_time)->format('D, M j, Y H:i') }}
-                                                      </div>
+                                                        </div>
+                                                        <small class="{{ $topic->status === 'active' ? 'text-success' : 'text-danger' }}">
+                                                            {{ ucfirst($topic->status) }}
+                                                        </small>
+                                                    </div>
+                                                    
+                                                    <div>
+                                                        <a href="{{ route('tutor.my-course.show', ['topicId' => $topic->id]) }}" class="btn btn-primary btn-sm">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i> Show
+                                                        </a>
+                                                    </div>
 
-                                                      <div class="col-md-4 text-end">
-                                                          <a href="{{ $class->zoom_join_url }}" target="_blank" class="btn btn-sm btn-success">
-                                                              Join Class
-                                                          </a>
-                                                      </div>
-                                                  </li>
-                                              @endforeach
-                                          </ul>
+                                                    <div class="d-flex gap-2">
+                                                        <!-- Edit Button triggers modal -->
+                                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editTopicModal-{{ $topic->id }}">
+                                                            Edit
+                                                        </button>
+
+                                                        <!-- Delete Button -->
+                                                        {{-- <form action="{{ route('tutor.topics.destroy', $topic->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this topic?');"> --}}
+                                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTopicModal-{{ $topic->id }}">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </li>
+
+                                                <!-- Include the Edit Topic Modal -->
+                                                @include('tutor.courses.modals.edit-topic', ['topic' => $topic])
+                                                @include('tutor.courses.modals.delete-topic', ['topic' => $topic])
+                                            @endforeach
+                                        </ul>
+
                                       @else
                                           <p class="text-muted fst-italic">No classes available.</p>
                                       @endif

@@ -102,7 +102,14 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
     // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
+    
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
+    Route::put('/my-course/{topicId}', [TutorCourseController::class, 'update'])->name('my-course.update');
+    Route::delete('/my-course/{topicId}', [TutorCourseController::class, 'destroy'])->name('my-course.destroy');
+    Route::get('/my-course/{topicId}', [TutorCourseController::class, 'showClass'])->name('my-course.show');
+
+
+
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 
     
