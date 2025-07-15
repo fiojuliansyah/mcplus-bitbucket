@@ -20,6 +20,7 @@ use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\User\UserProfileController;
 use App\Http\Controllers\User\WatchlistController;
+use App\Http\Controllers\User\UserQuizzController;
 use App\Http\Controllers\Tutor\TutorPageController;
 use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\Tutor\TutorCourseController;
@@ -54,6 +55,10 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
     Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
     
+    Route::get('/{grade:slug}/{subject:slug}/{topic:slug}/quizzes', [UserQuizzController::class, 'index'])->name('quizzes.show');
+    Route::post('/{grade:slug}/{subject:slug}/{topic:slug}/quizzes/submit', [UserQuizzController::class, 'submit'])->name('quizzes.submit');
+    Route::get('/quizz-result/{id}', [UserQuizzController::class, 'show'])->name('quizzes.result.show');
+
     Route::get('/learning-progress', [UserPageController::class, 'learningProgress'])->name('learning-progress');
 });
 
