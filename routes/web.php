@@ -23,6 +23,7 @@ use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\Tutor\TutorPageController;
 use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\Tutor\TutorCourseController;
+use App\Http\Controllers\Tutor\TutorQuizzController;
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -102,11 +103,16 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
     // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
-    
+
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::put('/my-course/{topicId}', [TutorCourseController::class, 'update'])->name('my-course.update');
     Route::delete('/my-course/{topicId}', [TutorCourseController::class, 'destroy'])->name('my-course.destroy');
     Route::get('/my-course/{topicId}', [TutorCourseController::class, 'showClass'])->name('my-course.show');
+
+    Route::get('topic/{topicId}/quizzes', [TutorQuizzController::class, 'index'])->name('topic.quizzes');
+    Route::post('topic/{topicId}/quizzes', [TutorQuizzController::class, 'store'])->name('topic.quizzes.store');
+    Route::put('topic/{topicId}/{quizzId}', [TutorQuizzController::class, 'update'])->name('topic.quizzes.update');
+    Route::delete('quizz/{quizzId}', [TutorQuizzController::class, 'destroy'])->name('topic.quizzes.destroy');
 
 
 

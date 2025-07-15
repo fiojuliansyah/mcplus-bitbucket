@@ -37,9 +37,6 @@
                     <a href="#" class="btn btn-primary btn-lg">
                         <i class="bi bi-camera-video-fill me-1"></i> Join Class
                     </a>
-                    <a href="#" class="btn btn-warning btn-lg">
-                        <i class="bi bi-question-circle-fill me-1"></i> Take Quiz
-                    </a>
                 </div>
             </div>
         </div>
