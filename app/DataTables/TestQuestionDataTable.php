@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Subject;
 use App\Models\Grade;
 use App\Models\Test;
+use App\Models\TestQuestion;
 use App\Models\ModelHasSubject;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -17,45 +18,45 @@ use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
-class TestDataTable extends DataTable
+class TestQuestionDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function ($row) {
-                return view('admin.tests.action', compact('row'))->render();
+            ->addColumn('questionAction', function ($row) {
+                return view('admin.tests.questionAction', compact('row'))->render();
             })
-            ->addColumn('question_management', function ($row) {
-                return view('admin.tests.question_management', compact('row'))->render();
+            // ->addColumn('question_management', function ($row) {
+            //     return view('admin.tests.question_management', compact('row'))->render();
+            // })
+            ->addColumn('show_answer', function ($row) {
+                return view('admin.tests.answers', ['answer' => $row->answer, 'type' => $row->type])->render();
             })
-            ->editColumn('grade_id', fn($row) => $row->grade->name ?? '-')
-            ->editColumn('subject_id', fn($row) => $row->subject->name ?? '-')
-            ->editColumn('user_id', fn($row) => $row->user->name ?? '-')
-            ->rawColumns(['action', 'question_management'])
+            ->editColumn('test_id', fn($row) => $row->test->name ?? '-')
+            ->rawColumns(['show_answer', 'questionAction'])
             ->setRowId('id')
             ->addIndexColumn();
     }
 
-    public function query(Test $model): QueryBuilder
+    public function query(TestQuestion $model): QueryBuilder
     {
         $formSlug = request()->route('formSlug');
         $subjectSlug = request()->route('subjectSlug');
         $testSlug = request()->route('testSlug');
 
         $grade = Grade::where('slug', $formSlug)->firstOrFail();
-
         $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
+        $test = Test::where('slug', $testSlug)->where('grade_id', $grade->id)->where('subject_id', $subject->id)->firstOrFail();
 
         return $model->newQuery()
-            ->with(['grade', 'subject', 'user'])
-            ->where('grade_id', $grade->id)
-            ->where('subject_id', $subject->id);
+            ->with(['test'])
+            ->where('test_id', $test->id);
     }
 
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('quizz-table')
+            ->setTableId('test-question-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
@@ -70,14 +71,11 @@ class TestDataTable extends DataTable
                 ->title('No.')
                 ->searchable(false)
                 ->orderable(false),
-            Column::make('grade_id')->title('Grade'),
-            Column::make('subject_id')->title('Subject'),
-            Column::make('user_id')->title('Tutor'),
-            Column::make('name')->title('Name'),
-            Column::make('start_time')->title('Start Time'),
-            Column::make('end_time')->title('End Time'),
-            Column::computed('question_management')->title('Question Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
-            Column::computed('action')
+            Column::make('test_id')->title('Test Name'),
+            Column::make('question')->title('Question'),
+            Column::make('show_answer')->title('Answer'),
+            Column::make('type')->title('Type')->searchable(false),
+            Column::computed('questionAction')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
@@ -87,7 +85,7 @@ class TestDataTable extends DataTable
 
     protected function filename(): string
     {
-        return 'Test_' . date('YmdHis');
+        return 'TestQuestion_' . date('YmdHis');
     }
 
 }

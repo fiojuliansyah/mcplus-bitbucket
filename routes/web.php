@@ -96,6 +96,11 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::put('test/{testId}', [TestController::class, 'update'])->name('tests.update');
     Route::delete('test/{testId}', [TestController::class, 'destroy'])->name('tests.destroy');
     
+    Route::get('{formSlug}/{subjectSlug}/{testSlug}/manage', [TestController::class, 'manage'])->name('tests.manage');
+    Route::post('{formSlug}/{subjectSlug}/{testSlug}/manage', [TestController::class, 'storeQuestion'])->name('tests.store-question');
+    Route::put('question/{id}', [TestController::class, 'updateQuestion'])->name('tests.update-question');
+    Route::delete('question/{id}', [TestController::class, 'destroyQuestion'])->name('tests.destroy-question');
+
     // Get JSON dynamic data
     Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);
     Route::get('/topics/by-subject/{grade}/{subject}', [TopicController::class, 'bySubject']);

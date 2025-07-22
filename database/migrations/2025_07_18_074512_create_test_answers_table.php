@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('test_answers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');// Student ID
-            $table->foreignId('test_id');
+            $table->foreignId('test_question_id');
             $table->string('answer');
             $table->boolean('is_correct')->nullable();
             $table->timestamps();

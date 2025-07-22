@@ -33,4 +33,9 @@ class Test extends Model
     {
         return $this->belongsTo(Grade::class);
     }
+
+    public function testQuestions()
+    {
+        return $this->hasMany(TestQuestion::class);
+    }
 }
