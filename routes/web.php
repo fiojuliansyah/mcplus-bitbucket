@@ -26,6 +26,7 @@ use App\Http\Controllers\Tutor\TutorPageController;
 use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\Tutor\TutorCourseController;
 use App\Http\Controllers\Tutor\TutorQuizzController;
+use App\Http\Controllers\Tutor\TutorTestController;
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -116,20 +117,23 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
 Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () {
     
     Route::get('/dashboard', [TutorPageController::class, 'index'])->name('dashboard');
-    Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
     // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
-
+    
+    Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::put('/my-course/{topicId}', [TutorCourseController::class, 'update'])->name('my-course.update');
     Route::delete('/my-course/{topicId}', [TutorCourseController::class, 'destroy'])->name('my-course.destroy');
     Route::get('/my-course/{topicId}', [TutorCourseController::class, 'showClass'])->name('my-course.show');
-
+    
     Route::get('topic/{topicId}/quizzes', [TutorQuizzController::class, 'index'])->name('topic.quizzes');
     Route::post('topic/{topicId}/quizzes', [TutorQuizzController::class, 'store'])->name('topic.quizzes.store');
     Route::put('topic/{topicId}/{quizzId}', [TutorQuizzController::class, 'update'])->name('topic.quizzes.update');
     Route::delete('quizz/{quizzId}', [TutorQuizzController::class, 'destroy'])->name('topic.quizzes.destroy');
-
-
+    
+    Route::get('/my-course/{formSlug}/{subjectSlug}/tests', [TutorTestController::class, 'index'])->name('tests');
+    Route::post('/my-course/{formSlug}/{subjectSlug}/tests', [TutorTestController::class, 'store'])->name('tests.store');
+    Route::put('/tests/{test}', [TutorTestController::class, 'update'])->name('tests.update');
+    Route::delete('/tests/{test}', [TutorTestController::class, 'destroy'])->name('tests.destroy');
 
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 

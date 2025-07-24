@@ -56,9 +56,14 @@
                                           <h4 class="fw-bold mb-0">{{ $subject->name }}</h4>
 
                                           <!-- Trigger Modal -->
-                                          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTopicModal-{{ $subject->id }}">
-                                              Add Topic
-                                          </button>
+                                          <div class="">
+                                              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addTopicModal-{{ $subject->id }}">
+                                                  Add Topic
+                                              </button>
+                                              <a href="{{ route('tutor.tests', ['formSlug'=>$grade->slug, 'subjectSlug'=>$subject->slug]) }}" class="btn btn-sm btn-outline-success">
+                                                  Tests
+                                              </a>
+                                          </div>
                                       </div>
 
                                       @include('tutor.courses.modals.add-topic', ['subject' => $subject])
