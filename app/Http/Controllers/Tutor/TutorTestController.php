@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Test;
+use App\Models\TestQuestion;
 use App\Http\Controllers\Controller;
 
 class TutorTestController extends Controller
@@ -71,5 +72,16 @@ class TutorTestController extends Controller
         return redirect()->back()->with('success', 'Test deleted successfully!');
     }
 
+    public function show($gradeSlug, $subjectSlug, $testSlug)
+    {
+        $grade = Grade::where('slug', $gradeSlug)->firstOrFail();
+        $subject = Subject::where('slug', $subjectSlug)->firstOrFail();
+        $test = Test::where('slug', $testSlug)->where('grade_id', $grade->id)->where('subject_id', $subject->id)->firstOrFail();
+
+        $test->load(['user']);
+        $questions = TestQuestion::where('test_id', $test->id)->get();
+
+        return view('tutor.tests.show', compact('test', 'grade', 'subject', 'questions'));
+    }
 
 }

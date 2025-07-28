@@ -45,11 +45,12 @@
                                     Created by: <strong>{{ $test->user->name ?? 'N/A' }}</strong>
                                 </div>
                             </div>
-                            {{-- <a href="{{ route('tutor.tests.show', $test->id) }}" class="btn btn-sm btn-outline-primary">
-                                View Test
-                            </a> --}}
-
+                            
+                            
                             <div class="d-flex gap-2">
+                                <a href="{{ route('tutor.tests.show', [$grade->slug, $subject->slug, $test->slug]) }}" class="btn btn-sm btn-success">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
                                 <!-- Edit Button -->
                                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editTestModal-{{ $test->id }}">
                                     <i class="fa-solid fa-pencil"></i>

@@ -27,6 +27,7 @@ use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\Tutor\TutorCourseController;
 use App\Http\Controllers\Tutor\TutorQuizzController;
 use App\Http\Controllers\Tutor\TutorTestController;
+use App\Http\Controllers\Tutor\TutorTestQuestionController;
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -134,6 +135,9 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::post('/my-course/{formSlug}/{subjectSlug}/tests', [TutorTestController::class, 'store'])->name('tests.store');
     Route::put('/tests/{test}', [TutorTestController::class, 'update'])->name('tests.update');
     Route::delete('/tests/{test}', [TutorTestController::class, 'destroy'])->name('tests.destroy');
+
+    Route::get('/my-course/{formSlug}/{subjectSlug}/{testSlug}/show', [TutorTestController::class, 'show'])->name('tests.show');
+    Route::post('/my-course/{formSlug}/{subjectSlug}/{testSlug}/add', [TutorTestQuestionController::class, 'store'])->name('test-questions.store');
 
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 
