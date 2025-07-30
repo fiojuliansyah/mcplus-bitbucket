@@ -1,7 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
     bindCreateQuizz();
-    bindUpdateQuizz();
+    bindAllEditModals();
 });
+
+// Re-bind on every modal show
+function bindAllEditModals() {
+    const editModals = document.querySelectorAll('[id^="editQuestionModal-"]');
+
+    editModals.forEach((modal) => {
+        modal.addEventListener('shown.bs.modal', function () {
+            bindUpdateQuizz(modal);
+        });
+    });
+}
 
 // Handles the "Add Option" logic for Create Modal
 function bindCreateQuizz() {
@@ -53,9 +64,9 @@ function bindUpdateQuizz() {
             div.classList.add('input-group', 'mb-2');
 
             div.innerHTML = `
-                <span class="input-group-text">${alphabet[optionIndex]}</span>
+                <span class="input-group-text bg-secondary">${alphabet[optionIndex]}</span>
                 <input type="text" name="options[]" class="form-control" required>
-                <div class="input-group-text">
+                <div class="input-group-text" style="background-color: #424242">
                     <input type="radio" name="correct_option" value="${optionIndex}" class="form-check-input mt-0" required>
                     <label class="ms-1 mb-0 small">Correct</label>
                 </div>

@@ -79,7 +79,7 @@ class TutorTestController extends Controller
         $test = Test::where('slug', $testSlug)->where('grade_id', $grade->id)->where('subject_id', $subject->id)->firstOrFail();
 
         $test->load(['user']);
-        $questions = TestQuestion::where('test_id', $test->id)->get();
+        $questions = TestQuestion::where('test_id', $test->id)->orderBy('type', 'desc')->get();
 
         return view('tutor.tests.show', compact('test', 'grade', 'subject', 'questions'));
     }

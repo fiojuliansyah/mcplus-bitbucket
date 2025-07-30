@@ -44,11 +44,11 @@
                         </div>
                         <div>
                             <!-- Edit and Delete triggers (optional) -->
-                            <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#editQuestionModal{{ $question->id }}">
-                                <i class="bi bi-pencil-square"></i>
+                            <button class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal" data-bs-target="#editQuestionModal-{{ $question->id }}">
+                                <i class="fa-solid fa-pencil"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteQuestionModal{{ $question->id }}">
-                                <i class="bi bi-trash"></i>
+                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteQuestionModal-{{ $question->id }}">
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
@@ -69,11 +69,13 @@
                         </ul>
                     @else
                         @php
-                            $essay = json_decode($question->answer);
+                            $essay = json_decode($question->answer, true);
                         @endphp
-                        <p class="mt-2"><strong>Expected Answer:</strong> <em>{{ $essay->essay_answer ?? '—' }}</em></p>
+                        <p class="mt-2"><strong>Expected Answer: </strong> <em>{{ $essay['essay_answer']}}</em></p>
                     @endif
                 </div>
+                @include('tutor.tests.edit-test', ['test' => $test, 'question' => $question])
+                @include('tutor.tests.delete-test', ['test' => $test, 'question' => $question])
             @empty
                 <p class="text-muted fst-italic">No questions available for this test.</p>
             @endforelse
@@ -180,9 +182,9 @@
 <script src="{{ asset('frontend/assets/js/test-form.js') }}"></script>
 <script>
     // Re-bind dropdowns every time DataTable redraws
-    $(document).on('draw.dt', function () {
-        if (typeof bindUpdateQuizz === 'function') {
-            bindUpdateQuizz();
-        }
-    });
+    // $(document).on('draw.dt', function () {
+    //     if (typeof bindUpdateQuizz === 'function') {
+    //         bindUpdateQuizz();
+    //     }
+    // });
 </script>

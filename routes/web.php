@@ -138,6 +138,8 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
 
     Route::get('/my-course/{formSlug}/{subjectSlug}/{testSlug}/show', [TutorTestController::class, 'show'])->name('tests.show');
     Route::post('/my-course/{formSlug}/{subjectSlug}/{testSlug}/add', [TutorTestQuestionController::class, 'store'])->name('test-questions.store');
+    Route::put('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'update'])->name('test-questions.update');
+    Route::delete('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'destroy'])->name('test-questions.destroy');
 
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 
