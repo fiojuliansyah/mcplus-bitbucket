@@ -24,6 +24,13 @@
     <div class="container">
         <h4 class="main-title text-capitalize mb-4 text-center">Attendance in Subject {{ $subject->name }}</h4>
 
+        <hr class="my-5">
+        <div class="text-center">
+            <a href="{{ route('user.subject.tests', [$grade->slug, $subject->slug]) }}" class="btn btn-outline-primary">
+                <i class="fas fa-file-alt me-1"></i> See Test for {{ $subject->name }}
+            </a>
+        </div>
+
         <div class="timeline">
             @forelse ($topics as $index => $topic)
                 <div class="timeline-item">

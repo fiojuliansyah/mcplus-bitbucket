@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('test_results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id'); // Student ID
-            $table->foreignId('topic_id');
+            $table->foreignId('test_id');
             $table->json('total_questions');
             $table->json('correct_answers');
             $table->unsignedInteger('score')->default(0); // score out of 100
