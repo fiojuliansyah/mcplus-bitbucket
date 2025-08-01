@@ -32,22 +32,13 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'phone' => ['required', 'string', 'regex:/^\+?[1-9]\d{1,14}$/', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase'],
+            'phone' => ['required', 'string'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $otp = rand(100000, 999999);
-
-        $otpRecord = Otp::create([
-            'number' => $request->phone,
-            'otp' => $otp,
-            'status' => 'pending',
-            'type' => 'registration',
-        ]);
-
-        $this->twilioService->sendOtp($request->phone, $otp);
-
+        
+        
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -57,7 +48,36 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect(route('verify.otp'));
+        
+        try {
+
+            $otp = rand(100000, 999999);
+    
+            $otpRecord = Otp::create([
+                'number' => $request->phone,
+                'otp' => $otp,
+                'status' => 'pending',
+                'type' => 'registration',
+            ]);
+
+            $message = "Kode OTP Anda adalah: {$otp}";
+
+            $recipientNumber = 'whatsapp:' . $user->phone;
+
+            $this->twilioService->sendWhatsApp($recipientNumber, $message);
+
+        } catch (\Exception $e) {
+            \Log::error('Gagal mengirim OTP Twilio: ' . $e->getMessage());
+        }
+
+        return redirect()->route('verify.otp', ['userId' => $user->id]);
+    }
+
+    public function showVerifyForm($userId)
+    {
+        User::findOrFail($userId);
+
+        return view('auth.verify-phone', ['userId' => $userId]);
     }
 
     public function verifyOtp(Request $request, $userId)

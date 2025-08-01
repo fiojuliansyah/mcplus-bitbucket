@@ -25,7 +25,7 @@ class UserProfileController extends Controller
             'pin' => 'nullable|string|max:255',
         ]);
 
-        $profile = new Profile();
+        $profile = new Profile;
         $profile->user_id = Auth::id();
         $profile->name = $request->name;
         $profile->pin = $request->pin;
@@ -50,7 +50,6 @@ class UserProfileController extends Controller
 
         $profile = Profile::findOrFail($id);
         $profile->name = $request->name;
-        $profile->pin = $request->pin;
 
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
@@ -60,6 +59,19 @@ class UserProfileController extends Controller
         $profile->save();
 
         return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
+    }
+
+    public function updatePin(Request $request, $id)
+    {
+        $request->validate([
+            'pin' => 'required|string|digits:4|confirmed',
+        ]);
+
+        $profile = Profile::findOrFail($id);
+        $profile->pin = $request->pin;
+        $profile->save();
+
+        return redirect()->back()->with('success', 'PIN updated successfully!');
     }
 
     public function selectProfile()

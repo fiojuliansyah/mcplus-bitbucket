@@ -35,20 +35,16 @@ class ReplayClassController extends Controller
             'upload_file'  => 'required|file|mimes:mp4,mov,avi,jpg,jpeg,png',
         ]);
 
-        // Eager-load topic with grade and subject
         $topic = Topic::with(['grade', 'subject'])->findOrFail($validated['topic_id']);
         $tutor = User::findOrFail($validated['user_id']);
 
-        // Construct video name and folder path
         $videoName = "{$topic->grade->name}_{$topic->subject->name}_{$topic->name}_{$tutor->name}";
         $cloudinaryFolder = "replay_class/{$topic->grade->name}/{$topic->subject->name}/{$topic->name}";
 
-        // Upload to Cloudinary
         $cloudinary = new Cloudinary(
             Configuration::instance(config('cloudinary'))
         );
 
-        // Upload file to Cloudinary
         $uploadedFile = $cloudinary->uploadApi()->upload(
             $request->file('upload_file')->getRealPath(),
             [
@@ -58,7 +54,6 @@ class ReplayClassController extends Controller
             ]
         );
 
-        // Create replay class entry
         $replayClass = ReplayClass::create([
             'grade_id'          => $validated['grade_id'],
             'subject_id'        => $validated['subject_id'],

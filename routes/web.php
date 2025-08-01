@@ -2,33 +2,38 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ZoomAuthController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GradeController;
+use App\Http\Controllers\Admin\QuizzController;
+use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
-use App\Http\Controllers\Admin\TopicController;
-use App\Http\Controllers\Admin\QuizzController;
-use App\Http\Controllers\Admin\TestController;
+use App\Http\Controllers\User\UserPageController;
+use App\Http\Controllers\User\UserTestController;
+use App\Http\Controllers\User\UserQuizzController;
+use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
-use App\Http\Controllers\Admin\ReplayClassController;
-use App\Http\Controllers\Admin\SubscriptionController;
-use App\Http\Controllers\Admin\FaqController;
-use App\Http\Controllers\User\UserPageController;
-use App\Http\Controllers\User\SubscriptionPlanController;
-use App\Http\Controllers\User\UserProfileController;
-use App\Http\Controllers\User\WatchlistController;
-use App\Http\Controllers\User\UserQuizzController;
-use App\Http\Controllers\User\UserTestController;
 use App\Http\Controllers\Tutor\TutorPageController;
-use App\Http\Controllers\Tutor\TutorProfileController;
-use App\Http\Controllers\Tutor\TutorCourseController;
-use App\Http\Controllers\Tutor\TutorQuizzController;
 use App\Http\Controllers\Tutor\TutorTestController;
+use App\Http\Controllers\Tutor\TutorQuizzController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\Admin\ReplayClassController;
+use App\Http\Controllers\Tutor\TutorCourseController;
+use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Tutor\TutorProfileController;
+use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\Tutor\TutorTestQuestionController;
+
+
+Route::get('/zoom/login', [ZoomAuthController::class, 'redirectToZoom'])->name('zoom.login');
+Route::get('/zoom/callback', [ZoomAuthController::class, 'handleCallback']);
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -43,13 +48,14 @@ Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');
     Route::get('/edit-profile', [UserProfileController::class, 'editProfile'])->name('edit-profile');
     Route::post('/change-profile', [UserProfileController::class, 'changeProfile'])->name('change-profile');
+    Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
 });
 
 Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
-    Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
-    Route::post('/profile/update/{id}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/user/profile/{profile}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/user/profile/{profile}/pin', [UserProfileController::class, 'updatePin'])->name('profile.update.pin');
     
     Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist');
     Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);

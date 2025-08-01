@@ -201,7 +201,15 @@
                                         <li class="user-info d-flex flex-column gap-3 mb-3">
                                             @foreach (Auth::user()->profiles as $profile)
                                                 <div class="d-flex align-items-center gap-3 my-2">
-                                                    <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('change-profile-{{ $profile->id }}').submit();" class="d-flex align-items-center gap-3">
+                                                    <a href="javascript:void(0);" 
+                                                        @if ($profile->pin)
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#enterPinModal-{{ $profile->id }}"
+                                                        @else
+                                                            onclick="event.preventDefault(); document.getElementById('change-profile-{{ $profile->id }}').submit();"
+                                                        @endif
+                                                        class="d-flex align-items-center gap-3"
+                                                    >
                                                         @if($profile->avatar)
                                                             <img src="{{ asset('storage/' . $profile->avatar) }}" class="img-fluid" alt="Profile Avatar" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px">
                                                         @else
@@ -213,14 +221,15 @@
                                                                 </span>
                                                             </div>
                                                         @endif
-                                                        <!-- Profile Name -->
                                                         <span class="font-size-14 fw-500 text-capitalize text-white">{{ $profile->name }}</span>
                                                     </a>
 
-                                                    <form id="change-profile-{{ $profile->id }}" action="{{ route('user.change-profile') }}" method="POST" style="display: none;">
-                                                        @csrf
-                                                        <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                                                    </form>
+                                                    @if (!$profile->pin)
+                                                        <form id="change-profile-{{ $profile->id }}" action="{{ route('user.change-profile') }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                            <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             @endforeach
                                         </li>

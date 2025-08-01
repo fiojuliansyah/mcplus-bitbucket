@@ -39,7 +39,7 @@ class TutorQuizzController extends Controller
             'grade_id'   => $request['grade_id'],
             'subject_id' => $request['subject_id'],
             'topic_id'   => $request['topic_id'],
-            'user_id'    => Auth::id(), // 👈 get the currently authenticated user ID
+            'user_id'    => Auth::id(),
             'question'   => $request['question'],
             'multiple_choice'    => json_encode($answers),
         ]);

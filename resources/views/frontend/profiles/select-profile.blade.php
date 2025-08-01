@@ -100,7 +100,6 @@
     @endif
 @endforeach
 
-<!-- Modal Add Profile -->
 <div class="modal fade" id="addProfileModal" tabindex="-1" aria-labelledby="addProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -128,5 +127,4 @@
         </div>
     </div>
 </div>
-
 @endsection

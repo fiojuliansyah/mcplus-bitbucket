@@ -114,6 +114,9 @@
                             <div class="text-body p-4">
                                 <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
                                     <h4 class="mb-0">Profiles</h4>
+                                    <a href="#" class="badge bg-primary position-relative" data-bs-toggle="modal" data-bs-target="#addProfileModal">
+                                        <span class="button-text">+ Add Profile</span>
+                                    </a>
                                 </div>
                                 <div class="profiles-list mt-4">
                                     @foreach (Auth::user()->profiles as $profile)
@@ -133,14 +136,78 @@
                                                 <span class="font-size-14 fw-500 text-capitalize text-white">{{ $profile->name }}</span>
                                             </div>
                                             <div>
-                                                <a href="" class="badge bg-primary">Edit</a>
+                                                <a href="#" class="badge bg-info" data-bs-toggle="modal" data-bs-target="#pinModal-{{ $profile->id }}">PIN</a>
+                                                <a href="#" class="badge bg-primary" data-bs-toggle="modal" data-bs-target="#editModal-{{ $profile->id }}">Edit</a>
+                                            </div>
+                                        </div>
+                                        <div class="modal fade" id="editModal-{{ $profile->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $profile->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModalLabel-{{ $profile->id }}">Edit Profile: {{ $profile->name }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST" action="{{ route('user.profile.update', $profile->id) }}" enctype="multipart/form-data">
+                                                            @csrf
+                                                            @method('PATCH')
+
+                                                            <div class="mb-3">
+                                                                <label for="name-{{ $profile->id }}" class="form-label">Profile Name</label>
+                                                                <input type="text" class="form-control" id="name-{{ $profile->id }}" name="name" value="{{ $profile->name }}" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Current Avatar</label>
+                                                                <div>
+                                                                    <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" width="80">
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="avatar-{{ $profile->id }}" class="form-label">New Avatar (Optional)</label>
+                                                                <input type="file" class="form-control" id="avatar-{{ $profile->id }}" name="avatar" accept="image/*">
+                                                                <small class="form-text text-muted">Leave blank to keep the current avatar.</small>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="pinModal-{{ $profile->id }}" tabindex="-1" aria-labelledby="pinModalLabel-{{ $profile->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="pinModalLabel-{{ $profile->id }}">Set PIN for: {{ $profile->name }}</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST" action="{{ route('user.profile.update.pin', $profile->id) }}">
+                                                            @csrf
+                                                            @method('PATCH')
+
+                                                            <div class="mb-3">
+                                                                <label for="pin-{{ $profile->id }}" class="form-label">New PIN (4 Digits)</label>
+                                                                <input type="password" class="form-control" id="pin-{{ $profile->id }}" name="pin" required maxlength="4" pattern="\d{4}">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="pin_confirmation-{{ $profile->id }}" class="form-label">Confirm PIN</label>
+                                                                <input type="password" class="form-control" id="pin_confirmation-{{ $profile->id }}" name="pin_confirmation" required maxlength="4">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save PIN</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="#" class="btn btn-primary position-relative" data-bs-toggle="modal" data-bs-target="#addProfileModal">
-                                    <span class="button-text">Add Profile</span>
-                                </a>
 
                                 <div class="modal fade" id="addProfileModal" tabindex="-1" aria-labelledby="addProfileModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -172,72 +239,6 @@
                             </div>
                         </div>
 
-                        {{-- <div class="tab-pane fade" id="profiles" role="tabpanel">
-                            <div class="text-body p-4">
-                                <div class="d-flex align-items-center justify-content-between gap-2 flex-wrap">
-                                    <h4 class="mb-0">Profiles</h4>
-                                </div>
-                                <div class="collapse p-4" id="edit-address-1">
-                                    <form action="{{ route('user.profile.store') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="name" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="name" name="name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="avatar" class="form-label">Avatar</label>
-                                            <input type="file" class="form-control" id="avatar" name="avatar">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="pin" class="form-label">Pin</label>
-                                            <input type="text" class="form-control" id="pin" name="pin">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Save Profile</button>
-                                    </form>
-                                </div>
-                                <div class="subscriptions-table text-body p-4">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <tbody>
-                                                @foreach ($profiles as $index => $profile)
-                                                    <tr class="border-bottom py-3">
-                                                        <td>
-                                                            @if($profile->avatar)
-                                                                <img src="{{ asset('storage/'.$profile->avatar) }}" alt="avatar" class="rounded-circle" width="40" height="40">
-                                                            @else
-                                                                <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                                                    <span class="fs-6">
-                                                                        @foreach(explode(' ', $profile->name) as $word)
-                                                                            {{ strtoupper($word[0]) }}
-                                                                        @endforeach
-                                                                    </span>
-                                                                </div>
-                                                            @endif
-                                                        </td>
-                                                        <td class="text-primary fs-6">{{ $profile->name }}</td>
-                                                        <td>
-                                                            <div class="d-flex align-items-center">
-                                                                <!-- Edit Button -->
-                                                                <a href="" class="text-primary iq-view-all text-decoration-none flex-none" data-bs-toggle="modal" data-bs-target="#editProfileModal{{ $profile->id }}">
-                                                                    Edit
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="iq-button">
-                                        <a href="#" class="btn text-uppercase position-relative" data-bs-toggle="collapse"
-                                        data-bs-target="#edit-address-1" aria-expanded="false">
-                                            <span class="button-text">Add Profile</span>
-                                            <i class="fa-solid fa-play"></i>
-                                        </a>
-                                    </div>
-                            </div>
-                        </div> --}}
                         <div class="tab-pane fade" id="account-details" role="tabpanel">
                             <div class=" p-4 text-body">
                                 <form>

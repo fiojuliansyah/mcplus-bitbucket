@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="col">
                                     <label class="text-white fw-500 mb-2">Email *</label>
-                                    <input type="email" class="form-control rounded-0" required="">
+                                    <input type="email" name="email" class="form-control rounded-0" required="">
                                 </div>
                                 <div class="col">
                                     <label class="text-white fw-500 mb-2">Phone</label>
