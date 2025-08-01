@@ -31,8 +31,12 @@ class Topic extends Model
         return $this->hasMany(ReplayClass::class);
     }
 
-    public function quizz()
+    public function quizzes()
     {
         return $this->hasMany(Quizz::class);
+    }
+    public function tests()
+    {
+        return $this->hasMany(Test::class);
     }
 }

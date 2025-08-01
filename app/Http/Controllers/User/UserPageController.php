@@ -159,7 +159,7 @@ class UserPageController extends Controller
         $subjects = Subject::with('grade') // eager load grade relationship
             ->whereIn('id', function ($query) use ($userId) {
                 $query->select('subject_id')
-                    ->from('user_has_subjects')
+                    ->from('model_has_subjects')
                     ->where('user_id', $userId);
             })
             ->get();
@@ -186,7 +186,7 @@ class UserPageController extends Controller
         // Fetch all topics and mark them as attended or not
         $topics = Topic::where('subject_id', $subject->id)
                     ->where('grade_id', $grade->id)
-                    ->with('grades')
+                    ->with('grade')
                     ->get()
                     ->map(function ($topic) use ($attendedSubjectIds) {
                         $topic->attended = in_array($topic->id, $attendedSubjectIds);

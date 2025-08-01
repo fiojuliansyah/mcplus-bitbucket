@@ -100,6 +100,7 @@
     <script src="/frontend/assets/js/streamit.js" defer></script>
     <script src="/frontend/assets/js/swiper.js" defer></script>
     
+    @stack('js')
     <!-- Start of Async Callbell Code -->
     <script>
         if (!window.callbellSettings) {

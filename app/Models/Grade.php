@@ -35,5 +35,9 @@ class Grade extends Model
         {
             return $this->hasMany(Quizz::class);
         }
+        public function tests()
+        {
+            return $this->hasMany(Test::class);
+        }
 
 }

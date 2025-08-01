@@ -65,6 +65,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Quizz::class);
     }
+    public function tests()
+    {
+        return $this->hasMany(Test::class);
+    }
 
     public function current_profile()
     {

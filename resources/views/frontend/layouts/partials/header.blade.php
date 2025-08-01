@@ -73,7 +73,7 @@
                                 @endif
                             @endauth
 
-                            {{-- @auth
+                            @auth
                                 @if (auth()->user()->account_type === 'student')
                                     <li class="nav-item">
                                         <a class="nav-link {{ Route::is(['user.my-class']) ? 'active' : '' }}" href="{{ route('user.my-class') }}">
@@ -81,7 +81,7 @@
                                         </a>
                                     </li>
                                 @endif
-                            @endauth --}}
+                            @endauth
 
                         </ul>
                     </div>

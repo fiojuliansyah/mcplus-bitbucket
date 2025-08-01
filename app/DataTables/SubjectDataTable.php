@@ -32,6 +32,9 @@ class SubjectDataTable extends DataTable
             ->addColumn('topic_management', function ($row) {
                 return view('admin.subjects.topic_management', compact('row'))->render();
             })
+            ->addColumn('test_management', function ($row) {
+                return view('admin.subjects.test_management', compact('row'))->render();
+            })
             ->editColumn('grade_id', function ($row) {
                 return $row->grade->name;
             })
@@ -42,7 +45,7 @@ class SubjectDataTable extends DataTable
                 return $row->created_at->format('d M Y');
             })
             // ->rawColumns(['action', 'status', 'content_management'])
-            ->rawColumns(['action', 'status', 'topic_management'])
+            ->rawColumns(['action', 'status', 'topic_management', 'test_management'])
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -97,6 +100,7 @@ class SubjectDataTable extends DataTable
             Column::make('status'),
             Column::make('created_at'),
             Column::computed('topic_management')->title('Topic Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+            Column::computed('test_management')->title('Test Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             // Column::computed('content_management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::computed('action')
                 ->exportable(false)
