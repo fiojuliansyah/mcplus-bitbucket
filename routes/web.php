@@ -22,6 +22,7 @@ use App\Http\Controllers\User\WatchlistController;
 =======
 use App\Http\Controllers\Admin\TopicController;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\QuizzController;
 use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\TestResultController;
@@ -30,7 +31,13 @@ use App\Http\Controllers\Admin\TestResultController;
 =======
 =======
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+<<<<<<< HEAD
 >>>>>>> 02b4556 (no message)
+=======
+=======
+use App\Http\Controllers\Admin\QuizzController;
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
+>>>>>>> 7fbe106 (no message)
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Tutor\TutorPageController;
@@ -144,12 +151,16 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::post('{form}/{subject}/topics', [TopicController::class, 'store'])->name('topics.store'); 
     Route::put('topic/{topicId}', [TopicController::class, 'update'])->name('topics.update'); 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
     Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy');
     
     Route::get('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'index'])->name('quizzes.index');
     Route::post('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'store'])->name('quizzes.store');
     Route::put('quizz/{quizzId}', [QuizzController::class, 'update'])->name('quizzes.update');
     Route::delete('quizz/{quizzId}', [QuizzController::class, 'destroy'])->name('quizzes.destroy');
+<<<<<<< HEAD
     
     Route::get('{formSlug}/{subjectSlug}/Test', [TestController::class, 'index'])->name('tests.index');
     Route::post('{formSlug}/{subjectSlug}/Test', [TestController::class, 'store'])->name('tests.store');
@@ -173,6 +184,9 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
 =======
     Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+=======
+
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 
     // Get JSON dynamic data
     Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);

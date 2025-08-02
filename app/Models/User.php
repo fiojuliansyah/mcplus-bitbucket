@@ -74,10 +74,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Quizz::class);
     }
+<<<<<<< HEAD
     public function tests()
     {
         return $this->hasMany(Test::class);
     }
+=======
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 
     public function current_profile()
     {

@@ -75,8 +75,15 @@ class Topic extends Model
         return $this->hasMany(ReplayClass::class);
     }
 
+<<<<<<< HEAD
         // This can be added for grading the topics for student/user
         
 
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
+=======
+    public function quizz()
+    {
+        return $this->hasMany(Quizz::class);
+    }
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 }

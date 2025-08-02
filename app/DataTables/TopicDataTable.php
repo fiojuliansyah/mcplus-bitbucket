@@ -28,6 +28,7 @@ class TopicDataTable extends DataTable
                     : '<span class="badge rounded-pill border border-success text-success">Active</span>';
             })
 <<<<<<< HEAD
+<<<<<<< HEAD
             ->addColumn('quizz_management', function ($row) {
                 return view('admin.topics.quizz_management', compact('row'))->render();
             })
@@ -41,6 +42,15 @@ class TopicDataTable extends DataTable
             ->addIndexColumn()
             ->rawColumns(['action', 'status']);
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+=======
+            ->addColumn('quizz_management', function ($row) {
+                return view('admin.topics.quizz_management', compact('row'))->render();
+            })
+            ->editColumn('created_at', fn($row) => $row->created_at->format('d M Y'))
+            ->setRowId('id')
+            ->addIndexColumn()
+            ->rawColumns(['action', 'status', 'quizz_management']);
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
     }
 
 
@@ -54,10 +64,14 @@ class TopicDataTable extends DataTable
 
         if($grade && $subject){
 <<<<<<< HEAD
+<<<<<<< HEAD
             return $model->newQuery()->where('grade_id', $grade->id)->where('subject_id', $subject->id);
 =======
             return $model->newQuery()->where('grade_id', $grade->id);
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+=======
+            return $model->newQuery()->where('grade_id', $grade->id)->where('subject_id', $subject->id);
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
         }
 
         return $model->newQuery()->whereRaw('1 = 0');
@@ -94,9 +108,13 @@ class TopicDataTable extends DataTable
             Column::make('name')->title('Topic'),
             Column::make('status'),
 <<<<<<< HEAD
+<<<<<<< HEAD
             Column::make('quizz_management')->title('Quizz Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
 =======
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+=======
+            Column::make('quizz_management')->title('Quizz Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
             Column::make('created_at')->title('Created At'),
             Column::computed('action')
                 ->exportable(false)

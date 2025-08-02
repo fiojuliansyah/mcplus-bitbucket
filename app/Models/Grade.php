@@ -53,4 +53,9 @@ class Grade extends Model
             return $this->hasMany(ReplayClass::class);
         }
 
+        public function quizz()
+        {
+            return $this->hasMany(Quizz::class);
+        }
+
 }

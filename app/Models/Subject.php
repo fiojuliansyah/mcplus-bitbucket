@@ -47,15 +47,21 @@ class Subject extends Model
         return $this->hasMany(ReplayClass::class);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 
     public function quizz()
     {
         return $this->hasMany(Quizz::class);
     }
+<<<<<<< HEAD
     public function tests()
     {
         return $this->hasMany(Test::class);
     }
 =======
 >>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
+=======
+>>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 }
