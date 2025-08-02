@@ -20,10 +20,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST"  enctype="multipart/form-data">
 =======
             <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST">
 >>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
+=======
+            <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST"  enctype="multipart/form-data">
+>>>>>>> 4e17d27 (update for change and delete replay)
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -88,10 +92,14 @@
                             </label>
                         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                         <input type="file" class="form-control" name="upload_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}">
 =======
                         <input type="file" class="form-control" name="media_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}" disabled>
 >>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
+=======
+                        <input type="file" class="form-control" name="upload_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}">
+>>>>>>> 4e17d27 (update for change and delete replay)
                     </div>
 
                 </div>
