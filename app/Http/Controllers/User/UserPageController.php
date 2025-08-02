@@ -6,7 +6,10 @@ use App\Models\User;
 use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Topic;
+<<<<<<< HEAD
 use App\Models\UserAttendSubject;
+=======
+>>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -148,6 +151,7 @@ class UserPageController extends Controller
         return view('frontend.subjectDetail', compact('grade', 'subject', 'topics'));
     }
 
+<<<<<<< HEAD
     public function myClass()
     {
         $userId = Auth::id();
@@ -241,6 +245,8 @@ class UserPageController extends Controller
 
         return view('frontend.learningProgress', compact('progress'));
     }
+=======
+>>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 
     public function tutors()
     {

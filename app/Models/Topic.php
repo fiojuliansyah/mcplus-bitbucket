@@ -11,6 +11,7 @@ class Topic extends Model
 
     protected $fillable = ['name', 'slug', 'subject_id', 'grade_id', 'status'];
 
+<<<<<<< HEAD
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -39,4 +40,19 @@ class Topic extends Model
     {
         return $this->hasMany(Test::class);
     }
+=======
+        public function subjects()
+        {
+            return $this->belongsTo(Subject::class);
+        }
+
+        public function grades()
+        {
+            return $this->belongsTo(Grade::class);
+        }
+
+        // This can be added for grading the topics for student/user
+        
+
+>>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 }

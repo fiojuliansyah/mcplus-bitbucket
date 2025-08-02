@@ -19,6 +19,7 @@ class Subject extends Model
     public function topics()
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         return $this->hasMany(Topic::class);
     }
 
@@ -28,6 +29,9 @@ class Subject extends Model
 =======
         return $this->hasMany(Topics::class);
 >>>>>>> 33644b8 (add Topics)
+=======
+        return $this->hasMany(Topic::class);
+>>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
     }
     
     public function users()

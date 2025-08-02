@@ -20,6 +20,7 @@ class Grade extends Model
         {
             return $this->hasMany(Topic::class);
         }
+<<<<<<< HEAD
 
         public function liveClass()
         {
@@ -39,5 +40,7 @@ class Grade extends Model
         {
             return $this->hasMany(Test::class);
         }
+=======
+>>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 
 }
