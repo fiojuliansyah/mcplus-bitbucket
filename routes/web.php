@@ -14,10 +14,17 @@ use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
+<<<<<<< HEAD
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\UserTestController;
 use App\Http\Controllers\User\UserQuizzController;
 use App\Http\Controllers\User\WatchlistController;
+=======
+use App\Http\Controllers\Admin\TopicController;
+use App\Http\Controllers\Admin\QuizzController;
+use App\Http\Controllers\Admin\TestController;
+use App\Http\Controllers\Admin\TestResultController;
+>>>>>>> 05312c4 (Student do Test)
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Tutor\TutorPageController;
@@ -111,6 +118,9 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::put('test/{testId}', [TestController::class, 'update'])->name('tests.update');
     Route::delete('test/{testId}', [TestController::class, 'destroy'])->name('tests.destroy');
     
+    Route::get('{formSlug}/{subjectSlug}/{testSlug}/results', [TestResultController::class, 'index'])->name('tests.results');
+    Route::get('/admin/tests/results/{result}/answers', [TestResultController::class, 'showAnswers'])->name('tests.answers');
+
     Route::get('{formSlug}/{subjectSlug}/{testSlug}/manage', [TestController::class, 'manage'])->name('tests.manage');
     Route::post('{formSlug}/{subjectSlug}/{testSlug}/manage', [TestController::class, 'storeQuestion'])->name('tests.store-question');
     Route::put('question/{id}', [TestController::class, 'updateQuestion'])->name('tests.update-question');

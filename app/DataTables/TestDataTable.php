@@ -28,10 +28,13 @@ class TestDataTable extends DataTable
             ->addColumn('question_management', function ($row) {
                 return view('admin.tests.question_management', compact('row'))->render();
             })
+            ->addColumn('student_results', function ($row) {
+                return view('admin.tests.student_results', compact('row'))->render();
+            })
             ->editColumn('grade_id', fn($row) => $row->grade->name ?? '-')
             ->editColumn('subject_id', fn($row) => $row->subject->name ?? '-')
             ->editColumn('user_id', fn($row) => $row->user->name ?? '-')
-            ->rawColumns(['action', 'question_management'])
+            ->rawColumns(['action', 'question_management', 'student_results'])
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -77,6 +80,7 @@ class TestDataTable extends DataTable
             Column::make('start_time')->title('Start Time'),
             Column::make('end_time')->title('End Time'),
             Column::computed('question_management')->title('Question Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+            Column::computed('student_results')->title('Student Result')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
