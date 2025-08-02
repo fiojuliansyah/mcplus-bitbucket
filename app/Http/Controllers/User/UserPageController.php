@@ -152,6 +152,9 @@ class UserPageController extends Controller
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
     public function myClass()
     {
         $userId = Auth::id();
@@ -163,7 +166,11 @@ class UserPageController extends Controller
         $subjects = Subject::with('grade') // eager load grade relationship
             ->whereIn('id', function ($query) use ($userId) {
                 $query->select('subject_id')
+<<<<<<< HEAD
                     ->from('model_has_subjects')
+=======
+                    ->from('user_has_subjects')
+>>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
                     ->where('user_id', $userId);
             })
             ->get();
@@ -171,6 +178,7 @@ class UserPageController extends Controller
         return view('frontend.myClass', compact('subjects', 'grades'));
     }
 
+<<<<<<< HEAD
     public function mySubject($slugGrade, $slugSubject)
     {
         $userId = Auth::id();
@@ -247,6 +255,9 @@ class UserPageController extends Controller
     }
 =======
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
+=======
+
+>>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
 
     public function tutors()
     {
