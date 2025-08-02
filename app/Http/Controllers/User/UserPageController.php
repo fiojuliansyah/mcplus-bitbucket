@@ -261,6 +261,9 @@ class UserPageController extends Controller
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 58dfb71 (Update header and Add report learning progress page)
     public function learningProgress()
     {
         $progress = [
@@ -292,6 +295,7 @@ class UserPageController extends Controller
 
         return view('frontend.learningProgress', compact('progress'));
     }
+<<<<<<< HEAD
 =======
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 =======
@@ -299,6 +303,8 @@ class UserPageController extends Controller
 >>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
 =======
 >>>>>>> 2143b16 (Add page for user joining the class and take quizz)
+=======
+>>>>>>> 58dfb71 (Update header and Add report learning progress page)
 
     public function tutors()
     {
