@@ -6,7 +6,10 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\LiveClass;
+<<<<<<< HEAD
 use Illuminate\Support\Str;
+=======
+>>>>>>> e9bf435 (Add Live Class management for tutor)
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,18 +39,26 @@ class TutorCourseController extends Controller
             ->get();
 
         // Load LiveClasses grouped by subject_id
+<<<<<<< HEAD
             // $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
             //     ->get()
             //     ->groupBy('subject_id');
 
         $topics = Topic::whereIn('subject_id', $subjectIds)
+=======
+        $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
+>>>>>>> e9bf435 (Add Live Class management for tutor)
             ->get()
             ->groupBy('subject_id');
 
         // Load the user if needed
         $user = Auth::user()->load('current_profile');
 
+<<<<<<< HEAD
         return view('tutor.courses.myCourse', compact('grades', 'topics', 'user'));
+=======
+        return view('tutor.courses.myCourse', compact('grades', 'liveClasses', 'user'));
+>>>>>>> e9bf435 (Add Live Class management for tutor)
     }
 
 
@@ -58,6 +69,7 @@ class TutorCourseController extends Controller
 
     public function store(Request $request)
     {
+<<<<<<< HEAD
         Topic::create([
             'grade_id'      => $request->grade_id,
             'subject_id'    => $request->subject_id,
@@ -68,6 +80,25 @@ class TutorCourseController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Topic added successfully.');
+=======
+        LiveClass::create([
+            'grade_id'         => $request->grade_id,
+            'subject_id'       => $request->subject_id,
+            'topic'            => $request->topic,
+            'agenda'           => $request->agenda,
+            'type'             => $request->type ?? 2,
+            'duration'         => $request->duration,
+            'timezone'         => $request->timezone,
+            'password'         => $request->password,
+            'start_time'       => $request->start_time,
+            'settings'         => $request->settings ?? 'tbd',
+            'zoom_meeting_id'  => $request->zoom_meeting_id,
+            'zoom_join_url'    => $request->zoom_join_url,
+            'status'           => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Live class added successfully.');
+>>>>>>> e9bf435 (Add Live Class management for tutor)
     }
 
     public function update(Request $request, $id)

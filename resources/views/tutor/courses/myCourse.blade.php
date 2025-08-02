@@ -48,11 +48,16 @@
                     @foreach($grades as $index => $grade)
                         <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="grade-{{ $grade->id }}" role="tabpanel">
                             <div class="card p-4 mb-4">
+<<<<<<< HEAD
                                 <h3 class="mb-4">{{ $grade->name }} - Subjects</h3>
+=======
+                                <h4 class="mb-4">{{ $grade->name }} - Subjects</h4>
+>>>>>>> e9bf435 (Add Live Class management for tutor)
 
                                 @forelse($grade->subjects as $subject)
                                   <div class="mb-5">
                                       <div class="mb-3 d-flex justify-content-between align-items-center">
+<<<<<<< HEAD
                                           <h4 class="fw-bold mb-0">{{ $subject->name }}</h4>
 
                                           <!-- Trigger Modal -->
@@ -108,6 +113,38 @@
                                             @endforeach
                                         </ul>
 
+=======
+                                          <h6 class="fw-bold mb-0">{{ $subject->name }}</h6>
+
+                                          <!-- Trigger Modal -->
+                                          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addClassModal-{{ $subject->id }}">
+                                              Add Class
+                                          </button>
+                                      </div>
+
+                                      @include('tutor.courses.modals.add-class', ['subject' => $subject])
+
+                                      @if($liveClasses->has($subject->id) && $liveClasses->get($subject->id)->isNotEmpty())
+                                          <ul class="list-group">
+                                              @foreach($liveClasses->get($subject->id) as $class)
+                                                  <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                      <div class="col-md-4 fw-bold">
+                                                          {{ $class->topic }}
+                                                      </div>
+
+                                                      <div class="col-md-4 text-muted text-center small">
+                                                          {{ \Carbon\Carbon::parse($class->start_time)->format('D, M j, Y H:i') }}
+                                                      </div>
+
+                                                      <div class="col-md-4 text-end">
+                                                          <a href="{{ $class->zoom_join_url }}" target="_blank" class="btn btn-sm btn-success">
+                                                              Join Class
+                                                          </a>
+                                                      </div>
+                                                  </li>
+                                              @endforeach
+                                          </ul>
+>>>>>>> e9bf435 (Add Live Class management for tutor)
                                       @else
                                           <p class="text-muted fst-italic">No classes available.</p>
                                       @endif

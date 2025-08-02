@@ -43,4 +43,9 @@ class Grade extends Model
 =======
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 
+        public function liveClass()
+        {
+            return $this->hasMany(LiveClass::class);
+        }
+
 }

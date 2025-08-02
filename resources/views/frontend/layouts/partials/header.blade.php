@@ -64,8 +64,12 @@
                             </li>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                             @auth
 <<<<<<< HEAD
+=======
+                            @auth
+>>>>>>> e9bf435 (Add Live Class management for tutor)
                                 @if (auth()->user()->account_type === 'tutor')
                                     <li class="nav-item">
                                         <a class="nav-link {{ Route::is(['tutor.my-course']) ? 'active' : '' }}" href="{{ route('tutor.my-course') }}">
@@ -75,10 +79,13 @@
                                 @endif
                             @endauth
 
+<<<<<<< HEAD
                             @auth
 =======
 >>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
 =======
+=======
+>>>>>>> e9bf435 (Add Live Class management for tutor)
                             {{-- @auth
 >>>>>>> 58dfb71 (Update header and Add report learning progress page)
                                 @if (auth()->user()->account_type === 'student')

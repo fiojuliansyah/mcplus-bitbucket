@@ -28,6 +28,13 @@ use App\Http\Controllers\Admin\TestResultController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Tutor\TutorPageController;
+<<<<<<< HEAD
+=======
+use App\Http\Controllers\Tutor\TutorProfileController;
+use App\Http\Controllers\Tutor\TutorCourseController;
+<<<<<<< HEAD
+use App\Http\Controllers\Tutor\TutorQuizzController;
+>>>>>>> cac8aa4 (no message)
 use App\Http\Controllers\Tutor\TutorTestController;
 use App\Http\Controllers\Tutor\TutorQuizzController;
 use App\Http\Controllers\User\UserProfileController;
@@ -37,6 +44,8 @@ use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\Tutor\TutorTestQuestionController;
+=======
+>>>>>>> e9bf435 (Add Live Class management for tutor)
 
 
 Route::get('/zoom/login', [ZoomAuthController::class, 'redirectToZoom'])->name('zoom.login');
@@ -159,6 +168,7 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
     
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
+<<<<<<< HEAD
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::put('/my-course/{topicId}', [TutorCourseController::class, 'update'])->name('my-course.update');
     Route::delete('/my-course/{topicId}', [TutorCourseController::class, 'destroy'])->name('my-course.destroy');
@@ -179,6 +189,10 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::put('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'update'])->name('test-questions.update');
     Route::delete('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'destroy'])->name('test-questions.destroy');
 
+=======
+    // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
+    Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
+>>>>>>> e9bf435 (Add Live Class management for tutor)
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 
     

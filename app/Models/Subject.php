@@ -26,12 +26,15 @@ class Subject extends Model
     public function liveClass()
     {
         return $this->hasMany(LiveClass::class);
+<<<<<<< HEAD
 =======
         return $this->hasMany(Topics::class);
 >>>>>>> 33644b8 (add Topics)
 =======
         return $this->hasMany(Topic::class);
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
+=======
+>>>>>>> e9bf435 (Add Live Class management for tutor)
     }
     
     public function users()
