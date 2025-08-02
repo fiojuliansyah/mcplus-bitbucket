@@ -80,20 +80,6 @@ class LiveClassDataTable extends DataTable
         ];
     }
 
-    // public function getColumns(): array
-    // {
-    //     return [
-    //         Column::computed('DT_RowIndex')
-    //             ->title('No.')
-    //             ->searchable(false)
-    //             ->orderable(false),
-    //         Column::make('topic')->searchable(true),
-    //         Column::make('start_time'),
-    //         Column::make('status'),
-    //         Column::computed('action')->exportable(false)->printable(false)->orderable(false)->searchable(false),
-    //     ];
-    // }
-
     protected function filename(): string
     {
         return 'LiveClasses_' . date('YmdHis');

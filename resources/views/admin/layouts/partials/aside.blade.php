@@ -77,12 +77,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
+<<<<<<< HEAD
                         <a class="nav-link {{ Route::is(['admin.faqs.index']) ? 'active' : '' }}" href="{{ route('admin.faqs.index') }}">
                             <i class="fa fa-question-circle" aria-hidden="true"></i>
                             <span class="item-name">FAQ</span>
                         </a>
                     </li>
                     <li class="nav-item">
+=======
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
                         <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-Classes" role="button" aria-expanded="false"
                             aria-controls="sidebar-user">
                             <i class="icon">

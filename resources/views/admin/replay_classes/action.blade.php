@@ -19,7 +19,11 @@
 <div class="modal fade" id="editModal-{{ $row->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+<<<<<<< HEAD
             <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST"  enctype="multipart/form-data">
+=======
+            <form action="{{ route('admin.replay-classes.update', $row->id) }}" method="POST">
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -83,7 +87,11 @@
                                 Check to update replay video
                             </label>
                         </div>
+<<<<<<< HEAD
                         <input type="file" class="form-control" name="upload_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}">
+=======
+                        <input type="file" class="form-control" name="media_file" accept="image/*,video/*" id="mediaInput-{{ $row->id }}" disabled>
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
                     </div>
 
                 </div>

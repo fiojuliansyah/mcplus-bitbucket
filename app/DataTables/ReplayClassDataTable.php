@@ -24,10 +24,14 @@ class ReplayClassDataTable extends DataTable
                 $grades = Grade::all();
                 return view('admin.replay_classes.action', compact('row','subjects', 'grades'))->render();
             })
+<<<<<<< HEAD
             ->addColumn('video', function ($row) {
                 return view('admin.replay_classes.video', compact('row'))->render();
             })
             ->rawColumns(['action', 'video'])
+=======
+            ->rawColumns(['action'])
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -61,7 +65,12 @@ class ReplayClassDataTable extends DataTable
             Column::make('subject.name')->title('Subject'),
             Column::make('topic.name')->title('Topic'),
             Column::make('user.name')->title('User'),
+<<<<<<< HEAD
             Column::make('video')->title('Video')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+=======
+            Column::make('replay_url')->title('Video'),
+            Column::make('replay_public_id')->title('Address'),
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

@@ -84,6 +84,7 @@ class ReplayClassController extends Controller
         $replayClass->topic_id = $validated['topic_id'];
         $replayClass->user_id = $validated['user_id'];
 
+<<<<<<< HEAD
         if ($request->update_media && $request->upload_file) {
             // Init Cloudinary
             // dd($request);
@@ -119,6 +120,11 @@ class ReplayClassController extends Controller
             // Update Cloudinary fields
             $replayClass->replay_url = $uploadedFile['secure_url'];
             $replayClass->replay_public_id = $uploadedFile['public_id'];
+=======
+        if ($request->has('update_media') && $request->hasFile('media_file')) {
+            // $path = $request->file('media_file')->store('replay_classes', 'public');
+            // $replayClass->media_path = $path;
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
         }
 
         $replayClass->save();
@@ -130,6 +136,7 @@ class ReplayClassController extends Controller
     {
         $replayClass = ReplayClass::findOrFail($id);
 
+<<<<<<< HEAD
         $cloudinary = new Cloudinary(
             Configuration::instance(config('cloudinary'))
         );
@@ -141,5 +148,10 @@ class ReplayClassController extends Controller
         $replayClass->delete();
 
         return redirect()->back()->with('success', 'Replay Class deleted successfully.');
+=======
+        $replayClass->delete();
+
+        return redirect()->back()->with('success', 'Live Class deleted successfully.');
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
     }
 }

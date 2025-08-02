@@ -47,13 +47,19 @@ class User extends Authenticatable
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
     public function replayClass()
     {
         return $this->hasMany(ReplayClass::class);
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
+=======
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
     public function profiles()
     {
         return $this->hasMany(Profile::class);

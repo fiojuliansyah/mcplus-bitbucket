@@ -46,6 +46,7 @@ class Subject extends Model
     {
         return $this->hasMany(ReplayClass::class);
     }
+<<<<<<< HEAD
 
     public function quizz()
     {
@@ -55,4 +56,6 @@ class Subject extends Model
     {
         return $this->hasMany(Test::class);
     }
+=======
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
 }

@@ -126,7 +126,10 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::resource('subscriptions', SubscriptionController::class);
     Route::resource('live-classes', LiveClassController::class);
     Route::resource('replay-classes', ReplayClassController::class);
+<<<<<<< HEAD
     Route::resource('faqs', FaqController::class);
+=======
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
     
     Route::get('{slug}/subjects', [SubjectController::class, 'index'])->name('subjects.index'); 
     Route::post('{slug}/subjects', [SubjectController::class, 'store'])->name('subjects.store'); 

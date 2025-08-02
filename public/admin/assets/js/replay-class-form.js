@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     bindCreateDropdowns();
     bindEditDropdowns(); // Initial bind (e.g. on page load)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
 });
 
 function bindCreateDropdowns() {
