@@ -19,7 +19,12 @@
 <div class="modal fade" id="editModal-{{ $row->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+<<<<<<< HEAD
             <form action="{{ route('admin.live-classes.update', $row->id) }}" method="POST">
+=======
+            {{-- <form action="{{ route('admin.live_classes.update', $row->id) }}" method="POST"> --}}
+            <form action="" method="POST">
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
@@ -160,8 +165,13 @@
 <div class="modal fade" id="deleteModal-{{ $row->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+<<<<<<< HEAD
             <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST">
             {{-- <form action="" method="POST"> --}}
+=======
+            {{-- <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST"> --}}
+            <form action="" method="POST">
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">

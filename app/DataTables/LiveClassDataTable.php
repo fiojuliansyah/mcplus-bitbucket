@@ -57,7 +57,10 @@ class LiveClassDataTable extends DataTable
                 ->title('No.')
                 ->searchable(false)
                 ->orderable(false),
+<<<<<<< HEAD
             Column::make('id'),
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
             Column::make('grade.name')->title('Grade'),
             Column::make('subject.name')->title('Subject'),
             Column::make('topic.name')->title('Topic'),
@@ -72,6 +75,20 @@ class LiveClassDataTable extends DataTable
                 // ->addClass('text-center')
         ];
     }
+
+    // public function getColumns(): array
+    // {
+    //     return [
+    //         Column::computed('DT_RowIndex')
+    //             ->title('No.')
+    //             ->searchable(false)
+    //             ->orderable(false),
+    //         Column::make('topic')->searchable(true),
+    //         Column::make('start_time'),
+    //         Column::make('status'),
+    //         Column::computed('action')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+    //     ];
+    // }
 
     protected function filename(): string
     {

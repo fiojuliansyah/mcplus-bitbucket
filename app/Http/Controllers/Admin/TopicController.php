@@ -64,6 +64,9 @@ class TopicController extends Controller
         return redirect()->back()->with('success', 'Topic deleted successfully.');
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
 
     public function bySubject($gradeId, $subjectId)
     {
@@ -73,6 +76,9 @@ class TopicController extends Controller
         return response()->json($topics);
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
 }

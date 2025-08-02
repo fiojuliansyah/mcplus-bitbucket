@@ -46,11 +46,14 @@ class User extends Authenticatable
         return $this->belongsToMany(LiveClass::class, 'user_id');
     }
 
+<<<<<<< HEAD
     public function replayClass()
     {
         return $this->hasMany(ReplayClass::class);
     }
 
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
     public function profiles()
     {
         return $this->hasMany(Profile::class);

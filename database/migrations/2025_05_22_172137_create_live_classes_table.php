@@ -16,11 +16,16 @@ return new class extends Migration
             $table->string('grade_id');
             $table->string('subject_id');
 <<<<<<< HEAD
+<<<<<<< HEAD
             $table->string('topic_id');
             $table->string('user_id');
 =======
             $table->string('topic');
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+            $table->string('topic_id');
+            $table->string('user_id');
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
             $table->text('agenda'); 
             $table->integer('type');
             $table->integer('duration'); 

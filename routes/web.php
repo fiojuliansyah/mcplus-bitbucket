@@ -167,6 +167,13 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
 
+    // Get JSON dynamic data
+    Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);
+    Route::get('/topics/by-subject/{grade}/{subject}', [TopicController::class, 'bySubject']);
+    Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
+
+
+
     Route::resource('tutors', TutorController::class);
     Route::post('admin/tutors/{tutorId}/assign-subjects', [TutorController::class, 'assignSubjects'])->name('tutors.assign-subjects');
 });

@@ -10,11 +10,16 @@ class LiveClass extends Model
         'grade_id', 
         'subject_id', 
 <<<<<<< HEAD
+<<<<<<< HEAD
         'topic_id', 
         'user_id', 
 =======
         'topic', 
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+        'topic_id', 
+        'user_id', 
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
         'agenda', 
         'type', 
         'duration', 
@@ -32,19 +37,26 @@ class LiveClass extends Model
     ];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
     public function grade()
     {
         return $this->belongsTo(Grade::class);
     }
 
     public function subject()
+<<<<<<< HEAD
 =======
     public function subjects()
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
     {
         return $this->belongsTo(Subject::class);
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public function topic()
     {
@@ -59,6 +71,16 @@ class LiveClass extends Model
     {
         return $this->belongsTo(Grade::class);
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
     }
 
     // public function topics()

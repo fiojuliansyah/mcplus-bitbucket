@@ -28,6 +28,7 @@ class Topic extends Model
     {
         return $this->hasMany(LiveClass::class);
     }
+<<<<<<< HEAD
 
     public function replayClass()
     {
@@ -66,6 +67,8 @@ class Topic extends Model
     // {
     //     return $this->hasMany(LiveClass::class);
     // }
+=======
+>>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
 
         // This can be added for grading the topics for student/user
         
