@@ -1,39 +1,49 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+@extends('layouts.auth')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+@section('content')
+   <div class="vh-100"
+        style="background: url('/frontend/assets/images/pages/bg-auth.jpg'); background-size: cover; background-repeat: no-repeat; position: relative;min-height:500px">
+        <div class="container">
+            <div class="row justify-content-center align-items-center height-self-center vh-100">
+                <div class="col-lg-5 col-md-12 align-self-center">
+                    <div class="user-login-card bg-body">
+                        <div class="text-center">
+                            <div class="logo-default">
+                                <a class="navbar-brand text-primary" href="./index.html">
+                                    <img class="img-fluid logo" src="/frontend/assets/images/logo-example.png"
+                                        loading="lazy" alt="Mcplus Premium" />
+                                </a>
+                            </div>
+                        </div>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                        <form id="email-login-form" method="POST" action="{{ route('password.store') }}">
+                        @csrf
+                           <p>Enter new password and confirm password</p>
+                            <div id="email-login-form">
+                                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                                <input type="hidden" name="email" value="{{ $request->email }}">
+                                <div class="mb-3">
+                                    <input type="password" name="password" placeholder="password" class="form-control rounded-0">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" name="password_confirmation" placeholder="Confirm Password" class="form-control rounded-0">
+                                </div>
+                                <div class="full-button">
+                                    <div class="iq-button">
+                                        <button type="submit" class="btn text-uppercase position-relative">
+                                            <span class="button-text">Submit</span>
+                                            <i class="fa-solid fa-play"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+@endsection
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>

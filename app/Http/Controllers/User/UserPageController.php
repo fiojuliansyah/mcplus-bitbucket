@@ -142,7 +142,7 @@ class UserPageController extends Controller
 
         $topics = Topic::where('subject_id', $subject->id)
                     ->where('grade_id', $grade->id)
-                    ->with('grades')
+                    ->with('grade')
                     ->get();
 
         return view('frontend.subjectDetail', compact('grade', 'subject', 'topics'));

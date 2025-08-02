@@ -5,49 +5,56 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>MCPlus Premium</title>
-    <!-- Google Font Api KEY-->
     <meta name="google_font_api" content="AIzaSyBG58yNdAjc20_8jAvLNSVi9E4Xhwjau_k">
-
-    <!-- Favicon -->
     <link rel="shortcut icon" href="/frontend/assets/images/fav.avif" />
-
-    <!-- Library / Plugin Css Build -->
     <link rel="stylesheet" href="/frontend/assets/css/core/libs.min.css" />
-
-    <!-- font-awesome css -->
     <link rel="stylesheet" href="/frontend/assets/vendor/font-awesome/css/all.min.css" />
-
-    <!-- Iconly css -->
     <link rel="stylesheet" href="/frontend/assets/vendor/iconly/css/style.css" />
-
-    <!-- Animate css -->
     <link rel="stylesheet" href="/frontend/assets/vendor/animate.min.css" />
-
-
-
-
-
-
-    <!-- Streamit Design System Css -->
     <link rel="stylesheet" href="/frontend/assets/css/streamit.min.css?v=5.2.1" />
-
-    <!-- Custom Css -->
     <link rel="stylesheet" href="/frontend/assets/css/custom.min.css?v=5.2.1" />
-
-    <!-- Rtl Css -->
     <link rel="stylesheet" href="/frontend/assets/css/rtl.min.css?v=5.2.1" />
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300&display=swap"
         rel="stylesheet">
+    @stack('css')
 
 </head>
 
 <body class="  ">
     <span class="screen-darken"></span>
+        <div class="floating-alert-container">
+        @if (session('success'))
+            <div class="floating-alert alert alert-success alert-dismissible fade show" role="alert"
+                style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                <strong>Success!</strong> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="floating-alert alert alert-danger alert-dismissible fade show" role="alert"
+                style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                <strong>Error!</strong> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="floating-alert alert alert-danger alert-dismissible fade show" role="alert"
+                style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                <strong>Whoops!</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+    </div>
     <div class="loader simple-loader">
         <div class="loader-body">
             <img src="/frontend/assets/images/loader.gif" alt="loader" class="img-fluid " width="300">
@@ -65,28 +72,13 @@
             <i class="fa-solid fa-chevron-up"></i>
         </a>
     </div>
-    <!-- Wrapper End-->
-    <!-- Library Bundle Script -->
     <script src="/frontend/assets/js/core/libs.min.js"></script>
-    <!-- Plugin Scripts -->
-
-
-
-
-
-
-    <!-- Lodash Utility -->
     <script src="/frontend/assets/vendor/lodash/lodash.min.js"></script>
-    <!-- External Library Bundle Script -->
     <script src="/frontend/assets/js/core/external.min.js"></script>
-    <!-- countdown Script -->
     <script src="/frontend/assets/js/plugins/countdown.js"></script>
-    <!-- utility Script -->
     <script src="/frontend/assets/js/utility.js"></script>
-    <!-- Setting Script -->
     <script src="/frontend/assets/js/setting.js"></script>
     <script src="/frontend/assets/js/setting-init.js" defer></script>
-    <!-- Streamit Script -->
     <script src="/frontend/assets/js/streamit.js" defer></script>
     <script src="/frontend/assets/js/swiper.js" defer></script>
     @stack('js')
