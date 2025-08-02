@@ -40,6 +40,9 @@
                     <div class="timeline-icon"></div>
                     <div class="timeline-content">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2143b16 (Add page for user joining the class and take quizz)
                         <a href="{{ route('user.my-class.subject.topic', [$grade->slug, $subject->slug, $topic->slug]) }}" class="btn btn-dark w-100 text-start fw-bold shadow-sm text-white">
                         {{ $topic->name }}
                         @if ($topic->attended)
@@ -48,6 +51,7 @@
                             <span class="badge bg-secondary float-end ms-2">Not Attended</span>
                         @endif
                         </a>
+<<<<<<< HEAD
 =======
                         <button class="btn btn-dark w-100 text-start fw-bold shadow-sm">
                             {{ $topic->name }}
@@ -60,6 +64,8 @@
                             @endif
                         </button>
 >>>>>>> 381ca05 (add Attendance topic for user)
+=======
+>>>>>>> 2143b16 (Add page for user joining the class and take quizz)
                     </div>
                 </div>
             @empty

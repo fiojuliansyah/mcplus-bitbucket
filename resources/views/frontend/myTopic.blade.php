@@ -35,7 +35,11 @@
                     <a href="#" class="btn btn-primary btn-lg">
                         <i class="bi bi-camera-video-fill me-1"></i> Join Class
                     </a>
+<<<<<<< HEAD
                     <a href="{{ route('user.quizzes.show', ['grade'=>$grade->slug, 'subject'=>$subject->slug, 'topic'=>$topic->slug]) }}" class="btn btn-warning btn-lg">
+=======
+                    <a href="#" class="btn btn-warning btn-lg">
+>>>>>>> 2143b16 (Add page for user joining the class and take quizz)
                         <i class="bi bi-question-circle-fill me-1"></i> Take Quiz
                     </a>
                 </div>

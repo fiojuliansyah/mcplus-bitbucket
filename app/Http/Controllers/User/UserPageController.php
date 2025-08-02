@@ -218,6 +218,7 @@ class UserPageController extends Controller
     }
 >>>>>>> 381ca05 (add Attendance topic for user)
 
+<<<<<<< HEAD
         $grade = Grade::where('slug', $slugGrade)->firstOrFail();
 
         $subject = Subject::where('slug', $slugSubject)
@@ -243,6 +244,8 @@ class UserPageController extends Controller
         return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
     }
 
+=======
+>>>>>>> 2143b16 (Add page for user joining the class and take quizz)
     public function myTopic($slugGrade, $slugSubject, $topicSlug)
     {
         $userId = Auth::id();
@@ -257,6 +260,7 @@ class UserPageController extends Controller
         return view('frontend.myTopic', compact('grade', 'subject', 'topic'));
     }
 
+<<<<<<< HEAD
     public function learningProgress()
     {
         $progress = [
@@ -293,6 +297,8 @@ class UserPageController extends Controller
 =======
 
 >>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
+=======
+>>>>>>> 2143b16 (Add page for user joining the class and take quizz)
 
     public function tutors()
     {

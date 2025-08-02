@@ -73,6 +73,7 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
 <<<<<<< HEAD
     Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
     Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
+<<<<<<< HEAD
     
     Route::get('/{grade:slug}/{subject:slug}/{topic:slug}/quizzes', [UserQuizzController::class, 'index'])->name('quizzes.show');
     Route::post('/{grade:slug}/{subject:slug}/{topic:slug}/quizzes/submit', [UserQuizzController::class, 'submit'])->name('quizzes.submit');
@@ -90,6 +91,8 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
 =======
     Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
 >>>>>>> 381ca05 (add Attendance topic for user)
+=======
+>>>>>>> 2143b16 (Add page for user joining the class and take quizz)
 });
 
 
