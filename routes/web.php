@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\QuizzController;
 use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\TestResultController;
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 05312c4 (Student do Test)
 =======
 =======
@@ -50,6 +51,8 @@ use App\Http\Controllers\User\UserQuizzController;
 use App\Http\Controllers\User\WatchlistController;
 >>>>>>> bada799 (Review the code and fix errors/bugs)
 >>>>>>> e7a6931 (no message)
+=======
+>>>>>>> origin/v0.1
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Tutor\TutorPageController;
