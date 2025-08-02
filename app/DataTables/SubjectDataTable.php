@@ -31,9 +31,12 @@ class SubjectDataTable extends DataTable
             // })
             ->addColumn('topic_management', function ($row) {
                 return view('admin.subjects.topic_management', compact('row'))->render();
+<<<<<<< HEAD
             })
             ->addColumn('test_management', function ($row) {
                 return view('admin.subjects.test_management', compact('row'))->render();
+=======
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
             })
             ->editColumn('grade_id', function ($row) {
                 return $row->grade->name;
@@ -45,7 +48,11 @@ class SubjectDataTable extends DataTable
                 return $row->created_at->format('d M Y');
             })
             // ->rawColumns(['action', 'status', 'content_management'])
+<<<<<<< HEAD
             ->rawColumns(['action', 'status', 'topic_management', 'test_management'])
+=======
+            ->rawColumns(['action', 'status', 'topic_management'])
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -100,7 +107,10 @@ class SubjectDataTable extends DataTable
             Column::make('status'),
             Column::make('created_at'),
             Column::computed('topic_management')->title('Topic Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+<<<<<<< HEAD
             Column::computed('test_management')->title('Test Management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
+=======
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
             // Column::computed('content_management')->exportable(false)->printable(false)->orderable(false)->searchable(false),
             Column::computed('action')
                 ->exportable(false)

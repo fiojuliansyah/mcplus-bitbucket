@@ -21,10 +21,16 @@ use App\Http\Controllers\User\UserQuizzController;
 use App\Http\Controllers\User\WatchlistController;
 =======
 use App\Http\Controllers\Admin\TopicController;
+<<<<<<< HEAD
 use App\Http\Controllers\Admin\QuizzController;
 use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\TestResultController;
+<<<<<<< HEAD
 >>>>>>> 05312c4 (Student do Test)
+=======
+=======
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
+>>>>>>> 02b4556 (no message)
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Tutor\TutorPageController;
@@ -130,6 +136,7 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::get('{formSlug}/{subjectSlug}/topics', [TopicController::class, 'index'])->name('topics.index'); 
     Route::post('{form}/{subject}/topics', [TopicController::class, 'store'])->name('topics.store'); 
     Route::put('topic/{topicId}', [TopicController::class, 'update'])->name('topics.update'); 
+<<<<<<< HEAD
     Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy');
     
     Route::get('{formSlug}/{subjectSlug}/{topicSlug}/quizz', [QuizzController::class, 'index'])->name('quizzes.index');
@@ -156,6 +163,9 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
 
 
+=======
+    Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
 
     Route::resource('tutors', TutorController::class);
     Route::post('admin/tutors/{tutorId}/assign-subjects', [TutorController::class, 'assignSubjects'])->name('tutors.assign-subjects');

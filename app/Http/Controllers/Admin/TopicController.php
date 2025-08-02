@@ -63,6 +63,7 @@ class TopicController extends Controller
 
         return redirect()->back()->with('success', 'Topic deleted successfully.');
     }
+<<<<<<< HEAD
 
     public function bySubject($gradeId, $subjectId)
     {
@@ -72,4 +73,6 @@ class TopicController extends Controller
         return response()->json($topics);
     }
 
+=======
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
 }

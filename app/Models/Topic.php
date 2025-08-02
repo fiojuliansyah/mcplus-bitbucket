@@ -13,6 +13,7 @@ class Topic extends Model
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -48,12 +49,15 @@ class Topic extends Model
         }
 =======
     public function subjects()
+=======
+    public function subject()
+>>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
     {
         return $this->belongsTo(Subject::class);
     }
 >>>>>>> e9bf435 (Add Live Class management for tutor)
 
-    public function grades()
+    public function grade()
     {
         return $this->belongsTo(Grade::class);
     }
