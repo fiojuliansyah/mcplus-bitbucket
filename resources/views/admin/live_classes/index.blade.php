@@ -32,7 +32,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Grade -->
                         <div class="mb-3">
                             <label class="form-label">Grade</label>
                             <select class="form-select" id="gradeDropdown" name="grade_id" required>
@@ -43,7 +42,6 @@
                             </select>
                         </div>
 
-                        <!-- Subject (depends on Grade) -->
                         <div class="mb-3">
                             <label class="form-label">Subject</label>
                             <select class="form-select" id="subjectDropdown" name="subject_id" required>
@@ -51,7 +49,6 @@
                             </select>
                         </div>
 
-                        <!-- Topic (depends on Subject & Grade) -->
                         <div class="mb-3">
                             <label class="form-label">Topic</label>
                             <select class="form-select" id="topicDropdown" name="topic_id" required>
@@ -59,7 +56,6 @@
                             </select>
                         </div>
 
-                        <!-- Tutor (depends on Subject) -->
                         <div class="mb-3">
                             <label class="form-label">Tutor</label>
                             <select class="form-select" id="tutorDropdown" name="user_id" required>
@@ -127,6 +123,7 @@
                                     <option value="2">No Registration Required</option>
                                 </select>
                             </div>
+                            <input type="hidden" name="type" value="1">
                         </div>
                     </div>
                     <div class="modal-footer">

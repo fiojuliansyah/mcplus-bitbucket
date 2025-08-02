@@ -44,13 +44,14 @@ Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');
     Route::get('/edit-profile', [UserProfileController::class, 'editProfile'])->name('edit-profile');
     Route::post('/change-profile', [UserProfileController::class, 'changeProfile'])->name('change-profile');
+    Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
 });
 
 Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
-    Route::post('/profile/store', [UserProfileController::class, 'store'])->name('profile.store');
-    Route::post('/profile/update/{id}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/user/profile/{profile}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/user/profile/{profile}/pin', [UserProfileController::class, 'updatePin'])->name('profile.update.pin');
     
     Route::get('/watchlist', [WatchlistController::class, 'index'])->name('watchlist');
     Route::get('/my-subscription', [UserSubscriptionController::class, 'index']);

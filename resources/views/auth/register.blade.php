@@ -1,5 +1,17 @@
 @extends('layouts.auth')
 
+
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <style>
+        .iti {
+            width: 100%;
+            display: block;
+        }
+    </style>
+@endpush
+
+
 @section('content')
     <div class="vh-100"
         style="background: url('/frontend/assets/images/pages/bg-auth.jpg'); background-size: cover; background-repeat: no-repeat; position: relative;min-height:500px">
@@ -17,11 +29,12 @@
                                 </div>
                                 <div class="col">
                                     <label class="text-white fw-500 mb-2">Email *</label>
-                                    <input type="email" class="form-control rounded-0" required="">
+                                    <input type="email" name="email" class="form-control rounded-0" required="">
                                 </div>
                                 <div class="col">
                                     <label class="text-white fw-500 mb-2">Phone</label>
-                                    <input type="text" name="phone" class="form-control rounded-0" required="">
+                                    <input type="tel" id="phone" class="form-control rounded-0" required="">
+                                    <input type="hidden" name="phone" id="phone_full">
                                 </div>
                                 <div class="col">
                                     <label class="text-white fw-500 mb-2">Student/Parent</label>
@@ -68,3 +81,27 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        const phoneInputField = document.querySelector("#phone");
+        const phoneFullField = document.querySelector("#phone_full");
+
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            initialCountry: "my",
+            separateDialCode: true,
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+        function updateHiddenInput() {
+            const fullNumber = phoneInput.getNumber(); 
+            phoneFullField.value = fullNumber; 
+        }
+
+        phoneInputField.addEventListener('keyup', updateHiddenInput);
+        phoneInputField.addEventListener('change', updateHiddenInput);
+
+        updateHiddenInput();
+    </script>
+@endpush

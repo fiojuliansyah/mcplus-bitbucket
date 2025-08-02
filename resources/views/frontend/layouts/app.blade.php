@@ -50,18 +50,43 @@
 
 <body class="  ">
     <span class="screen-darken"></span>
-    <!-- loader Start -->
-    <!-- loader Start -->
-    {{-- <div class="loader simple-loader">
-        <div class="loader-body">
-            <img src="/frontend/assets/images/loader.gif" alt="loader" class="img-fluid " width="300">
-        </div>
-    </div> --}}
-    <!-- loader END --> <!-- loader END -->
     <main class="main-content">
         @include('frontend.layouts.partials.header')
 
         @yield('content')
+
+        @if (Auth::user())
+            @foreach (Auth::user()->profiles as $profile)
+                @if ($profile->pin)
+                    <div class="modal fade" id="enterPinModal-{{ $profile->id }}" tabindex="-1" aria-labelledby="enterPinModalLabel-{{ $profile->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="enterPinModalLabel-{{ $profile->id }}">Enter PIN for {{ $profile->name }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('user.change-profile') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+                                        
+                                        <div class="mb-3">
+                                            <label for="pin-{{ $profile->id }}" class="form-label">PIN</label>
+                                            <input type="password" class="form-control" name="pin" id="pin-{{ $profile->id }}" required autofocus>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Enter Profile</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        @endif
 
     </main>
 

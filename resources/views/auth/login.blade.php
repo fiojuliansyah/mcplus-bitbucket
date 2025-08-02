@@ -1,5 +1,15 @@
 @extends('layouts.auth')
 
+@push('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <style>
+        .iti {
+            width: 100%;
+            display: block;
+        }
+    </style>
+@endpush
+
 @section('content')
    <div class="vh-100"
         style="background: url('/frontend/assets/images/pages/bg-auth.jpg'); background-size: cover; background-repeat: no-repeat; position: relative;min-height:500px">
@@ -23,15 +33,13 @@
                             <!-- Email Login Form -->
                             <div id="email-login-form">
                                 <div class="mb-3">
-                                    {{-- <label class="text-white fw-500 mb-2">Email or mobile number</label> --}}
-                                    <input type="text" name="email" class="form-control rounded-0" placeholder="Email or mobile number">
+                                    <input type="text" name="login" placeholder="Email or Phone Number" class="form-control rounded-0" :value="old('login')" required autofocus>
                                 </div>
                                 <div class="mb-3">
-                                    {{-- <label class="text-white fw-500 mb-2">Password</label> --}}
                                     <input type="password" name="password" class="form-control rounded-0" placeholder="Password">
                                 </div>
                                 <div class="text-end mb-3">
-                                    <a href="reset-password.html" class="text-primary fw-semibold fst-italic">Forgot
+                                    <a href="{{ route('password.request') }}" class="text-primary fw-semibold fst-italic">Forgot
                                         Password?</a>
                                 </div>
                                 <label
@@ -53,18 +61,22 @@
                                 </div>
                             </div>
                         </form>
-                        <form id="otp-login-form" action="POST">
-                            <!-- OTP Login Form -->
+                        <form id="otp-login-form" method="POST" action="{{ route('login.otp.send') }}">
+                        @csrf
                             <div id="otp-login-form">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control rounded-0" placeholder="Enter your phone number" required="">
+                                    <div class="col">
+                                        <label class="text-white fw-500 mb-2">Phone</label>
+                                        <input type="tel" id="phone" class="form-control rounded-0" required="">
+                                        <input type="hidden" name="phone" id="phone_full">
+                                    </div>
                                 </div>
                                 <div class="full-button">
                                     <div class="iq-button">
-                                        <a href="#" class="btn text-uppercase position-relative">
+                                        <button type="submit" class="btn text-uppercase position-relative">
                                             <span class="button-text">Send Code</span>
                                             <i class="fa-solid fa-play"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="full-button mt-4">
@@ -104,26 +116,44 @@
 
 @push('js')
 <script>
-    // Get references to the forms and buttons
     const emailLoginForm = document.getElementById('email-login-form');
     const otpLoginForm = document.getElementById('otp-login-form');
     const useOtpButton = document.getElementById('use-otp-btn');
     const usePasswordButton = document.getElementById('use-password-btn');
 
-    // Initially hide OTP form
-    otpLoginForm.style.display = 'none'; // Ensure OTP form is hidden initially
+    otpLoginForm.style.display = 'none';
 
-    // Switch to OTP form
     useOtpButton.addEventListener('click', function() {
-        emailLoginForm.style.display = 'none'; // Hide email/password form
-        otpLoginForm.style.display = 'block'; // Show OTP form
+        emailLoginForm.style.display = 'none';
+        otpLoginForm.style.display = 'block';
     });
 
-    // Switch back to email/password form
     usePasswordButton.addEventListener('click', function() {
-        emailLoginForm.style.display = 'block'; // Show email/password form
-        otpLoginForm.style.display = 'none'; // Hide OTP form
+        emailLoginForm.style.display = 'block';
+        otpLoginForm.style.display = 'none'; 
     });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneFullField = document.querySelector("#phone_full");
+
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        initialCountry: "my",
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    function updateHiddenInput() {
+        const fullNumber = phoneInput.getNumber(); 
+        phoneFullField.value = fullNumber; 
+    }
+
+    phoneInputField.addEventListener('keyup', updateHiddenInput);
+    phoneInputField.addEventListener('change', updateHiddenInput);
+
+    updateHiddenInput();
 </script>
 @endpush
 

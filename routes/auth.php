@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OTPController;
+use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -35,15 +36,18 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
+       
+    Route::post('/login/otp/send', [OtpLoginController::class, 'sendOtp'])->name('login.otp.send');
+
     Route::post('send-otp', [OTPController::class, 'sendOtp']);
-    Route::post('verify-otp', [OTPController::class, 'verifyOtp']);
+    Route::get('/verify-otp/{userId}', [RegisteredUserController::class, 'showVerifyForm'])->name('verify.otp');
+    Route::post('/verify-otp/{userId}', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp.submit');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
-
-    Route::get('verify-otp', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp');
+    ->name('verification.notice');
+    
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])

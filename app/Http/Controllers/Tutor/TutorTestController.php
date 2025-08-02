@@ -14,11 +14,9 @@ class TutorTestController extends Controller
 {
     public function index($formSlug, $subjectSlug)
     {
-        // Find the grade and subject
         $grade = Grade::where('slug', $formSlug)->firstOrFail();
         $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
 
-        // Load related tests (assuming 'tests' relationship exists on Subject)
         $tests = Test::where('subject_id', $subject->id)->get();
 
         return view('tutor.tests.index', compact('grade', 'subject', 'tests'));
