@@ -65,11 +65,15 @@
                         @csrf
                             <div id="otp-login-form">
                                 <div class="mb-3">
+<<<<<<< HEAD
                                     <div class="col">
                                         <label class="text-white fw-500 mb-2">Phone</label>
                                         <input type="tel" id="phone" class="form-control rounded-0" required="">
                                         <input type="hidden" name="phone" id="phone_full">
                                     </div>
+=======
+                                    <input type="text" name="phone" class="form-control rounded-0" placeholder="Enter your phone number" required="">
+>>>>>>> e7a6931 (no message)
                                 </div>
                                 <div class="full-button">
                                     <div class="iq-button">

@@ -15,11 +15,14 @@ use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\UserTestController;
 use App\Http\Controllers\User\UserQuizzController;
 use App\Http\Controllers\User\WatchlistController;
 =======
+=======
+>>>>>>> e7a6931 (no message)
 use App\Http\Controllers\Admin\TopicController;
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -37,17 +40,34 @@ use App\Http\Controllers\Admin\TestResultController;
 =======
 use App\Http\Controllers\Admin\QuizzController;
 >>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
+<<<<<<< HEAD
 >>>>>>> 7fbe106 (no message)
+=======
+=======
+use App\Http\Controllers\User\UserPageController;
+use App\Http\Controllers\User\UserTestController;
+use App\Http\Controllers\User\UserQuizzController;
+use App\Http\Controllers\User\WatchlistController;
+>>>>>>> bada799 (Review the code and fix errors/bugs)
+>>>>>>> e7a6931 (no message)
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\LiveClassController;
 use App\Http\Controllers\Tutor\TutorPageController;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> e7a6931 (no message)
 use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\Tutor\TutorCourseController;
 <<<<<<< HEAD
 use App\Http\Controllers\Tutor\TutorQuizzController;
+<<<<<<< HEAD
 >>>>>>> cac8aa4 (no message)
+=======
+=======
+>>>>>>> bada799 (Review the code and fix errors/bugs)
+>>>>>>> e7a6931 (no message)
 use App\Http\Controllers\Tutor\TutorTestController;
 use App\Http\Controllers\Tutor\TutorQuizzController;
 use App\Http\Controllers\User\UserProfileController;
