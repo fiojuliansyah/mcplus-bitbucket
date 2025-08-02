@@ -21,7 +21,11 @@ class DatabaseSeeder extends Seeder
             GradesSeeder::class,
             SubjectsSeeder::class,
             PlanSeeder::class,
+<<<<<<< HEAD
             // TopicsSeeder::class,
+=======
+            TopicsSeeder::class,
+>>>>>>> 33644b8 (add Topics)
         ]);
     }
 }

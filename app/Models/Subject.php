@@ -18,12 +18,16 @@ class Subject extends Model
 
     public function topics()
     {
+<<<<<<< HEAD
         return $this->hasMany(Topic::class);
     }
 
     public function liveClass()
     {
         return $this->hasMany(LiveClass::class);
+=======
+        return $this->hasMany(Topics::class);
+>>>>>>> 33644b8 (add Topics)
     }
     
     public function users()

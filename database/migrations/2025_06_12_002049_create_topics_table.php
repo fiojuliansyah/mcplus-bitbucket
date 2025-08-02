@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('subject_id');
+<<<<<<< HEAD
             $table->string('grade_id');
+=======
+>>>>>>> 33644b8 (add Topics)
             $table->string('status'); // assuming status is a boolean
             $table->timestamps();
         });
