@@ -58,9 +58,13 @@ class LiveClassDataTable extends DataTable
                 ->searchable(false)
                 ->orderable(false),
 <<<<<<< HEAD
+<<<<<<< HEAD
             Column::make('id'),
 =======
 >>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
+=======
+            Column::make('id'),
+>>>>>>> dc16350 (Add Update and Delete Live Class)
             Column::make('grade.name')->title('Grade'),
             Column::make('subject.name')->title('Subject'),
             Column::make('topic.name')->title('Topic'),
