@@ -7,9 +7,13 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\Topic;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Models\UserAttendSubject;
 =======
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
+=======
+use App\Models\UserAttendSubject;
+>>>>>>> 381ca05 (add Attendance topic for user)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -179,9 +183,40 @@ class UserPageController extends Controller
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function mySubject($slugGrade, $slugSubject)
     {
         $userId = Auth::id();
+=======
+    public function mySubject($slugGrade, $slugSubject)
+    {
+        $userId = Auth::id();
+
+        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
+
+        $subject = Subject::where('slug', $slugSubject)
+                    ->where('grade_id', $grade->id)
+                    ->firstOrFail();
+
+        // Get attended topic IDs using the model
+        $attendedSubjectIds = UserAttendSubject::where('user_id', $userId)
+            ->where('subject_id', $subject->id)
+            ->pluck('topic_id')
+            ->toArray();
+
+        // Fetch all topics and mark them as attended or not
+        $topics = Topic::where('subject_id', $subject->id)
+                    ->where('grade_id', $grade->id)
+                    ->with('grades')
+                    ->get()
+                    ->map(function ($topic) use ($attendedSubjectIds) {
+                        $topic->attended = in_array($topic->id, $attendedSubjectIds);
+                        return $topic;
+                    });
+
+        return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
+    }
+>>>>>>> 381ca05 (add Attendance topic for user)
 
         $grade = Grade::where('slug', $slugGrade)->firstOrFail();
 
