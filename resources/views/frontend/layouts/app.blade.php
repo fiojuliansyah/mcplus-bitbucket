@@ -125,7 +125,10 @@
     <script src="/frontend/assets/js/streamit.js" defer></script>
     <script src="/frontend/assets/js/swiper.js" defer></script>
     
+<<<<<<< HEAD
     @stack('js')
+=======
+>>>>>>> b31231b (Add CallBell live chat for Guest, Student and Tutor)
     <!-- Start of Async Callbell Code -->
     <script>
         if (!window.callbellSettings) {
