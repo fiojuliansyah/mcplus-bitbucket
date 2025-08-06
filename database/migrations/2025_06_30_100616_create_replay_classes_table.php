@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('grade_id');
             $table->string('subject_id');
             $table->string('topic_id');
+            $table->string('name');
+            $table->longtext('description');
             $table->string('user_id');
             $table->string('replay_url');
             $table->string('replay_public_id');
+            $table->string('duration');
+            $table->enum('status', ['draft','publish'])->default('publish');
             $table->timestamps();
         });
     }

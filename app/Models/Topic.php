@@ -26,7 +26,7 @@ class Topic extends Model
         return $this->hasMany(LiveClass::class);
     }
 
-    public function replayClass()
+    public function replayClasses()
     {
         return $this->hasMany(ReplayClass::class);
     }
@@ -35,8 +35,19 @@ class Topic extends Model
     {
         return $this->hasMany(Quizz::class);
     }
+
     public function tests()
     {
         return $this->hasMany(Test::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'topic_id');
+    }
+
+    public function quiz_results()
+    {
+        return $this->hasMany(QuizzResult::class);
     }
 }

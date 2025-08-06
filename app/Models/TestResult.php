@@ -31,4 +31,9 @@ class TestResult extends Model
     {
         return $this->belongsTo(Test::class);
     }
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
+    }
 }

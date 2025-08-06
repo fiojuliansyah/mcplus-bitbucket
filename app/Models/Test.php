@@ -17,6 +17,7 @@ class Test extends Model
         'slug',
         'start_time',
         'end_time',
+        'status'
     ];
 
     public function user()

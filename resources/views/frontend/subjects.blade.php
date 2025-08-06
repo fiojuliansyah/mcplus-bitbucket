@@ -1,64 +1,73 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.app2')
 
 @section('content')
-<div class="iq-breadcrumb" style="background-image: url(/frontend/assets/images/pages/subjects.png);">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-sm-12">
-                    <nav aria-label="breadcrumb" class="text-center">
-                        <h2 class="title">Subjects</h2>
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item">Subjects</li>
-                        </ol>
-                    </nav>
-                </div>
+
+<div class="breadcrumb-bar text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title mb-2">Subjects</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Subjects</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-    </div> 
-     <section class="section-padding">
-        <div class="container-fluid">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-6">
-                @foreach ($grades as $grade)
-                    <div class="col">
-                        <a href="#section-{{ $grade->id }}" class="iq-tag-box">
-                            <span class="iq-tag">
-                                {{ $grade->name }}
-                            </span>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-    @foreach ($subjects->groupBy('grade_id') as $gradeId => $subjectGroup)
-        <section id="section-{{ $subjectGroup->first()->grade->id }}" class="section-padding">
-            <div class="container-fluid">
-                <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h4 class="main-title text-capitalize mb-0">{{ $subjectGroup->first()->grade->name }}</h4>
-                </div>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-                    @foreach ($subjectGroup as $subject)
-                    <div class="col mb-4">
-                        <div class="iq-card-geners card-hover-style-two">
-                            <div class="block-images position-relative w-100">
-                                <div class="img-box rounded position-relative">
-                                    {{-- <img src="{{ asset('storage/' . $subject->thumbnail) }}" alt="geners-img" class="img-fluid object-cover w-100 rounded"> --}}
-                                    <img src="/frontend/assets/images/subjects/{{ $subject->thumbnail }}" alt="geners-img" class="img-fluid object-cover w-100 rounded">
-                                    <div class="blog-description">
-                                        <h6 class="mb-0 iq-title">
-                                            <a href="{{ route('user.home.subjectDetail', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none text-capitalize line-count-2 p-2">
-                                                {{ $subject->name }}
-                                            </a>
-                                        </h6>
+    </div>
+</div>
+<section class="course-category">
+    <div class="container">
+        <h2 class="mb-1">Browse By Level</h2>
+        <p>Select a grade level to see available subjects..</p>
+
+        @if($grades->isNotEmpty())
+        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            @foreach ($grades as $grade)
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {{ $loop->first ? 'active' : '' }}" id="pills-{{ $grade->slug }}-tab" data-bs-toggle="pill" data-bs-target="#pills-{{ $grade->slug }}" type="button" role="tab" aria-controls="pills-{{ $grade->slug }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $grade->name }}</button>
+                </li>
+            @endforeach
+        </ul>
+        @endif
+
+        @if(!$subjects->isEmpty())
+        <div class="tab-content" id="pills-tabContent">
+            @foreach ($subjects->groupBy('grade_id') as $gradeId => $subjectGroup)
+                @php
+                    $currentGrade = $subjectGroup->first()->grade;
+                @endphp
+                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="pills-{{ $currentGrade->slug }}" role="tabpanel" aria-labelledby="pills-{{ $currentGrade->slug }}-tab">
+                    <div class="row">
+                        @forelse ($subjectGroup as $subject)
+                            <div class="col-lg-4 col-md-6">
+                                <a href="{{ route('home.subjectDetail', ['slugGrade' => $subject->grade->slug, 'slugSubject' => $subject->slug]) }}" class="text-decoration-none">
+                                    <div class="course-category-item">
+                                        <div class="d-flex flex-row justify-content-between align-items-center">
+                                            <div class="d-flex align-items-center">
+                                                <img class="img-fluid category-image" src="/frontend/assets/images/subjects/{{ $subject->thumbnail }}" alt="{{ $subject->name }}">
+                                                <h6 class="pe-2 mb-0">{{ $subject->name }}</h6>
+                                            </div>
+                                            
+                                            @if ($subject->topics->isNotEmpty())
+                                                <span class="cat-count text-white fw-medium bg-dark d-inline-flex">{{ $subject->topics->count() }}</span>
+                                            @endif
+                                            
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        </div>
+                        @empty
+                            <div class="col-12">
+                                <p class="text-center">There are no subjects for this level yet.</p>
+                            </div>
+                        @endforelse
                     </div>
-                    @endforeach
                 </div>
-            </div>
-        </section>
-    @endforeach
+            @endforeach
+        </div>
+        @endif
+    </div>
+</section>
 @endsection

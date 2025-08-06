@@ -1,87 +1,69 @@
-<!doctype html>
-<html lang="en" data-bs-theme="dark">
+<!DOCTYPE html> 
+<html lang="en">
+	<head>
+	
+		<!-- Meta Tags -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Mcplus Premium is a powerful Learning Management System template designed for educators, training institutions, and businesses. Manage courses, track student progress, conduct virtual classes, and enhance e-learning experiences with an intuitive and feature-rich platform.">
+		<meta name="keywords" content=" Premium template, Learning Management System, e-learning software, online course platform, student management, education portal, virtual classroom, training management system, course tracking, online education">
+		<meta name="author" content="MCPlus Technologies">
+		<meta name="robots" content="index, follow">
+		
+		<title>Mcplus Premium | EDU BROADCAST</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>MCPlus Premium</title>
-    <meta name="google_font_api" content="AIzaSyBG58yNdAjc20_8jAvLNSVi9E4Xhwjau_k">
-    <link rel="shortcut icon" href="/frontend/assets/images/fav.avif" />
-    <link rel="stylesheet" href="/frontend/assets/css/core/libs.min.css" />
-    <link rel="stylesheet" href="/frontend/assets/vendor/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" href="/frontend/assets/vendor/iconly/css/style.css" />
-    <link rel="stylesheet" href="/frontend/assets/vendor/animate.min.css" />
-    <link rel="stylesheet" href="/frontend/assets/css/streamit.min.css?v=5.2.1" />
-    <link rel="stylesheet" href="/frontend/assets/css/custom.min.css?v=5.2.1" />
-    <link rel="stylesheet" href="/frontend/assets/css/rtl.min.css?v=5.2.1" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300&display=swap"
-        rel="stylesheet">
-    @stack('css')
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="/frontpage/assets/img/favicon.png"> 
+		<link rel="apple-touch-icon" href="/frontpage/assets/img/apple-icon.png">
+        
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/css/bootstrap.min.css">
+		
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="/frontpage/assets/plugins/fontawesome/css/all.min.css">
 
-</head>
+		<!-- Select2 CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/plugins/select2/css/select2.min.css">
+		
+        <!-- Slick CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/plugins/slick/slick.css">
+		<link rel="stylesheet" href="/frontpage/assets/plugins/slick/slick-theme.css">
+		
+		<!-- Feathericon CSS -->
+        <link rel="stylesheet" href="/frontpage/assets/plugins/feather/feather.css">
 
-<body class="  ">
-    <span class="screen-darken"></span>
-        <div class="floating-alert-container">
-        @if (session('success'))
-            <div class="floating-alert alert alert-success alert-dismissible fade show" role="alert"
-                style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
-                <strong>Success!</strong> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+		<!-- Tabler Icon CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/plugins/tabler-icons/tabler-icons.css">
 
-        @if (session('error'))
-            <div class="floating-alert alert alert-danger alert-dismissible fade show" role="alert"
-                style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
-                <strong>Error!</strong> {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        <!-- Iconsax CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/css/iconsax.css">
 
-        @if ($errors->any())
-            <div class="floating-alert alert alert-danger alert-dismissible fade show" role="alert"
-                style="position: fixed; top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
-                <strong>Whoops!</strong>
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-    </div>
-    <div class="loader simple-loader">
-        <div class="loader-body">
-            <img src="/frontend/assets/images/loader.gif" alt="loader" class="img-fluid " width="300">
-        </div>
-    </div>
-    <main class="main-content">
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="/frontpage/assets/css/style.css">
+        
+        @stack('styles')
+	</head>
+	<body>
 
-       @yield('content')
+		@yield('content')
+        
+	  
+		<!-- jQuery -->
+		<script src="/frontpage/assets/js/jquery-3.7.1.min.js"></script>
+		
+		<!-- Bootstrap Core JS -->
+		<script src="/frontpage/assets/js/bootstrap.bundle.min.js"></script>
+		
+		<!-- Select2 JS -->
+	  	<script src="/frontpage/assets/plugins/select2/js/select2.min.js"></script>
 
-    </main>
-
-    <div id="back-to-top" style="display: none;">
-        <a class="p-0 btn bg-primary btn-sm position-fixed top border-0 rounded-circle text-white" id="top"
-            href="#top">
-            <i class="fa-solid fa-chevron-up"></i>
-        </a>
-    </div>
-    <script src="/frontend/assets/js/core/libs.min.js"></script>
-    <script src="/frontend/assets/vendor/lodash/lodash.min.js"></script>
-    <script src="/frontend/assets/js/core/external.min.js"></script>
-    <script src="/frontend/assets/js/plugins/countdown.js"></script>
-    <script src="/frontend/assets/js/utility.js"></script>
-    <script src="/frontend/assets/js/setting.js"></script>
-    <script src="/frontend/assets/js/setting-init.js" defer></script>
-    <script src="/frontend/assets/js/streamit.js" defer></script>
-    <script src="/frontend/assets/js/swiper.js" defer></script>
-    @stack('js')
-</body>
-
+        <!-- Slick Slider -->
+		<script src="/frontpage/assets/plugins/slick/slick.js"></script>   
+		
+		<!-- Custom JS -->
+		<script src="/frontpage/assets/js/script.js"></script>
+		@stack('scripts')
+	</body>
 </html>

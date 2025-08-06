@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@push('css')
+@push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <style>
         .iti {
@@ -11,149 +11,166 @@
 @endpush
 
 @section('content')
-   <div class="vh-100"
-        style="background: url('/frontend/assets/images/pages/bg-auth.jpg'); background-size: cover; background-repeat: no-repeat; position: relative;min-height:500px">
-        <div class="container">
-            <div class="row justify-content-center align-items-center height-self-center vh-100">
-                <div class="col-lg-5 col-md-12 align-self-center">
-                    <div class="user-login-card bg-body">
-                        <div class="text-center">
-                            <!--Logo -->
-                            <div class="logo-default">
-                                <a class="navbar-brand text-primary" href="./index.html">
-                                    <img class="img-fluid logo" src="/frontend/assets/images/logo-example.png"
-                                        loading="lazy" alt="Mcplus Premium" />
-                                </a>
+    <div class="main-wrapper">
+        <div class="login-content">
+            <div class="row">
+
+                <div class="col-md-6 login-bg d-none d-lg-flex">
+                    <div class="login-carousel">
+                        <div>
+                            <div class="login-carousel-section mb-3">
+                                <div class="login-banner">
+                                    <img src="/frontpage/assets/img/auth/auth-1.svg" class="img-fluid" alt="Logo">
+                                </div>
+                                <div class="mentor-course text-center">
+                                    <h3 class="mb-2">Welcome to <br>MCPlus<span class="text-secondary"> Premium</span> Courses.</h3>
+                                    <p>Platform designed to help organizations, educators, and learners manage, deliver, and track learning and training activities.</p>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Form -->
-                        <form id="email-login-form" action="{{ route('login') }}" method="POST">
-                            @csrf
-                            <!-- Email Login Form -->
-                            <div id="email-login-form">
-                                <div class="mb-3">
-                                    <input type="text" name="login" placeholder="Email or Phone Number" class="form-control rounded-0" :value="old('login')" required autofocus>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" name="password" class="form-control rounded-0" placeholder="Password">
-                                </div>
-                                <div class="text-end mb-3">
-                                    <a href="{{ route('password.request') }}" class="text-primary fw-semibold fst-italic">Forgot
-                                        Password?</a>
-                                </div>
-                                <label
-                                    class="list-group-item d-flex align-items-center mb-3 font-size-14 text-white fw-500"><input
-                                        class="form-check-input m-0 me-2" type="checkbox">Remember Me</label>
-                                <div class="full-button">
-                                    <div class="iq-button">
-                                        <button type="submit" class="btn text-uppercase position-relative">
-                                            <span class="button-text">Log In</span>
-                                            <i class="fa-solid fa-play"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="full-button mt-4">
-                                    <a href="javascript:void(0)" id="use-otp-btn" class="btn btn-secondary text-uppercase position-relative">
-                                        <span class="button-text">Use OTP Code</span>
-                                        <i class="fa-solid fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                        <form id="otp-login-form" method="POST" action="{{ route('login.otp.send') }}">
-                        @csrf
-                            <div id="otp-login-form">
-                                <div class="mb-3">
-                                    <div class="col">
-                                        <label class="text-white fw-500 mb-2">Phone</label>
-                                        <input type="tel" id="phone" class="form-control rounded-0" required="">
-                                        <input type="hidden" name="phone" id="phone_full">
-                                    </div>
-                                </div>
-                                <div class="full-button">
-                                    <div class="iq-button">
-                                        <button type="submit" class="btn text-uppercase position-relative">
-                                            <span class="button-text">Send Code</span>
-                                            <i class="fa-solid fa-play"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="full-button mt-4">
-                                    <a href="javascript:void(0)" id="use-password-btn" class="btn btn-secondary text-uppercase position-relative">
-                                        <span class="button-text">Use Password</span>
-                                        <i class="fa-solid fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-
-                        <p class="my-4 text-center fw-500 text-white">New to Mcplus Premium? <a href="{{ route('register') }}"
-                                class="text-primary ms-1">Register</a></p>
-                        <div class="seperator d-flex justify-content-center align-items-center">
-                            <span class="line"></span>
-                            <span class="mx-2">OR</span>
-                            <span class="line"></span>
-                        </div>
-                        <ul class="p-0 pt-4 m-0 list-unstyled widget_social_media text-center">
-                        <li>
-                            <a href="https:/www.google.com/" class="position-relative">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M21.8055 10.0415H21V10H12V14H17.6515C16.827 16.3285 14.6115 18 12 18C8.6865 18 6 15.3135 6 12C6 8.6865 8.6865 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C6.4775 2 2 6.4775 2 12C2 17.5225 6.4775 22 12 22C17.5225 22 22 17.5225 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z" fill="#FBC02D"/>
-                                <path d="M3.15283 7.3455L6.43833 9.755C7.32733 7.554 9.48033 6 11.9998 6C13.5293 6 14.9208 6.577 15.9803 7.5195L18.8088 4.691C17.0228 3.0265 14.6338 2 11.9998 2C8.15883 2 4.82783 4.1685 3.15283 7.3455Z" fill="#E53935"/>
-                                <path d="M12.0002 22.0001C14.5832 22.0001 16.9302 21.0116 18.7047 19.4041L15.6097 16.7851C14.6057 17.5456 13.3577 18.0001 12.0002 18.0001C9.39916 18.0001 7.19066 16.3416 6.35866 14.0271L3.09766 16.5396C4.75266 19.7781 8.11366 22.0001 12.0002 22.0001Z" fill="#4CAF50"/>
-                                <path d="M21.8055 10.0415L21.7975 10H21H12V14H17.6515C17.2555 15.1185 16.536 16.083 15.608 16.7855C15.6085 16.785 15.609 16.785 15.6095 16.7845L18.7045 19.4035C18.4855 19.6025 22 17 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z" fill="#1565C0"/>
-                                </svg>
-                            </a>
-                        </li>
-                    </ul>
                     </div>
                 </div>
+                <div class="col-md-6 login-wrap-bg">
+                    <div class="login-wrapper">
+                        <div class="loginbox">
+                            <div class="w-100">
+                                <div class="d-flex align-items-center justify-content-between login-header">
+                                    {{-- Menggunakan logo dari template baru, tapi link ke root --}}
+                                    <a href="{{ url('/') }}">
+                                        <img src="/frontpage/assets/img/logo.svg" class="img-fluid" alt="Logo">
+                                    </a>
+                                    <a href="{{ url('/') }}" class="link-1">Back to Home</a>
+                                </div>
+                                <h1 class="fs-32 fw-bold topic">Sign into Your Account</h1>
+
+                                <form id="email-login-form" action="{{ route('login') }}" method="POST">
+                                    @csrf
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label">Email or Phone Number<span class="text-danger ms-1">*</span></label>
+                                        <div class="position-relative">
+                                            {{-- Input disesuaikan dengan styling template baru --}}
+                                            <input type="text" name="login" class="form-control form-control-lg" :value="old('login')" required autofocus>
+                                            <span><i class="isax isax-sms input-icon text-gray-7 fs-14"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label">Password <span class="text-danger ms-1">*</span></label>
+                                        <div class="position-relative" id="passwordInput">
+                                            {{-- Input disesuaikan dengan styling template baru --}}
+                                            <input type="password" name="password" class="pass-inputs form-control form-control-lg">
+                                            <span class="isax toggle-passwords isax-eye-slash fs-14"></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <div class="remember-me d-flex align-items-center">
+                                            <input class="form-check-input" type="checkbox" name="remember" id="remember_me">
+                                            <label class="form-check-label ms-2" for="remember_me">
+                                                Remember Me
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <a href="{{ route('password.request') }}" class="link-2">
+                                                Forgot Password ?
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-secondary btn-lg" type="submit">Login <i class="isax isax-arrow-right-3 ms-1"></i></button>
+                                    </div>
+                                </form>
+                                <form id="otp-login-form" method="POST" action="{{ route('login.otp.send') }}" style="display: none;">
+                                    @csrf
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label">Phone Number<span class="text-danger ms-1">*</span></label>
+                                        <div class="position-relative">
+                                            {{-- Input telepon internasional disesuaikan gayanya --}}
+                                            <input type="tel" id="phone" class="form-control form-control-lg" required>
+                                            <input type="hidden" name="phone" id="phone_full">
+                                            <span><i class="isax isax-call input-icon text-gray-7 fs-14"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-grid">
+                                        <button class="btn btn-secondary btn-lg" type="submit">Send Code <i class="isax isax-arrow-right-3 ms-1"></i></button>
+                                    </div>
+                                </form>
+                                <div class="d-flex align-items-center justify-content-center or fs-14 my-3">
+                                    Or
+                                </div>
+                                
+                                {{-- Tombol untuk beralih antara password dan OTP --}}
+                                <div class="d-flex align-items-center justify-content-center mb-3">
+                                    <button id="use-password-btn" class="btn btn-light" style="display: none;">Use Password</button>
+                                    <button id="use-otp-btn" class="btn btn-light">Use OTP Code</button>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-center mb-3">
+                                    <a href="#" class="btn btn-light me-2"><img src="/frontpage/assets/img/icons/google.svg" alt="img" class="me-2">Google</a>
+                                    <a href="#" class="btn btn-light"><img src="/frontpage/assets/img/icons/facebook.svg" alt="img" class="me-2">Facebook</a>
+                                </div>
+
+                                <div class="fs-14 fw-normal d-flex align-items-center justify-content-center">
+                                    Don't you have an account?
+                                    <a href="{{ route('register') }}" class="link-2 ms-1"> Sign up</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
             </div>
         </div>
     </div>
 @endsection
 
-@push('js')
-<script>
-    const emailLoginForm = document.getElementById('email-login-form');
-    const otpLoginForm = document.getElementById('otp-login-form');
-    const useOtpButton = document.getElementById('use-otp-btn');
-    const usePasswordButton = document.getElementById('use-password-btn');
+@push('scripts')
+    <script>
+        const emailLoginForm = document.getElementById('email-login-form');
+        const otpLoginForm = document.getElementById('otp-login-form');
+        const useOtpButton = document.getElementById('use-otp-btn');
+        const usePasswordButton = document.getElementById('use-password-btn');
 
-    otpLoginForm.style.display = 'none';
+        useOtpButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            emailLoginForm.style.display = 'none';
+            otpLoginForm.style.display = 'block';
+            useOtpButton.style.display = 'none';
+            usePasswordButton.style.display = 'inline-block';
+        });
 
-    useOtpButton.addEventListener('click', function() {
-        emailLoginForm.style.display = 'none';
-        otpLoginForm.style.display = 'block';
-    });
+        usePasswordButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            emailLoginForm.style.display = 'block';
+            otpLoginForm.style.display = 'none';
+            useOtpButton.style.display = 'inline-block';
+            usePasswordButton.style.display = 'none';
+        });
 
-    usePasswordButton.addEventListener('click', function() {
-        emailLoginForm.style.display = 'block';
-        otpLoginForm.style.display = 'none'; 
-    });
-</script>
+        // Initialize state
+        otpLoginForm.style.display = 'none';
+        usePasswordButton.style.display = 'none';
+    </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-<script>
-    const phoneInputField = document.querySelector("#phone");
-    const phoneFullField = document.querySelector("#phone_full");
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script>
+        const phoneInputField = document.querySelector("#phone");
+        const phoneFullField = document.querySelector("#phone_full");
 
-    const phoneInput = window.intlTelInput(phoneInputField, {
-        initialCountry: "my",
-        separateDialCode: true,
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    });
+        if (phoneInputField) {
+            const phoneInput = window.intlTelInput(phoneInputField, {
+                initialCountry: "id",
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            });
 
-    function updateHiddenInput() {
-        const fullNumber = phoneInput.getNumber(); 
-        phoneFullField.value = fullNumber; 
-    }
+            function updateHiddenInput() {
+                const fullNumber = phoneInput.getNumber();
+                phoneFullField.value = fullNumber;
+            }
 
-    phoneInputField.addEventListener('keyup', updateHiddenInput);
-    phoneInputField.addEventListener('change', updateHiddenInput);
+            phoneInputField.addEventListener('keyup', updateHiddenInput);
+            phoneInputField.addEventListener('change', updateHiddenInput);
 
-    updateHiddenInput();
-</script>
+            updateHiddenInput();
+        }
+    </script>
 @endpush
-

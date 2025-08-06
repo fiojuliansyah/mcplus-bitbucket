@@ -63,7 +63,9 @@
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="createModalLabel">Add Access</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -106,7 +108,9 @@
                         @method('PUT')
                         <div class="modal-header">
                             <h5 class="modal-title" id="editModalLabel-{{ $role->id }}">Edit Jabatan</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
@@ -148,7 +152,9 @@
                         @method('DELETE')
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteModalLabel-{{ $role->id }}">Hapus Jabatan</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                         </div>
                         <div class="modal-body">
                             <p>Apakah kamu yakin ingin menghapus jabatan <strong>{{ $role->name }}</strong>?</p>

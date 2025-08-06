@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers\Tutor;
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use App\Models\Test;
 use App\Models\Grade;
 use App\Models\Subject;
-use App\Models\Test;
+use Illuminate\Support\Str;
 use App\Models\TestQuestion;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TutorTestController extends Controller
 {
     public function index($formSlug, $subjectSlug)
     {
+        $title = 'Assignments';
+
+        $user = Auth::user();
         $grade = Grade::where('slug', $formSlug)->firstOrFail();
         $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
 
         $tests = Test::where('subject_id', $subject->id)->get();
 
-        return view('tutor.tests.index', compact('grade', 'subject', 'tests'));
+        return view('frontend.tutors.tests.index', compact('grade', 'subject', 'tests','title','user'));
     }
 
     public function store(Request $request, $formSlug, $subjectSlug)
@@ -59,6 +63,7 @@ class TutorTestController extends Controller
             'name' => $request->name,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'status' => $request->status,
         ]);
 
         return redirect()->back()->with('success', 'Test updated successfully!');
@@ -79,7 +84,7 @@ class TutorTestController extends Controller
         $test->load(['user']);
         $questions = TestQuestion::where('test_id', $test->id)->orderBy('type', 'desc')->get();
 
-        return view('tutor.tests.show', compact('test', 'grade', 'subject', 'questions'));
+        return view('frontend.tutors.tests.show', compact('test', 'grade', 'subject', 'questions'));
     }
 
 }

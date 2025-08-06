@@ -17,13 +17,11 @@ class UserTestController extends Controller
 {
     public function index($gradeSlug, $subjectSlug)
     {
-        // Find the grade and subject based on the slugs
         $grade = Grade::where('slug', $gradeSlug)->firstOrFail();
         $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
 
-        // Get tests for this subject
         $tests = Test::where('subject_id', $subject->id)
-                    ->with('user') // Assuming test has a tutor (user) relationship
+                    ->with('user')
                     ->orderBy('start_time', 'desc')
                     ->get();
 
@@ -74,7 +72,6 @@ class UserTestController extends Controller
                     }
                     $total++;
                 } else {
-                    // essay, save answer only, wait for manual grading
                     $isCorrect = null;
                     $total++;
                 }
@@ -114,17 +111,14 @@ class UserTestController extends Controller
     {
         $user = Auth::user();
 
-        // Load test with related data
         $test = Test::where('slug', $testSlug)->with('testQuestions', 'user')->firstOrFail();
         $grade = Grade::where('slug', $gradeSlug)->firstOrFail();
         $subject = Subject::where('slug', $subjectSlug)->firstOrFail();
 
-        // Find user's test result
         $testResult = TestResult::where('user_id', $user->id)
             ->where('test_id', $test->id)
             ->firstOrFail();
 
-        // Get all answers for this user and this test's questions
         $answers = TestAnswer::with('question')
             ->where('user_id', $user->id)
             ->whereIn('test_question_id', $test->testQuestions->pluck('id'))

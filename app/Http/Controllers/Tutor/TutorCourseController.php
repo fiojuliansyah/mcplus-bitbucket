@@ -16,14 +16,13 @@ class TutorCourseController extends Controller
 {
     public function index(Request $request)
     {
+        $title = 'Course Subjects';
         $userId = Auth::id();
 
-        // Get subject IDs assigned to this tutor
         $subjectIds = DB::table('model_has_subjects')
             ->where('user_id', $userId)
             ->pluck('subject_id');
 
-        // Load grades with subjects and topics
         $grades = Grade::with(['subjects' => function ($subjectQuery) use ($subjectIds) {
                 $subjectQuery->whereIn('id', $subjectIds)
                     ->with(['topics' => function ($topicQuery) {
@@ -34,26 +33,19 @@ class TutorCourseController extends Controller
                 $query->whereIn('id', $subjectIds);
             })
             ->get();
-
-        // Load LiveClasses grouped by subject_id
-            // $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
-            //     ->get()
-            //     ->groupBy('subject_id');
-
         $topics = Topic::whereIn('subject_id', $subjectIds)
             ->get()
             ->groupBy('subject_id');
 
-        // Load the user if needed
         $user = Auth::user()->load('current_profile');
 
-        return view('tutor.courses.myCourse', compact('grades', 'topics', 'user'));
+        return view('frontend.tutors.courses.index', compact('grades', 'topics', 'user','title'));
     }
 
 
     public function create()
     {
-        return view('tutor.courses.uploadCourse');
+        return view('frontend.tutors.courses.uploadCourse');
     }
 
     public function store(Request $request)
@@ -92,7 +84,7 @@ class TutorCourseController extends Controller
     public function showClass($id)
     {
        $topic = Topic::with('grade', 'subject')->findOrFail($id);
-        return view('tutor.courses.showClass', compact('topic'));
+        return view('frontend.tutors.courses.showClass', compact('topic'));
     }
 
 }

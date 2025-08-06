@@ -13,20 +13,21 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('transaction_code');
-            $table->string('user_id');
-            $table->string('profile_id');
-            $table->string('plan_id');
-            $table->string('subject_id');
-            $table->string('duration');
-            $table->string('payment_method');
-            $table->datetime('start_date');
-            $table->datetime('end_date');
-            $table->string('price');
-            $table->string('coupon_discount');
-            $table->string('tax');
-            $table->string('total_amount');
-            $table->string('status');
+            $table->string('transaction_code')->nullable();
+            $table->string('user_id')->nullable();
+            $table->string('profile_id')->nullable();
+            $table->string('plan_id')->nullable();
+            $table->string('subject_id')->nullable();
+            $table->string('duration')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->datetime('start_date')->nullable();
+            $table->datetime('end_date')->nullable();
+            $table->string('price')->nullable();
+            $table->string('coupon_id')->nullable();
+            $table->string('coupon_discount')->nullable();
+            $table->string('tax')->nullable();
+            $table->string('total_amount')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
