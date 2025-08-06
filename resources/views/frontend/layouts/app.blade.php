@@ -63,7 +63,9 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="enterPinModalLabel-{{ $profile->id }}">Enter PIN for {{ $profile->name }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="{{ route('user.change-profile') }}" method="POST">
@@ -125,10 +127,7 @@
     <script src="/frontend/assets/js/streamit.js" defer></script>
     <script src="/frontend/assets/js/swiper.js" defer></script>
     
-<<<<<<< HEAD
     @stack('js')
-=======
->>>>>>> b31231b (Add CallBell live chat for Guest, Student and Tutor)
     <!-- Start of Async Callbell Code -->
     <script>
         if (!window.callbellSettings) {

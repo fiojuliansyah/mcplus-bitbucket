@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class TutorQuizzController extends Controller
 {
-    public function index($id)
+    public function index($slug)
     {
-        $userId = Auth::id();
-        $topic = Topic::findOrFail($id);
-        $quizzes = $topic->quizzes()->where('user_id', $userId)->get();
+        $title = 'Manage Quiz';
+        $user = Auth::user();
+        $topic = Topic::where('slug', $slug)->firstOrFail();
+        $quizzes = $topic->quizzes()->where('user_id', $user->id)->get();
 
-        return view('tutor.courses.quizz', compact('topic', 'quizzes'));
+        return view('frontend.tutors.courses.quizz', compact('quizzes', 'title', 'user', 'topic'));
     }
 
     public function store(Request $request, $topic_id)

@@ -18,23 +18,12 @@ class Subject extends Model
 
     public function topics()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
         return $this->hasMany(Topic::class);
     }
 
     public function liveClass()
     {
         return $this->hasMany(LiveClass::class);
-<<<<<<< HEAD
-=======
-        return $this->hasMany(Topics::class);
->>>>>>> 33644b8 (add Topics)
-=======
-        return $this->hasMany(Topic::class);
->>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
-=======
->>>>>>> e9bf435 (Add Live Class management for tutor)
     }
     
     public function users()
@@ -46,25 +35,14 @@ class Subject extends Model
     {
         return $this->hasMany(ReplayClass::class);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 
     public function quizz()
     {
         return $this->hasMany(Quizz::class);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of ad55921 (update some bug)
+
     public function tests()
     {
         return $this->hasMany(Test::class);
     }
-=======
->>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
-=======
->>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 }

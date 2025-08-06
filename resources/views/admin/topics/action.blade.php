@@ -23,7 +23,9 @@
                 @method('PUT')
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel-{{ $row->id }}">Edit Topic</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -66,7 +68,9 @@
                 @method('DELETE')
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel-{{ $row->id }}">Delete Topic</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete the Topic <strong>{{ $row->name }}</strong>?</p>

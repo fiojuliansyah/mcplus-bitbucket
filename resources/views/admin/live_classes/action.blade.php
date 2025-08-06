@@ -19,21 +19,14 @@
 <div class="modal fade" id="editModal-{{ $row->id }}" tabindex="-1" aria-labelledby="editModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-<<<<<<< HEAD
-<<<<<<< HEAD
             <form action="{{ route('admin.live-classes.update', $row->id) }}" method="POST">
-=======
-            {{-- <form action="{{ route('admin.live_classes.update', $row->id) }}" method="POST"> --}}
-            <form action="" method="POST">
->>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
-=======
-            <form action="{{ route('admin.live-classes.update', $row->id) }}" method="POST">
->>>>>>> dc16350 (Add Update and Delete Live Class)
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel-{{ $row->id }}">Edit Live Class</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                 </div>
                 <div class="modal-body">
 
@@ -169,23 +162,15 @@
 <div class="modal fade" id="deleteModal-{{ $row->id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ $row->id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-<<<<<<< HEAD
-<<<<<<< HEAD
             <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST">
             {{-- <form action="" method="POST"> --}}
-=======
-            {{-- <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST"> --}}
-            <form action="" method="POST">
->>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
-=======
-            <form action="{{ route('admin.live-classes.destroy', $row->id) }}" method="POST">
-            {{-- <form action="" method="POST"> --}}
->>>>>>> dc16350 (Add Update and Delete Live Class)
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel-{{ $row->id }}">Delete Live Class</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete the live class <strong>{{ $row->topic->name }}</strong>?</p>

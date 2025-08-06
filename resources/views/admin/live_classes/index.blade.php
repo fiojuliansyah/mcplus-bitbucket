@@ -29,7 +29,9 @@
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="createModalLabel">Create Live Class</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -139,10 +141,6 @@
 @push('js')
     {!! $dataTable->scripts() !!}
     <script src="{{ asset('admin/assets/js/live-class-form.js') }}"></script>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> dc16350 (Add Update and Delete Live Class)
     <script>
         // Re-bind dropdowns every time DataTable redraws
         $(document).on('draw.dt', function () {
@@ -151,10 +149,5 @@
             }
         });
     </script>
-<<<<<<< HEAD
-=======
->>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
-=======
->>>>>>> dc16350 (Add Update and Delete Live Class)
 @endpush
 

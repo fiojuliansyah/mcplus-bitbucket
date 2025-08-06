@@ -26,7 +26,6 @@
                                     </div>
                                 @endif
 
-                                <!-- Pencil Icon to Edit Profile, placed in the center -->
                                 <a href="{{ route('user.edit-profile', $profile->id) }}" class="position-absolute top-50 start-50 translate-middle p-2" style="background-color: rgba(0, 0, 0, 0.5); border-radius: 50%; color: white; font-size: 12px;">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
@@ -68,7 +67,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addProfileModalLabel">Add Profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
             </div>
             <div class="modal-body">
                 <form method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">

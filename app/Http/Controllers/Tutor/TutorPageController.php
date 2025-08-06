@@ -2,120 +2,65 @@
 
 namespace App\Http\Controllers\Tutor;
 
-use App\Http\Controllers\Controller;
+use App\Models\Test;
+use App\Models\User;
+use App\Models\Profile;
+use App\Models\Subject;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
+use App\Models\UserHasSubject;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class TutorPageController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $movies = [
-            [
-                'title' => 'Most Mak-Mak Tutor',
-                'duration' => 'Tutor',
-                'image' => '/frontend/assets/images/products/pict1.jpg',
-                'description' => 'Vote the tutor for the best Mak-Mak tutor'
-            ],
-            [
-                'title' => 'Troublemaker Tutor',
-                'duration' => 'Tutor',
-                'image' => '/frontend/assets/images/products/pict2.jpg',
-                'description' => 'Vote the tutor for the best troublemaker tutor'
-            ],
-            [
-                'title' => 'Free Exclusive Merchandise',
-                'duration' => 'Merchandise',
-                'image' => '/frontend/assets/images/products/pict3.jpg',
-                'description' => 'You can get free exclusive merchandise by join with mplus premium'
-            ]
-        ];
+        $title = 'Dashboard';
+        $user = Auth::user();
+        return view('frontend.tutors.dashboard', compact('user','title'));
+    }
 
-        $topTenSubject = [
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 1],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 2],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 3],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 4],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 5],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 6],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 7],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 8],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 9],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 10],
-        ];
+        public function settings()
+    {
+        $title = 'Settings';
+        $user = Auth::user();
 
-        $mostLikedTutor = [
-            [
-                'name' => 'Tutor 01', 
-                'like' => '3214 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
+        return view('frontend.tutors.settings', compact('user','title')); 
+    }
 
-            ],
-            [
-                'name' => 'Tutor 02', 
-                'like' => '3100 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
+    public function settingsStore(Request $request)
+    {
+        return redirect()->back()->with('success', 'Profile updated successfully!');
+    }
 
-            ],
-            [
-                'name' => 'Tutor 03', 
-                'like' => '3053 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
+    public function students(Request $request)
+    {
+        $title = 'My Students';
+        $tutor = Auth::user();
 
-            ],
-            [
-                'name' => 'Tutor 04', 
-                'like' => '2574 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
+        $tutorSubjectIds = $tutor->subjects()->pluck('subjects.id');
 
-            ],
-            [
-                'name' => 'Tutor 05', 
-                'like' => '2431 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
+        $studentsQuery = Profile::query()
+            ->whereHas('user', function ($query) {
+                $query->where('account_type', 'student');
+            })
+            ->whereHas('subscriptions', function ($query) use ($tutorSubjectIds) {
+                $query->whereIn('subject_id', $tutorSubjectIds)
+                    ->where('status', 'success');
+            })
+            ->with(['user', 'subscriptions' => function ($query) use ($tutorSubjectIds) {
+                $query->whereIn('subject_id', $tutorSubjectIds)
+                    ->where('status', 'success')
+                    ->oldest();
+            }]);
 
-            ],
-            [
-                'name' => 'Tutor 06', 
-                'like' => '2325 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
+        $students = $studentsQuery->paginate(10);
 
-            ],
-            [
-                'name' => 'Tutor 07', 
-                'like' => '2034 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 08', 
-                'like' => '1953 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 09', 
-                'like' => '1928 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 10', 
-                'like' => '1582 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-        ];
-
-        return view('frontend.home', compact('movies', 'topTenSubject', 'mostLikedTutor'));
+        return view('frontend.tutors.students', [
+            'user' => $tutor,
+            'title' => $title,
+            'students' => $students
+        ]);
     }
 }

@@ -24,7 +24,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel-{{ $row->id }}">Edit Question</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                 </div>
 
                 <div class="modal-body">
@@ -80,7 +82,9 @@
                 @method('DELETE')
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel-{{ $row->id }}">Delete Question</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
+								<i class="isax isax-close-circle5"></i>
+							</button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete the Question <strong>{{ $row->name }}</strong>?</p>

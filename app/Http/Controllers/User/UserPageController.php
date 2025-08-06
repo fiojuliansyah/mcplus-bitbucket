@@ -4,350 +4,225 @@ namespace App\Http\Controllers\User;
 
 use App\Models\User;
 use App\Models\Grade;
-use App\Models\Subject;
 use App\Models\Topic;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-use App\Models\UserAttendSubject;
-=======
->>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
-=======
-use App\Models\UserAttendSubject;
->>>>>>> 381ca05 (add Attendance topic for user)
-=======
-use App\Models\UserAttendSubject;
->>>>>>> parent of ad55921 (update some bug)
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Subject;
+use App\Models\TestResult;
+use App\Models\QuizzAnswer;
+use App\Models\QuizzResult;
 
+use App\Models\ReplayClass;
+use App\Models\Subscription;
+use Illuminate\Http\Request;
+use App\Models\UserAttendSubject;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserPageController extends Controller
 {
-    public function index()
+    public function dashboard()
     {
-        $movies = [
-            [
-                'title' => 'Most Mak-Mak Tutor',
-                'duration' => 'Tutor',
-                'image' => '/frontend/assets/images/products/pict1.jpg',
-                'description' => 'Vote the tutor for the best Mak-Mak tutor'
-            ],
-            [
-                'title' => 'Troublemaker Tutor',
-                'duration' => 'Tutor',
-                'image' => '/frontend/assets/images/products/pict2.jpg',
-                'description' => 'Vote the tutor for the best troublemaker tutor'
-            ],
-            [
-                'title' => 'Free Exclusive Merchandise',
-                'duration' => 'Merchandise',
-                'image' => '/frontend/assets/images/products/pict3.jpg',
-                'description' => 'You can get free exclusive merchandise by join with mplus premium'
-            ]
-        ];
-
-        $topTenSubject = [
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 1],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 2],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 3],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 4],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 5],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 6],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 7],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 8],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 9],
-            ['image' => '/frontend/assets/images/movies/related/01.webp', 'rank' => 10],
-        ];
-
-        $mostLikedTutor = [
-            [
-                'name' => 'Tutor 01', 
-                'like' => '3214 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 02', 
-                'like' => '3100 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 03', 
-                'like' => '3053 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 04', 
-                'like' => '2574 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 05', 
-                'like' => '2431 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 06', 
-                'like' => '2325 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 07', 
-                'like' => '2034 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 08', 
-                'like' => '1953 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 09', 
-                'like' => '1928 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-            [
-                'name' => 'Tutor 10', 
-                'like' => '1582 like', 
-                'link' => '#', 
-                'image' => '/frontend/assets/images/movies/related/01.webp',
-
-            ],
-        ];
-
-        return view('frontend.home', compact('movies', 'topTenSubject', 'mostLikedTutor'));
+        $title = 'Dashboard';
+        $user = Auth::user();
+        return view('frontend.students.dashboard', compact('user','title'));
     }
 
-    public function subjects()
+    public function orderHistory(Request $request)
     {
-        $grades = Grade::all();
-        $subjects = Subject::all();
-        return view('frontend.subjects', compact('subjects','grades'));
+        $title = 'Order History';
+        $user = Auth::user();
+        $query = Subscription::where('user_id', $user->id)
+                            ->with(['profile', 'plan', 'subject'])
+                            ->latest();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where('transaction_code', 'like', '%' . $searchTerm . '%');
+        }
+
+        $subscriptions = $query->paginate(10);
+
+        return view('frontend.students.order-history', compact('subscriptions','user','title'));
     }
 
-    public function subjectDetail($slugGrade, $slugSubject)
+    public function enrolledSubjects(Request $request)
     {
-        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
-        $subject = Subject::where('slug', $slugSubject)
-                    ->where('grade_id', $grade->id)
-                    ->firstOrFail();
+        $title = 'Enrolled Subjects';
+        $user = Auth::user();
+        $currentProfile = $user->current_profile;
 
-        $topics = Topic::where('subject_id', $subject->id)
-                    ->where('grade_id', $grade->id)
-                    ->with('grade')
-                    ->get();
+        $query = Subscription::where('profile_id', $currentProfile->id)
+                            ->where('status', 'success') 
+                            ->with(['plan', 'subject','subject.grade', 'subject.users.current_profile'])
+                            ->latest();
 
-        return view('frontend.subjectDetail', compact('grade', 'subject', 'topics'));
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->whereHas('subject', function($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $subscriptions = $query->paginate(10);
+
+        return view('frontend.students.enrolled-subjects', compact('subscriptions', 'user', 'title')); 
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
-=======
->>>>>>> parent of ad55921 (update some bug)
-    public function myClass()
+    public function topicsSubject($subjectSlug, $replayId = null)
     {
-        $userId = Auth::id();
+        $subject = Subject::where('slug', $subjectSlug)->firstOrFail();
+        $topics = $subject->topics()->with([
+            'replayClasses' => function ($query) {
+                $query->where('status', 'publish');
+            },
+            'notes' => function ($query) {
+                $query->where('status', 'publish');
+            }
+        ])->get(); 
 
-        // Get all grades for filter navigation
-        $grades = Grade::all();
+        $activeReplay = null;
+        if ($replayId) {
+            $activeReplay = ReplayClass::where('id', $replayId)
+                                    ->where('status', 'publish')
+                                    ->firstOrFail();
+        } else {
+            $activeReplay = $topics->first()?->replayClasses->first();
+        }
 
-        // Get subjects joined through user_has_class using Eloquent
-        $subjects = Subject::with('grade') // eager load grade relationship
-            ->whereIn('id', function ($query) use ($userId) {
-                $query->select('subject_id')
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    ->from('model_has_subjects')
-=======
-                    ->from('user_has_subjects')
->>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
-=======
-                    ->from('model_has_subjects')
->>>>>>> parent of ad55921 (update some bug)
-                    ->where('user_id', $userId);
-            })
-            ->get();
-
-        return view('frontend.myClass', compact('subjects', 'grades'));
+        return view('frontend.students.classes.index', compact('subject', 'topics', 'activeReplay'));
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function mySubject($slugGrade, $slugSubject)
+    public function settings()
     {
-        $userId = Auth::id();
-=======
-    public function mySubject($slugGrade, $slugSubject)
-    {
-        $userId = Auth::id();
-=======
-    public function mySubject($slugGrade, $slugSubject)
-    {
-        $userId = Auth::id();
->>>>>>> parent of ad55921 (update some bug)
+        $title = 'Settings';
+        $user = Auth::user();
 
-        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
-
-        $subject = Subject::where('slug', $slugSubject)
-                    ->where('grade_id', $grade->id)
-                    ->firstOrFail();
-
-        // Get attended topic IDs using the model
-        $attendedSubjectIds = UserAttendSubject::where('user_id', $userId)
-            ->where('subject_id', $subject->id)
-            ->pluck('topic_id')
-            ->toArray();
-
-        // Fetch all topics and mark them as attended or not
-        $topics = Topic::where('subject_id', $subject->id)
-                    ->where('grade_id', $grade->id)
-<<<<<<< HEAD
-                    ->with('grades')
-                    ->get()
-                    ->map(function ($topic) use ($attendedSubjectIds) {
-                        $topic->attended = in_array($topic->id, $attendedSubjectIds);
-                        return $topic;
-                    });
-
-        return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
-    }
->>>>>>> 381ca05 (add Attendance topic for user)
-
-<<<<<<< HEAD
-        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
-
-        $subject = Subject::where('slug', $slugSubject)
-                    ->where('grade_id', $grade->id)
-                    ->firstOrFail();
-
-        // Get attended topic IDs using the model
-        $attendedSubjectIds = UserAttendSubject::where('user_id', $userId)
-            ->where('subject_id', $subject->id)
-            ->pluck('topic_id')
-            ->toArray();
-
-        // Fetch all topics and mark them as attended or not
-        $topics = Topic::where('subject_id', $subject->id)
-                    ->where('grade_id', $grade->id)
-=======
->>>>>>> parent of ad55921 (update some bug)
-                    ->with('grade')
-                    ->get()
-                    ->map(function ($topic) use ($attendedSubjectIds) {
-                        $topic->attended = in_array($topic->id, $attendedSubjectIds);
-                        return $topic;
-                    });
-
-        return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
+        return view('frontend.students.settings', compact('user','title')); 
     }
 
-<<<<<<< HEAD
-=======
->>>>>>> 2143b16 (Add page for user joining the class and take quizz)
-=======
->>>>>>> parent of ad55921 (update some bug)
-    public function myTopic($slugGrade, $slugSubject, $topicSlug)
+    public function settingsStore(Request $request)
     {
-        $userId = Auth::id();
-
-        $grade = Grade::where('slug', $slugGrade)->firstOrFail();
-        $subject = Subject::where('slug', $slugSubject)->where('grade_id', $grade->id)->firstOrFail();
-        $topic = Topic::where('slug', $topicSlug)
-                    ->where('subject_id', $subject->id)
-                    ->where('grade_id', $grade->id)
-                    ->firstOrFail();
-
-        return view('frontend.myTopic', compact('grade', 'subject', 'topic'));
+        return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 58dfb71 (Update header and Add report learning progress page)
-=======
->>>>>>> parent of ad55921 (update some bug)
-    public function learningProgress()
+    public function quiz(Request $request)
     {
-        $progress = [
-            [
-                'subject' => 'Math',
-                'topics' => [
-                    ['name' => 'Algebra', 'score' => 70],
-                    ['name' => 'Geometry', 'score' => 85],
-                    ['name' => 'Trigonometry', 'score' => 65],
-                ],
-            ],
-            [
-                'subject' => 'Science',
-                'topics' => [
-                    ['name' => 'Biology', 'score' => 78],
-                    ['name' => 'Chemistry', 'score' => 82],
-                    ['name' => 'Physics', 'score' => 74],
-                ],
-            ],
-            [
-                'subject' => 'English',
-                'topics' => [
-                    ['name' => 'Grammar', 'score' => 88],
-                    ['name' => 'Literature', 'score' => 91],
-                    ['name' => 'Writing', 'score' => 84],
-                ],
-            ],
-        ];
+        $title = 'My Quizzes';
+        $user = Auth::user();
+        $currentProfile = $user->current_profile->id;
 
-        return view('frontend.learningProgress', compact('progress'));
-<<<<<<< HEAD
+        $query = Subscription::where('profile_id', $currentProfile)
+                            ->with(['subject.topics.quizzes'])
+                            ->latest();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where('transaction_code', 'like', '%' . $searchTerm . '%');
+        }
+
+        $subscriptions = $query->get();
+
+        $topicsWithQuizzes = collect();
+        $processedTopicIds = [];
+
+        foreach ($subscriptions as $subscription) {
+            if ($subscription->subject && $subscription->subject->topics) {
+                foreach ($subscription->subject->topics as $topic) {
+                    if ($topic->quizzes->isNotEmpty() && !in_array($topic->id, $processedTopicIds)) {
+                        $topicsWithQuizzes->push($topic);
+                        $processedTopicIds[] = $topic->id;
+                    }
+                }
+            }
+        }
+
+        if ($topicsWithQuizzes->isNotEmpty()) {
+            $topicIds = $topicsWithQuizzes->pluck('id');
+            
+            $results = QuizzResult::where('user_id', $user->id)
+                                ->whereIn('topic_id', $topicIds)
+                                ->get()
+                                ->keyBy('topic_id');
+
+            $topicsWithQuizzes->each(function ($topic) use ($results) {
+                $topic->result = $results->get($topic->id);
+                $topic->has_attempt = !is_null($topic->result);
+            });
+        }
+
+        return view('frontend.students.my-quiz', compact('user', 'title', 'topicsWithQuizzes'));
     }
-<<<<<<< HEAD
-=======
->>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
-=======
 
->>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
-=======
->>>>>>> 2143b16 (Add page for user joining the class and take quizz)
-=======
->>>>>>> 58dfb71 (Update header and Add report learning progress page)
-
-    public function tutors()
+    public function showResult($id)
     {
-        $tutors = User::where('account_type', 'tutor')->get();
-        return view('frontend.tutors', compact('tutors'));
+        $title = 'Quiz Result';
+        $result = QuizzResult::with('topic')->findOrFail($id);
+        $answers = QuizzAnswer::with('quizz')->where('user_id', auth()->id())
+        ->whereIn('quizz_id', function ($query) use ($result) {
+            $query->select('id')
+                ->from('quizzes')
+                ->where('topic_id', $result->topic_id);
+        })->get();
+
+        return view('frontend.students.result', compact('result', 'answers', 'title'));
     }
 
-=======
-    }
-
-    public function tutors()
+    public function assignment(Request $request)
     {
-        $tutors = User::where('account_type', 'tutor')->get();
-        return view('frontend.tutors', compact('tutors'));
+        $title = 'My Assignments';
+        $user = Auth::user();
+        $currentProfile = $user->current_profile->id;
+
+        $query = Subscription::where('profile_id', $currentProfile)
+                            ->with(['subject.tests'])
+                            ->latest();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where('transaction_code', 'like', '%' . $searchTerm . '%');
+        }
+
+        $subscriptions = $query->get();
+
+        $subjectsWithTests = collect();
+        $processedSubjectIds = [];
+
+        foreach ($subscriptions as $subscription) {
+            if ($subscription->subject && $subscription->subject->tests) {
+                foreach ($subscription->subject->tests as $test) {
+                    if ($test->status === 'publish' && !in_array($test->subject_id, $processedSubjectIds)) {
+                        $subjectsWithTests->push($test);
+                        $processedSubjectIds[] = $test->subject_id;
+                    }
+                }
+            }
+        }
+
+        if ($subjectsWithTests->isNotEmpty()) {
+            $testIds = $subjectsWithTests->pluck('id');
+
+            $results = TestResult::where('user_id', $user->id)
+                                ->whereIn('test_id', $testIds)
+                                ->get()
+                                ->keyBy('test_id');
+
+            $subjectsWithTests->each(function ($test) use ($results) {
+                $test->result = $results->get($test->id);
+                $test->has_attempt = !is_null($test->result);
+            });
+        }
+
+        return view('frontend.students.my-assignment', compact('user', 'title', 'subjectsWithTests'));
     }
-
->>>>>>> parent of ad55921 (update some bug)
-
 }

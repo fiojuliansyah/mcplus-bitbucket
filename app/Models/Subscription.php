@@ -17,6 +17,7 @@ class Subscription extends Model
         'start_date',
         'end_date',
         'price',
+        'coupon_id',
         'coupon_discount',
         'tax',
         'total_amount',

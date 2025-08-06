@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('topic_id');
-            $table->unsignedInteger('score')->default(0); // score out of 100
+            $table->unsignedInteger('score')->default(0);
             $table->unsignedInteger('total_questions');
             $table->unsignedInteger('correct_answers');
             $table->timestamps();

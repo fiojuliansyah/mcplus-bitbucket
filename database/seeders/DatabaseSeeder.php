@@ -21,15 +21,7 @@ class DatabaseSeeder extends Seeder
             GradesSeeder::class,
             SubjectsSeeder::class,
             PlanSeeder::class,
-<<<<<<< HEAD
-<<<<<<< HEAD
             // TopicsSeeder::class,
-=======
-            TopicsSeeder::class,
->>>>>>> 33644b8 (add Topics)
-=======
-            // TopicsSeeder::class,
->>>>>>> e9bf435 (Add Live Class management for tutor)
         ]);
     }
 }

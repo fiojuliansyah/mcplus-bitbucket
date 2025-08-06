@@ -1,347 +1,244 @@
-<header class="header-center-home header-default header-sticky">
-    <nav class="nav navbar navbar-expand-xl navbar-light iq-navbar header-hover-menu py-xl-0">
-        <div class="container-fluid navbar-inner">
-            <div class="d-flex align-items-center justify-content-between w-100 landing-header">
-                <div class="d-flex gap-3 gap-xl-0 align-items-center">
-                    <div>
-                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar_main"
-                            aria-controls="navbar_main"
-                            class="d-xl-none btn btn-primary rounded-pill p-1 pt-0 toggle-rounded-btn">
-                            <svg width="20px" class="icon-20" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <!--Logo -->
-                    <div class="logo-default">
-                        <a class="navbar-brand text-primary" href="/">
-                            <img class="img-fluid logo" src="/frontend/assets/images/logo-example.png" loading="lazy"
-                                alt="streamit" />
-                        </a>
-                    </div>
-
+<div class="header-topbar text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start">
+                    <p class="d-flex align-items-center fw-medium fs-14 mb-2 me-3"><i
+                            class="isax isax-location5 me-2"></i>1442 Crosswind Drive Madisonville</p>
+                    <p class="d-flex align-items-center fw-medium fs-14 mb-2"><i
+                            class="isax isax-call-calling5 me-2"></i>+1 45887 77874</p>
                 </div>
-                <nav id="navbar_main"
-                    class="offcanvas mobile-offcanvas nav navbar navbar-expand-xl hover-nav horizontal-nav mega-menu-content py-xl-0">
-                    <div class="container-fluid p-lg-0">
-                        <div class="offcanvas-header px-0">
-                            <div class="navbar-brand ms-3">
-                                <!--Logo -->
-                                <div class="logo-default">
-                                    <a class="navbar-brand text-primary" href="/">
-                                        <img class="img-fluid logo" src="/frontend/assets/images/logo.webp"
-                                            loading="lazy" alt="streamit" />
-                                    </a>
-                                </div>
-                            </div>
-                            <button type="button" class="btn-close float-end px-3" data-bs-dismiss="offcanvas"
-                                aria-label="Close"></button>
-                        </div>
-                        <ul class="navbar-nav iq-nav-menu  list-unstyled" id="header-menu">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/">
-                                    <span class="item-name">Home</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link {{ Route::is(['user.home.tutors']) ? 'active' : '' }}" href="{{ route('user.home.tutors') }}">
-                                    <span class="item-name">Tutors</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link {{ Route::is(['user.home.subjects']) ? 'active' : '' }}" href="{{ route('user.home.subjects') }}">
-                                    <span class="item-name">Subjects</span>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link {{ Route::is(['user.pricing-plans']) ? 'active' : '' }}" href="{{ route('user.pricing-plans') }}">
-                                    <span class="item-name">Subscription</span>
-                                </a>
-                            </li>
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            @auth
-<<<<<<< HEAD
-=======
-                            @auth
->>>>>>> e9bf435 (Add Live Class management for tutor)
-=======
-                            @auth
->>>>>>> parent of ad55921 (update some bug)
-                                @if (auth()->user()->account_type === 'tutor')
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ Route::is(['tutor.my-course']) ? 'active' : '' }}" href="{{ route('tutor.my-course') }}">
-                                            <span class="item-name">My Course</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endauth
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            @auth
-=======
->>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
-=======
-=======
->>>>>>> e9bf435 (Add Live Class management for tutor)
-                            {{-- @auth
->>>>>>> 58dfb71 (Update header and Add report learning progress page)
-=======
-                            @auth
->>>>>>> parent of ad55921 (update some bug)
-                                @if (auth()->user()->account_type === 'student')
-                                    <li class="nav-item">
-                                        <a class="nav-link {{ Route::is(['user.my-class']) ? 'active' : '' }}" href="{{ route('user.my-class') }}">
-                                            <span class="item-name">My Class</span>
-                                        </a>
-                                    </li>
-                                @endif
-<<<<<<< HEAD
-                            @endauth --}}
-=======
-                            @endauth
->>>>>>> parent of ad55921 (update some bug)
-
-                        </ul>
-                    </div>
-                    <!-- container-fluid.// -->
-                </nav>
-                <div class="right-panel">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-btn">
-                            <span class="navbar-toggler-icon"></span>
-                        </span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav align-items-center ms-auto mb-2 mb-xl-0">
-                            <li class="nav-item dropdown iq-responsive-menu">
-                                <div class="search-box">
-                                    <a href="#" class="nav-link p-0" id="search-drop" data-bs-toggle="dropdown">
-                                        <div class="btn-icon btn-sm rounded-pill btn-action">
-                                            <span class="btn-inner">
-                                                <i class="fas fa-search"></i>
-                                            </span>
-                                        </div>
-                                    </a>
-                                    <ul class="dropdown-menu p-0 dropdown-search m-0 iq-search-bar"
-                                        style="width: 20rem;">
-                                        <li class="p-0">
-                                            <div class="form-group input-group mb-0">
-                                                <input type="text" class="form-control border-0"
-                                                    placeholder="Search...">
-                                                <button type="submit" class="search-submit">
-                                                    <svg class="icon-15" width="15" viewBox="0 0 24 24"
-                                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <circle cx="11.7669" cy="11.7666" r="8.98856"
-                                                            stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round" stroke-linejoin="round">
-                                                        </circle>
-                                                        <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
-                                                            stroke-width="1.5" stroke-linecap="round"
-                                                            stroke-linejoin="round">
-                                                        </path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-
-                            @guest
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/login">
-                                        <span class="item-name">Login</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/register">
-                                        <span class="item-name">Register</span>
-                                    </a>
-                                </li>
-                            @endguest
-
-                            @auth
-                                <li class="nav-item dropdown iq-responsive-menu" style="padding-left: 10px">
-                                    <div class="search-box">
-                                        <a href="#" class="nav-link p-0" id="search-drop" data-bs-toggle="dropdown">
-                                            <div class="btn-icon btn-sm rounded-pill btn-action">
-                                                <span class="btn-inner">
-                                                    <i class="fas fa-bell"></i>
-                                                </span>
-                                            </div>
-                                        </a>
-                                        {{-- <ul class="dropdown-menu p-0 dropdown-search m-0 iq-search-bar"
-                                            style="width: 20rem;">
-                                            <li class="p-0">
-                                                <div class="form-group input-group mb-0">
-                                                    <input type="text" class="form-control border-0"
-                                                        placeholder="Search...">
-                                                    <button type="submit" class="search-submit">
-                                                        <svg class="icon-15" width="15" viewBox="0 0 24 24"
-                                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <circle cx="11.7669" cy="11.7666" r="8.98856"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round">
-                                                            </circle>
-                                                            <path d="M18.0186 18.4851L21.5426 22" stroke="currentColor"
-                                                                stroke-width="1.5" stroke-linecap="round"
-                                                                stroke-linejoin="round">
-                                                            </path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        </ul> --}}
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown" id="itemdropdown1">
-                                    <a class="nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <div class="btn-icon rounded-pill user-icons">
-                                            <span class="btn-inner">
-                                                @if(Auth::user()->current_profile->avatar)
-                                                    <img src="{{ asset('storage/' . Auth::user()->current_profile->avatar) }}" class="img-fluid" width="30" height="30" style="border-radius: 5px">
-                                                @else
-                                                    <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 5px">
-                                                        <span class="fs-6">
-                                                            @foreach(explode(' ', Auth::user()->current_profile->name) as $word)
-                                                                {{ strtoupper($word[0]) }}
-                                                            @endforeach
-                                                        </span>
-                                                    </div>
-                                                @endif
-                                            </span>
-                                        </div>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-user border-0 p-0 m-0"
-                                        aria-labelledby="navbarDropdown">
-                                        <li class="user-info d-flex flex-column gap-3 mb-3">
-                                            @foreach (Auth::user()->profiles as $profile)
-                                                <div class="d-flex align-items-center gap-3 my-2">
-                                                    <a href="javascript:void(0);" 
-                                                        @if ($profile->pin)
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#enterPinModal-{{ $profile->id }}"
-                                                        @else
-                                                            onclick="event.preventDefault(); document.getElementById('change-profile-{{ $profile->id }}').submit();"
-                                                        @endif
-                                                        class="d-flex align-items-center gap-3"
-                                                    >
-                                                        @if($profile->avatar)
-                                                            <img src="{{ asset('storage/' . $profile->avatar) }}" class="img-fluid" alt="Profile Avatar" style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px">
-                                                        @else
-                                                            <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 5px">
-                                                                <span class="fs-6">
-                                                                    @foreach(explode(' ', $profile->name) as $word)
-                                                                        {{ strtoupper($word[0]) }}
-                                                                    @endforeach
-                                                                </span>
-                                                            </div>
-                                                        @endif
-                                                        <span class="font-size-14 fw-500 text-capitalize text-white">{{ $profile->name }}</span>
-                                                    </a>
-
-                                                    @if (!$profile->pin)
-                                                        <form id="change-profile-{{ $profile->id }}" action="{{ route('user.change-profile') }}" method="POST" style="display: none;">
-                                                            @csrf
-                                                            <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('user.profile') }}"
-                                                class="iq-sub-card d-flex align-items-center gap-3">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 16 22" fill="none">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M7.84455 20.6621C4.15273 20.6621 1 20.0876 1 17.7868C1 15.486 4.13273 13.3621 7.84455 13.3621C11.5364 13.3621 14.6891 15.4654 14.6891 17.7662C14.6891 20.066 11.5564 20.6621 7.84455 20.6621Z"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                                        d="M7.83725 10.1738C10.26 10.1738 12.2236 8.21015 12.2236 5.78742C12.2236 3.36469 10.26 1.40015 7.83725 1.40015C5.41452 1.40015 3.44998 3.36469 3.44998 5.78742C3.4418 8.20196 5.3918 10.1656 7.80634 10.1738C7.81725 10.1738 7.82725 10.1738 7.83725 10.1738Z"
-                                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                        stroke-linejoin="round" />
-                                                </svg>
-                                                <h6 class="mb-0 font-size-14 fw-normal">My Account</h6>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="./watchlist" class="iq-sub-card d-flex align-items-center gap-3">
-                                                <svg width="16" height="16" viewBox="0 0 24 24"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="m0 0h24v24h-24z" fill="#fff" opacity="0"
-                                                        transform="matrix(-1 0 0 -1 24 24)" />
-                                                    <path
-                                                        d="m19 11h-6v-6a1 1 0 0 0 -2 0v6h-6a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2z"
-                                                        fill="currentColor" />
-                                                </svg>
-                                                <h6 class="mb-0 font-size-14 fw-normal">Watchlist</h6>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="{{ route('user.learning-progress') }}" class="iq-sub-card d-flex align-items-center gap-3">
-                                            {{-- <a href="#" class="iq-sub-card d-flex align-items-center gap-3"> --}}
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up-arrow" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
-                                                </svg>
-                                                <h6 class="mb-0 font-size-14 fw-normal">Learning Progress</h6>
-                                            </a>
-                                        </li>
-
-                                        @if (auth()->user()->account_type === 'student')
-                                            <li>
-                                                <a href="./my-subscription"
-                                                    class="iq-sub-card d-flex align-items-center gap-3">
-                                                    <svg width="16" height="16" stroke-width="1.5"
-                                                        viewBox="0 0 24 24" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path
-                                                            d="M8.58737 8.23597L11.1849 3.00376C11.5183 2.33208 12.4817 2.33208 12.8151 3.00376L15.4126 8.23597L21.2215 9.08017C21.9668 9.18848 22.2638 10.0994 21.7243 10.6219L17.5217 14.6918L18.5135 20.4414C18.6409 21.1798 17.8614 21.7428 17.1945 21.3941L12 18.678L6.80547 21.3941C6.1386 21.7428 5.35909 21.1798 5.48645 20.4414L6.47825 14.6918L2.27575 10.6219C1.73617 10.0994 2.03322 9.18848 2.77852 9.08017L8.58737 8.23597Z"
-                                                            stroke="currentColor" stroke-linecap="round"
-                                                            stroke-linejoin="round" />
-                                                    </svg>
-                                                    <h6 class="mb-0 font-size-14 fw-normal">Subscription</h6>
-                                                </a>
-                                            </li>
-                                        @endif
-
-                                        <li>
-                                            <a href="javascript:void(0);"
-                                                class="iq-sub-card iq-logout-2 mt-1 d-flex justify-content-center gap-2"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 16 16" fill="none">
-                                                    <path
-                                                        d="M1.82209 15.9999C1.46654 15.9999 1.16283 15.874 0.910981 15.6221C0.659129 15.3703 0.533203 15.0666 0.533203 14.711V1.73322C0.533203 1.37767 0.659129 1.07397 0.910981 0.822114C1.16283 0.570262 1.46654 0.444336 1.82209 0.444336H7.95543V1.44434H1.82209C1.74802 1.44434 1.68135 1.47397 1.62209 1.53322C1.56283 1.59248 1.5332 1.65915 1.5332 1.73322V14.711C1.5332 14.7851 1.56283 14.8517 1.62209 14.911C1.68135 14.9703 1.74802 14.9999 1.82209 14.9999H7.95543V15.9999H1.82209ZM12.0888 11.5999L11.3554 10.8888L13.5332 8.73322H5.68876V7.711H13.511L11.3332 5.55545L12.0665 4.82211L15.4665 8.24434L12.0888 11.5999Z"
-                                                        fill="currentColor"></path>
-                                                </svg>
-                                                <h6 class="mb-0 font-size-14 fw-normal">Logout</h6>
-                                            </a>
-
-                                            <form id="logout-form" action="{{ route('logout-user') }}" method="POST"
-                                                style="display: none;">
-                                                @csrf
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endauth
-                        </ul>
-                    </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-end">
+                    <ul class="social-icon d-flex align-items-center mb-2">
+                        <li class="me-2">
+                            <a href="javascript:void(0);"><i class="fa-brands fa-facebook-f"></i></a>
+                        </li>
+                        <li class="me-2">
+                            <a href="javascript:void(0);"><i class="fa-brands fa-instagram"></i></a>
+                        </li>
+                        <li class="me-2">
+                            <a href="javascript:void(0);"><i class="fa-brands fa-x-twitter"></i></a>
+                        </li>
+                        <li class="me-2">
+                            <a href="javascript:void(0);"><i class="fa-brands fa-youtube"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i class="fa-brands fa-linkedin"></i></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+</div>
+<!-- /Header Topbar-->
+
+<!-- Header -->
+<header class="header-two">
+    <div class="container">
+        <div class="header-nav">
+            <div class="navbar-header">
+                <a id="mobile_btn" href="javascript:void(0);">
+                    <span class="bar-icon">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </span>
+                </a>
+                <div class="navbar-logo">
+                    <a class="logo-white header-logo" href="index.html">
+                        <img src="/frontpage/assets/img/logo.svg" class="logo" alt="Logo">
+                    </a>
+                    <a class="logo-dark header-logo" href="index.html">
+                        <img src="/frontpage/assets/img/logo-white.svg" class="logo" alt="Logo">
+                    </a>
+                </div>
+            </div>
+            <div class="main-menu-wrapper">
+                <div class="menu-header">
+                    <a href="index.html" class="menu-logo">
+                        <img src="/frontpage/assets/img/logo.svg" class="img-fluid" alt="Logo">
+                    </a>
+                    <a id="menu_close" class="menu-close" href="javascript:void(0);">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+                <ul class="main-nav">
+                    <li class="megamenu {{ Route::is(['home']) ? 'active' : '' }}">
+                        <a href="{{ route('home') }}">Home</a>
+                    </li>
+                    <li class="megamenu {{ Route::is(['home.subjects', 'home.subjectDetail']) ? 'active' : '' }}">
+                        <a href="{{ route('home.subjects') }}">Subjects</a>
+                    </li>
+                    <li class="megamenu {{ Route::is(['home.tutors']) ? 'active' : '' }}">
+                        <a href="{{ route('home.tutors') }}">Tutors</a>
+                    </li>
+                    <li class="megamenu {{ Route::is(['pricing-plans']) ? 'active' : '' }}">
+                        <a href="{{ route('pricing-plans') }}">Plans</a>
+                    </li>
+                    @auth
+                        @if (auth()->user()->account_type === 'student')
+                            <li class="megamenu {{ Route::is(['user.*']) ? 'active' : '' }}">
+                                <a href="{{ route('user.dashboard') }}">My Dashboard</a>
+                            </li>
+                        @endif
+                    @endauth
+                    @auth
+                        @if (auth()->user()->account_type === 'tutor')
+                            <li class="megamenu {{ Route::is(['tutor.*']) ? 'active' : '' }}">
+                                <a href="{{ route('tutor.dashboard') }}">My Dashboard</a>
+                            </li>
+                        @endif
+                    @endauth
+                </ul>
+            </div>
+            <div class="header-btn d-flex align-items-center">
+                <div class="header-icon-container me-3">
+                    @auth  
+                        <div class="icon-btn me-3">
+                            <div class="dropdown notification-dropdown">
+                                <a href="javascript:void(0);" class="position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="isax isax-notification5"></i>
+                                    @if($unreadNotifications->count() > 0)
+                                        <span class="count-icon bg-danger p-1 rounded-pill text-white fs-10 fw-bold">
+                                            {{ $unreadNotifications->count() }}
+                                        </span>
+                                    @endif
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" style="width: 500px; max-width: none;">
+                                    <div class="notification-header">
+                                        <h6 class="mb-0">Notifications</h6>
+                                    </div>
+                                    <div class="notification-body">
+                                        @forelse($notifications as $notification)
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <span class="avatar avatar-sm bg-info-light">
+                                                        <i class="isax isax-notification5 text-info"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <p class="mb-0 @if($notification->read_at === null) text-secondary @endif"><strong>{{ $notification->data['message'] ?? 'Notification message is missing.' }}</strong></p>
+                                                    <span class="text-muted small">{{ $notification->created_at->diffForHumans() }}</span>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <p class="mb-0 text-center text-muted">No new notifications</p>
+                                        @endforelse
+                                    </div>
+                                    <div class="notification-footer">
+                                        <a href="{{ route('notifications.markAsRead') }}" class="text-primary">Mark all as read</a> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endauth
+                    <div class="icon-btn me-2">
+                        <a href="javascript:void(0);" id="dark-mode-toggle" class="theme-toggle activate">
+                            <i class="isax isax-sun-15"></i>
+                        </a>
+                        <a href="javascript:void(0);" id="light-mode-toggle" class="theme-toggle">
+                            <i class="isax isax-moon"></i>
+                        </a>
+                    </div>
+                </div>
+                 @guest
+                    <a href="{{ route('login') }}" class="btn btn-primary d-inline-flex align-items-center me-2">
+                        Sign In
+                    </a>
+                    <a href="{{ route('register') }}" class="btn btn-secondary me-0">
+                        Register
+                    </a>
+                @endguest
+
+                @auth
+                    <div class="header-btn d-flex align-items-center">
+                        <div class="dropdown profile-dropdown">
+                            <a href="javascript:void(0);" class="d-flex align-items-center" data-bs-toggle="dropdown">
+                                <span class="avatar">
+                                    @if(Auth::user()->current_profile && Auth::user()->current_profile->avatar)
+                                    <img src="{{ asset('storage/' . Auth::user()->current_profile->avatar) }}" alt="Img" class="img-fluid rounded-circle">
+                                    @else
+                                        <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 35px; height: 35px; border-radius: 100px">
+                                            <span class="fs-6">
+                                                @foreach(explode(' ', Auth::user()->current_profile->name ?? Auth::user()->name) as $word)
+                                                    {{ strtoupper($word[0]) }}
+                                                @endforeach
+                                            </span>
+                                        </div>
+                                    @endif
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                @foreach (Auth::user()->profiles as $profile)
+                                    <a href="javascript:void(0);" 
+                                        @if ($profile->pin)
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#enterPinModal-{{ $profile->id }}"
+                                        @else
+                                            onclick="event.preventDefault(); document.getElementById('change-profile-{{ $profile->id }}').submit();"
+                                        @endif class="profile-header d-flex align-items-center">
+                                        <div class="avatar">
+                                            @if($profile->avatar)
+                                                <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Img" class="img-fluid rounded-circle">
+                                            @else
+                                                <div class="bg-primary text-white d-flex align-items-center justify-content-center" style="width: 35px; height: 35px; border-radius: 50px">
+                                                    <span class="fs-6">
+                                                        @foreach(explode(' ', $profile->name) as $word)
+                                                            {{ strtoupper($word[0]) }}
+                                                        @endforeach
+                                                    </span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <h6 @if ($profile->is(Auth::user()->current_profile))class="text-secondary" @endif>{{ $profile->name }}</h6>
+                                            <p> 
+                                                @if ($profile->is(Auth::user()->current_profile))
+                                                    {{ Auth::user()->email }}
+                                                @endif
+                                            </p>
+                                        </div>
+                                        @if (!$profile->pin)
+                                            <form id="change-profile-{{ $profile->id }}" action="{{ route('user.change-profile') }}" method="POST" style="display: none;">
+                                                @csrf
+                                                <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+                                            </form>
+                                        @endif
+                                    </a>
+                                @endforeach
+                                <ul class="profile-body">
+                                    <li>
+                                        <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="{{ route('user.profile') }}"><i class="isax isax-security-user me-2"></i>My Profile</a>
+                                    </li>
+                                    @if (auth()->user()->account_type === 'student')
+                                        <li>
+                                            <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="{{ route('user.learning-progress') }}"><i class="isax isax-teacher me-2"></i>Learning Progress</a>
+                                        </li>
+                                    @endif
+                                    @if (auth()->user()->account_type === 'tutor')
+                                        <li>
+                                            <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="instructor-course.html"><i class="isax isax-teacher me-2"></i>Courses</a>
+                                        </li>
+                                    @endif
+                                    <li>
+                                        <a class="dropdown-item d-inline-flex align-items-center rounded fw-medium" href="{{ route('user.settings') }}"><i class="isax isax-setting-2 me-2"></i>Settings</a>
+                                    </li>
+                                </ul>
+                                <div class="profile-footer">
+                                    <a href="javascript:void(0);" class="btn btn-secondary d-inline-flex align-items-center justify-content-center w-100" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="isax isax-logout me-2"></i>Logout</a>
+                                    <form id="logout-form" action="{{ route('logout-user') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endauth
+            </div>
+        </div>
+    </div>
 </header>

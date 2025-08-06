@@ -16,12 +16,13 @@ use App\Http\Controllers\Controller;
 
 class UserQuizzController extends Controller
 {
-    public function index(Grade $grade, Subject $subject, Topic $topic)
+    public function index(Topic $topic)
     {
-        // Fetch all quizzes for this topic
+        $title = 'Quizzes';
+        $user = Auth::user();
         $quizzes = Quizz::where('topic_id', $topic->id)->get();
 
-        return view('frontend.quizz.index', compact('grade', 'subject', 'topic', 'quizzes'));
+        return view('frontend.students.quizz.index', compact('topic', 'quizzes','title','user'));
     }
 
     public function submit(Request $request, Grade $grade, Subject $subject, Topic $topic)
@@ -43,7 +44,6 @@ class UserQuizzController extends Controller
 
             $isCorrect = ((string)$userAnswerIndex === (string)$correctIndex);
 
-            // Save individual answer
             QuizzAnswer::create([
                 'user_id'   => $user->id,
                 'quizz_id'  => $quiz->id,
@@ -59,7 +59,6 @@ class UserQuizzController extends Controller
         $totalQuestions = $quizzes->count();
         $score = $totalQuestions > 0 ? ($correctCount / $totalQuestions) * 100 : 0;
 
-        // Save result
         $result = QuizzResult::create([
             'user_id'         => $user->id,
             'topic_id'        => $topic->id,
@@ -81,6 +80,6 @@ class UserQuizzController extends Controller
                                         ->where('topic_id', $result->topic_id);
                               })->get();
 
-        return view('frontend.quizz.result', compact('result', 'answers'));
+        return view('frontend.students.quizz.result', compact('result', 'answers'));
     }
 }

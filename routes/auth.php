@@ -39,7 +39,6 @@ Route::middleware('guest')->group(function () {
        
     Route::post('/login/otp/send', [OtpLoginController::class, 'sendOtp'])->name('login.otp.send');
 
-    Route::post('send-otp', [OTPController::class, 'sendOtp']);
     Route::get('/verify-otp/{userId}', [RegisteredUserController::class, 'showVerifyForm'])->name('verify.otp');
     Route::post('/verify-otp/{userId}', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp.submit');
 });

@@ -11,10 +11,10 @@ class UserProfileController extends Controller
 {
     public function index()
     {
+        $title = 'Profile';
         $user = Auth::user();
         $profiles = $user->profiles;
-        $subscriptions = $user->subscriptions;
-        return view('frontend.profiles.index', compact('user', 'profiles', 'subscriptions'));
+        return view('frontend.profiles.index', compact('user', 'profiles','title'));
     }
 
     public function store(Request $request)
@@ -112,7 +112,7 @@ class UserProfileController extends Controller
         $user->save();
 
         
-        return redirect()->route('user.home')->with('success', 'Profile updated successfully!');
+        return redirect()->route('user.dashboard')->with('success', 'Profile updated successfully!');
     }
 
 }

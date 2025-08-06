@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('subjects', function (Blueprint $table) {
-                $table->id();
-                $table->string('grade_id');
-                $table->string('thumbnail')->nullable();
-                $table->string('cover')->nullable();
-                $table->string('name');
-                $table->string('slug');
-                $table->string('trailer')->nullable();
-                $table->string('status');
-                $table->timestamps();
-            });
+        Schema::create('subjects', function (Blueprint $table) {
+            $table->id();
+            $table->string('grade_id');
+            $table->string('thumbnail')->nullable();
+            $table->string('cover')->nullable();
+            $table->string('name');
+            $table->string('slug');
+            $table->string('trailer')->nullable();
+            $table->string('status');
+            $table->timestamps();
+        });
     }
 
     /**

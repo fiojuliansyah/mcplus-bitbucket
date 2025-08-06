@@ -46,20 +46,11 @@ class User extends Authenticatable
         return $this->belongsToMany(LiveClass::class, 'user_id');
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
     public function replayClass()
     {
         return $this->hasMany(ReplayClass::class);
     }
 
-<<<<<<< HEAD
-=======
->>>>>>> 7b4de55 (add Create live class, update live class table, add dynamic dropdown)
-=======
->>>>>>> 64ff4f3 (Add Upload Replay Class to Cloudinary)
     public function profiles()
     {
         return $this->hasMany(Profile::class);
@@ -74,13 +65,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Quizz::class);
     }
-<<<<<<< HEAD
     public function tests()
     {
         return $this->hasMany(Test::class);
     }
-=======
->>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
 
     public function current_profile()
     {
