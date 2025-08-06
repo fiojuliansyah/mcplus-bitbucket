@@ -49,15 +49,22 @@
                         <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="grade-{{ $grade->id }}" role="tabpanel">
                             <div class="card p-4 mb-4">
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 <h3 class="mb-4">{{ $grade->name }} - Subjects</h3>
 =======
                                 <h4 class="mb-4">{{ $grade->name }} - Subjects</h4>
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+                                <h3 class="mb-4">{{ $grade->name }} - Subjects</h3>
+>>>>>>> parent of ad55921 (update some bug)
 
                                 @forelse($grade->subjects as $subject)
                                   <div class="mb-5">
                                       <div class="mb-3 d-flex justify-content-between align-items-center">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of ad55921 (update some bug)
                                           <h4 class="fw-bold mb-0">{{ $subject->name }}</h4>
 
                                           <!-- Trigger Modal -->
@@ -113,6 +120,7 @@
                                             @endforeach
                                         </ul>
 
+<<<<<<< HEAD
 =======
                                           <h6 class="fw-bold mb-0">{{ $subject->name }}</h6>
 
@@ -145,6 +153,8 @@
                                               @endforeach
                                           </ul>
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+>>>>>>> parent of ad55921 (update some bug)
                                       @else
                                           <p class="text-muted fst-italic">No classes available.</p>
                                       @endif

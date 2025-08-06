@@ -56,6 +56,9 @@ class Subject extends Model
         return $this->hasMany(Quizz::class);
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of ad55921 (update some bug)
     public function tests()
     {
         return $this->hasMany(Test::class);

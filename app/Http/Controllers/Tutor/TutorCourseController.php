@@ -40,6 +40,9 @@ class TutorCourseController extends Controller
 
         // Load LiveClasses grouped by subject_id
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of ad55921 (update some bug)
             // $liveClasses = LiveClass::whereIn('subject_id', $subjectIds)
             //     ->get()
             //     ->groupBy('subject_id');
@@ -55,10 +58,14 @@ class TutorCourseController extends Controller
         $user = Auth::user()->load('current_profile');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         return view('tutor.courses.myCourse', compact('grades', 'topics', 'user'));
 =======
         return view('tutor.courses.myCourse', compact('grades', 'liveClasses', 'user'));
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+        return view('tutor.courses.myCourse', compact('grades', 'topics', 'user'));
+>>>>>>> parent of ad55921 (update some bug)
     }
 
 

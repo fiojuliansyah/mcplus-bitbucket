@@ -8,12 +8,16 @@ use App\Models\Subject;
 use App\Models\Topic;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Models\UserAttendSubject;
 =======
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
 =======
 use App\Models\UserAttendSubject;
 >>>>>>> 381ca05 (add Attendance topic for user)
+=======
+use App\Models\UserAttendSubject;
+>>>>>>> parent of ad55921 (update some bug)
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -157,8 +161,11 @@ class UserPageController extends Controller
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
+=======
+>>>>>>> parent of ad55921 (update some bug)
     public function myClass()
     {
         $userId = Auth::id();
@@ -171,10 +178,14 @@ class UserPageController extends Controller
             ->whereIn('id', function ($query) use ($userId) {
                 $query->select('subject_id')
 <<<<<<< HEAD
+<<<<<<< HEAD
                     ->from('model_has_subjects')
 =======
                     ->from('user_has_subjects')
 >>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
+=======
+                    ->from('model_has_subjects')
+>>>>>>> parent of ad55921 (update some bug)
                     ->where('user_id', $userId);
             })
             ->get();
@@ -184,6 +195,7 @@ class UserPageController extends Controller
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public function mySubject($slugGrade, $slugSubject)
     {
         $userId = Auth::id();
@@ -191,6 +203,11 @@ class UserPageController extends Controller
     public function mySubject($slugGrade, $slugSubject)
     {
         $userId = Auth::id();
+=======
+    public function mySubject($slugGrade, $slugSubject)
+    {
+        $userId = Auth::id();
+>>>>>>> parent of ad55921 (update some bug)
 
         $grade = Grade::where('slug', $slugGrade)->firstOrFail();
 
@@ -207,6 +224,7 @@ class UserPageController extends Controller
         // Fetch all topics and mark them as attended or not
         $topics = Topic::where('subject_id', $subject->id)
                     ->where('grade_id', $grade->id)
+<<<<<<< HEAD
                     ->with('grades')
                     ->get()
                     ->map(function ($topic) use ($attendedSubjectIds) {
@@ -234,6 +252,8 @@ class UserPageController extends Controller
         // Fetch all topics and mark them as attended or not
         $topics = Topic::where('subject_id', $subject->id)
                     ->where('grade_id', $grade->id)
+=======
+>>>>>>> parent of ad55921 (update some bug)
                     ->with('grade')
                     ->get()
                     ->map(function ($topic) use ($attendedSubjectIds) {
@@ -244,8 +264,11 @@ class UserPageController extends Controller
         return view('frontend.mySubject', compact('grade', 'subject', 'topics'));
     }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 2143b16 (Add page for user joining the class and take quizz)
+=======
+>>>>>>> parent of ad55921 (update some bug)
     public function myTopic($slugGrade, $slugSubject, $topicSlug)
     {
         $userId = Auth::id();
@@ -262,8 +285,11 @@ class UserPageController extends Controller
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 58dfb71 (Update header and Add report learning progress page)
+=======
+>>>>>>> parent of ad55921 (update some bug)
     public function learningProgress()
     {
         $progress = [
@@ -294,6 +320,7 @@ class UserPageController extends Controller
         ];
 
         return view('frontend.learningProgress', compact('progress'));
+<<<<<<< HEAD
     }
 <<<<<<< HEAD
 =======
@@ -312,5 +339,15 @@ class UserPageController extends Controller
         return view('frontend.tutors', compact('tutors'));
     }
 
+=======
+    }
+
+    public function tutors()
+    {
+        $tutors = User::where('account_type', 'tutor')->get();
+        return view('frontend.tutors', compact('tutors'));
+    }
+
+>>>>>>> parent of ad55921 (update some bug)
 
 }

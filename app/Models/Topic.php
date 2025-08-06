@@ -43,6 +43,7 @@ class Topic extends Model
     {
         return $this->hasMany(Test::class);
     }
+<<<<<<< HEAD
 =======
         public function subjects()
         {
@@ -86,4 +87,6 @@ class Topic extends Model
         return $this->hasMany(Quizz::class);
     }
 >>>>>>> af32276 (Add CRUD for Quizz for Admin Perspective)
+=======
+>>>>>>> parent of ad55921 (update some bug)
 }

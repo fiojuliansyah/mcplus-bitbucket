@@ -2,18 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+<<<<<<< HEAD
 use App\Http\Controllers\ZoomAuthController;
 use App\Http\Controllers\Admin\FaqController;
+=======
+>>>>>>> parent of ad55921 (update some bug)
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GradeController;
-use App\Http\Controllers\Admin\QuizzController;
-use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\Admin\TutorController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\SubjectController;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 use App\Http\Controllers\User\UserPageController;
@@ -74,18 +75,42 @@ use App\Http\Controllers\Tutor\TutorQuizzController;
 use App\Http\Controllers\Tutor\TutorTestController;
 use App\Http\Controllers\Tutor\TutorQuizzController;
 use App\Http\Controllers\User\UserProfileController;
+=======
+use App\Http\Controllers\Admin\TopicController;
+use App\Http\Controllers\Admin\QuizzController;
+use App\Http\Controllers\Admin\TestController;
+use App\Http\Controllers\Admin\TestResultController;
+use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\LiveClassController;
+>>>>>>> parent of ad55921 (update some bug)
 use App\Http\Controllers\Admin\ReplayClassController;
-use App\Http\Controllers\Tutor\TutorCourseController;
 use App\Http\Controllers\Admin\SubscriptionController;
+<<<<<<< HEAD
 use App\Http\Controllers\Tutor\TutorProfileController;
+=======
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\User\UserPageController;
+>>>>>>> parent of ad55921 (update some bug)
 use App\Http\Controllers\User\SubscriptionPlanController;
+use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\WatchlistController;
+use App\Http\Controllers\User\UserQuizzController;
+use App\Http\Controllers\User\UserTestController;
+use App\Http\Controllers\Tutor\TutorPageController;
+use App\Http\Controllers\Tutor\TutorProfileController;
+use App\Http\Controllers\Tutor\TutorCourseController;
+use App\Http\Controllers\Tutor\TutorQuizzController;
+use App\Http\Controllers\Tutor\TutorTestController;
 use App\Http\Controllers\Tutor\TutorTestQuestionController;
+<<<<<<< HEAD
 =======
 >>>>>>> e9bf435 (Add Live Class management for tutor)
 
 
 Route::get('/zoom/login', [ZoomAuthController::class, 'redirectToZoom'])->name('zoom.login');
 Route::get('/zoom/callback', [ZoomAuthController::class, 'handleCallback']);
+=======
+>>>>>>> parent of ad55921 (update some bug)
 
 Route::middleware(['check.profile'])->name('user.')->group(function () {
     Route::get('/', [UserPageController::class, 'index'])->name('home');
@@ -116,10 +141,15 @@ Route::middleware(['auth', 'check.profile'])->name('user.')->group(function () {
     Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
     Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+    Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
+    Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
+>>>>>>> parent of ad55921 (update some bug)
     
     Route::get('/{grade:slug}/{subject:slug}/{topic:slug}/quizzes', [UserQuizzController::class, 'index'])->name('quizzes.show');
     Route::post('/{grade:slug}/{subject:slug}/{topic:slug}/quizzes/submit', [UserQuizzController::class, 'submit'])->name('quizzes.submit');
@@ -204,6 +234,7 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
 
 
+<<<<<<< HEAD
 =======
     Route::delete('topic/{topicId}', [TopicController::class, 'destroy'])->name('topics.destroy'); 
 >>>>>>> 304dd22 (Add Datatable & CRUD for Topics)
@@ -217,6 +248,8 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
 
 
+=======
+>>>>>>> parent of ad55921 (update some bug)
 
     Route::resource('tutors', TutorController::class);
     Route::post('admin/tutors/{tutorId}/assign-subjects', [TutorController::class, 'assignSubjects'])->name('tutors.assign-subjects');
@@ -230,6 +263,9 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     
     Route::get('/my-course', [TutorCourseController::class, 'index'])->name('my-course');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of ad55921 (update some bug)
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
     Route::put('/my-course/{topicId}', [TutorCourseController::class, 'update'])->name('my-course.update');
     Route::delete('/my-course/{topicId}', [TutorCourseController::class, 'destroy'])->name('my-course.destroy');
@@ -250,10 +286,13 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::put('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'update'])->name('test-questions.update');
     Route::delete('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'destroy'])->name('test-questions.destroy');
 
+<<<<<<< HEAD
 =======
     // Route::get('/upload-course', [TutorCourseController::class, 'create'])->name('upload-course');
     Route::post('/my-course', [TutorCourseController::class, 'store'])->name('my-course.store');
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+>>>>>>> parent of ad55921 (update some bug)
     Route::get('/tutor-profile', [TutorProfileController::class, 'index'])->name('profile');
 
     

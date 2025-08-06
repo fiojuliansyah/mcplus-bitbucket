@@ -19,11 +19,14 @@ return new class extends Migration
 <<<<<<< HEAD
 <<<<<<< HEAD
             $table->string('grade_id');
+<<<<<<< HEAD
 =======
 >>>>>>> 33644b8 (add Topics)
 =======
             $table->string('grade_id');
 >>>>>>> 27cb97e (Add Subject Detail Page to show the topics)
+=======
+>>>>>>> parent of ad55921 (update some bug)
             $table->string('status'); // assuming status is a boolean
             $table->timestamps();
         });

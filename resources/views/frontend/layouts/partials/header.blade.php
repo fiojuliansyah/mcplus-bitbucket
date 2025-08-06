@@ -65,11 +65,15 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                             @auth
 <<<<<<< HEAD
 =======
                             @auth
 >>>>>>> e9bf435 (Add Live Class management for tutor)
+=======
+                            @auth
+>>>>>>> parent of ad55921 (update some bug)
                                 @if (auth()->user()->account_type === 'tutor')
                                     <li class="nav-item">
                                         <a class="nav-link {{ Route::is(['tutor.my-course']) ? 'active' : '' }}" href="{{ route('tutor.my-course') }}">
@@ -80,6 +84,7 @@
                             @endauth
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                             @auth
 =======
 >>>>>>> 24358b5 (add my-class for user to see the class that was enrolled)
@@ -88,6 +93,9 @@
 >>>>>>> e9bf435 (Add Live Class management for tutor)
                             {{-- @auth
 >>>>>>> 58dfb71 (Update header and Add report learning progress page)
+=======
+                            @auth
+>>>>>>> parent of ad55921 (update some bug)
                                 @if (auth()->user()->account_type === 'student')
                                     <li class="nav-item">
                                         <a class="nav-link {{ Route::is(['user.my-class']) ? 'active' : '' }}" href="{{ route('user.my-class') }}">
@@ -95,7 +103,11 @@
                                         </a>
                                     </li>
                                 @endif
+<<<<<<< HEAD
                             @endauth --}}
+=======
+                            @endauth
+>>>>>>> parent of ad55921 (update some bug)
 
                         </ul>
                     </div>

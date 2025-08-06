@@ -13,9 +13,12 @@
                     <div class="user-login-card bg-body">
                         <div class="text-center">
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
                             <!--Logo -->
 >>>>>>> e7a6931 (no message)
+=======
+>>>>>>> parent of ad55921 (update some bug)
                             <div class="logo-default">
                                 <a class="navbar-brand text-primary" href="./index.html">
                                     <img class="img-fluid logo" src="/frontend/assets/images/logo-example.png"
@@ -25,6 +28,9 @@
                         </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of ad55921 (update some bug)
                         <form id="email-login-form" action="{{ route('password.email') }}" method="POST">
                             @csrf
                            <p>Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.</p>
@@ -37,6 +43,7 @@
                                 <div class="mb-3">
                                     <input type="text" name="email" placeholder="Email" class="form-control rounded-0" :value="old('login')" required autofocus>
                                 </div>
+<<<<<<< HEAD
 =======
                         <!-- Form -->
                         <form id="email-login-form" action="{{ route('password.email') }}" method="POST">
@@ -48,6 +55,8 @@
                                 </div>
                                 <label
 >>>>>>> e7a6931 (no message)
+=======
+>>>>>>> parent of ad55921 (update some bug)
                                 <div class="full-button">
                                     <div class="iq-button">
                                         <button type="submit" class="btn text-uppercase position-relative">
@@ -68,6 +77,10 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> e7a6931 (no message)
+=======
+
+>>>>>>> parent of ad55921 (update some bug)
