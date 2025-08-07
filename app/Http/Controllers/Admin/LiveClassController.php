@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
+
 use App\DataTables\LiveClassDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Grade;
@@ -8,12 +10,38 @@ use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
-
 class LiveClassController extends Controller
 {
+    private function getZoomAccessToken(): string
+    {
+        if (Cache::has('zoom_access_token')) {
+            return Cache::get('zoom_access_token');
+        }
+
+        // Jika tidak ada di cache, minta token baru ke Zoom.
+        $response = Http::asForm()->post('https://zoom.us/oauth/token', [
+            'grant_type' => 'account_credentials',
+            'account_id' => env('ZOOM_ACCOUNT_ID'),
+            'client_id' => env('ZOOM_CLIENT_ID'),
+            'client_secret' => env('ZOOM_CLIENT_SECRET'),
+        ]);
+
+        if (!$response->successful()) {
+            throw new \Exception('Gagal mendapatkan Zoom Access Token. Periksa kredensial Anda di file .env.');
+        }
+
+        $data = $response->json();
+        $accessToken = $data['access_token'];
+
+        Cache::put('zoom_access_token', $accessToken, now()->addMinutes(59));
+
+        return $accessToken;
+    }
+
     public function index(LiveClassDataTable $dataTable)
     {
         $grades = Grade::all();
@@ -27,114 +55,170 @@ class LiveClassController extends Controller
             'grade_id' => 'required|exists:grades,id',
             'subject_id' => 'required|exists:subjects,id',
             'topic_id'  => 'required|exists:topics,id',
-            'user_id' => 'required|exists:users,id', 
+            'user_id' => 'required|exists:users,id',
             'agenda'  => 'required|string|max:1000',
             'start_time' => 'required|date',
             'duration' => 'required|integer|min:1',
         ]);
 
-        $tutor = User::findOrFail($request->user_id);
-        if (!$tutor->zoom_token) {
-            return back()->withInput()->with('error', 'Gagal: Tutor yang dipilih belum menghubungkan akun Zoom mereka.');
-        }
+        try {
+            $accessToken = $this->getZoomAccessToken();
 
-        $zoomSettings = array_merge([
-            'join_before_host' => false,
-            'host_video' => false,
-            'participant_video' => false,
-            'mute_upon_entry' => true,
-            'waiting_room' => true,
-            'audio' => 'both',
-            'auto_recording'  => 'none',
-            'approval_type' => 0,
-        ], $request->input('settings', []));
+            $tutor = User::findOrFail($request->user_id);
+            if (!$tutor->email) {
+                return back()->withInput()->with('error', 'Tutor yang dipilih tidak memiliki alamat email terdaftar.');
+            }
 
-        $liveClass = LiveClass::create([
-            'grade_id' => $request->grade_id,
-            'subject_id'  => $request->subject_id,
-            'topic_id' => $request->topic_id,
-            'user_id' => $request->user_id,
-            'agenda' => $request->agenda,
-            'type' => 1, 
-            'duration' => $request->duration,
-            'start_time' => Carbon::parse($request->start_time, 'Asia/Jakarta'),
-            'timezone' => 'Asia/Jakarta',
-            'password' => $request->password ?? Str::random(8),
-            'status' => 'scheduled',
-            'settings' => $zoomSettings,
-        ]);
-        $response = Http::withToken($tutor->zoom_token)
-            ->post("https://api.zoom.us/v2/users/{$tutor->zoom_id}/meetings", [
-                'topic'      => $liveClass->topic->name ?? 'Sesi Kelas Online',
+            $defaultSettings = [
+                'host_video'        => false,
+                'participant_video' => false,
+                'join_before_host'  => false,
+                'mute_upon_entry'   => false,
+                'waiting_room'      => false,
+            ];
+
+            $rawSettings = $request->input('settings', []);
+            $processedSettings = array_merge($defaultSettings, $rawSettings);
+
+                foreach ($processedSettings as $key => $value) {
+                if (array_key_exists($key, $defaultSettings)) {
+                    $processedSettings[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                }
+            }
+
+
+            $liveClass = LiveClass::create([
+                'grade_id'   => $request->grade_id,
+                'subject_id' => $request->subject_id,
+                'topic_id'   => $request->topic_id,
+                'user_id'    => $request->user_id,
                 'agenda'     => $request->agenda,
-                'type'       => 2, 
-                'start_time' => $liveClass->start_time->toIso8601String(),
+                'type'       => 1, // 1 = Zoom
                 'duration'   => $request->duration,
-                'timezone'   => $liveClass->timezone,
-                'password'   => $liveClass->password,
-                'settings'   => $zoomSettings,
+                'start_time' => Carbon::parse($request->start_time, 'Asia/Jakarta'),
+                'timezone'   => 'Asia/Jakarta',
+                'password'   => $request->password ?? Str::random(8),
+                'status'     => 'scheduled',
+                'settings'   => $processedSettings,
             ]);
 
-        if (!$response->successful()) {
-            $liveClass->delete(); 
-            $errorMessage = $response->json()['message'] ?? 'Terjadi kesalahan saat menghubungi Zoom.';
-            return back()->withInput()->with('error', 'Gagal membuat meeting di Zoom. Pesan: ' . $errorMessage);
-        }
+            $response = Http::withToken($accessToken)
+                ->post("https://api.zoom.us/v2/users/{$tutor->email}/meetings", [
+                    'topic'      => ($liveClass->subject->name ?? 'Subject') . ' - ' . ($liveClass->grade->name ?? 'Grade') . ': ' . ($liveClass->topic->name ?? 'Topic'),
+                    'agenda'     => $request->agenda,
+                    'type'       => 2,
+                    'start_time' => $liveClass->start_time->toIso8601String(),
+                    'duration'   => $request->duration,
+                    'password'   => $liveClass->password,
+                    'settings'   => $processedSettings,
+                ]);
 
-        $meeting = $response->json();
-        $liveClass->update([
-            'zoom_meeting_id' => $meeting['id'],
-            'zoom_join_url'   => $meeting['join_url'],
-            'zoom_start_url'  => $meeting['start_url'],
-        ]);
-        return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil dibuat.');
+            if (!$response->successful()) {
+                $liveClass->delete();
+                $errorMessage = $response->json()['message'] ?? 'Terjadi kesalahan saat membuat meeting.';
+                return back()->withInput()->with('error', 'Gagal membuat meeting di Zoom: ' . $errorMessage);
+            }
+
+            $meeting = $response->json();
+            $liveClass->update([
+                'zoom_meeting_id' => $meeting['id'],
+                'zoom_join_url'   => $meeting['join_url'],
+                'zoom_start_url'  => $meeting['start_url'],
+            ]);
+
+            return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil dibuat.');
+
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, string $id)
     {
-        $request->validate([]);
+        $request->validate([
+            'grade_id' => 'required|exists:grades,id',
+            'subject_id' => 'required|exists:subjects,id',
+            'topic_id'  => 'required|exists:topics,id',
+            'user_id' => 'required|exists:users,id',
+            'agenda'  => 'required|string|max:1000',
+            'start_time' => 'required|date',
+            'duration' => 'required|integer|min:1',
+        ]);
+
         $liveClass = LiveClass::findOrFail($id);
-        $tutor = $liveClass->user;
 
-        if (!$tutor || !$tutor->zoom_token) {
-            return back()->withInput()->with('error', 'Tutor untuk kelas ini tidak valid atau belum terhubung ke Zoom.');
-        }
+        try {
+            $accessToken = $this->getZoomAccessToken();
 
-        $liveClass->update($request->except('settings')); 
-        $zoomSettings = array_merge($liveClass->settings ?? [], $request->input('settings', []));
-        $liveClass->settings = $zoomSettings;
-        $liveClass->save();
+            $defaultSettings = [
+                'host_video'        => false,
+                'participant_video' => false,
+                'join_before_host'  => false,
+                'mute_upon_entry'   => false,
+                'waiting_room'      => false,
+            ];
 
-        if ($liveClass->type == 1 && $liveClass->zoom_meeting_id) {
-            $response = Http::withToken($tutor->zoom_token)
-                ->patch("https://api.zoom.us/v2/meetings/{$liveClass->zoom_meeting_id}", [
-                    'topic'      => $liveClass->topic->name ?? 'Sesi Kelas Online',
-                    'agenda'     => $request->agenda,
-                    'start_time' => Carbon::parse($request->start_time)->toIso8601String(),
-                    'duration'   => $request->duration,
-                    'settings'   => $zoomSettings,
-                ]);
-            if (!$response->noContent()) {
-                return back()->withInput()->with('error', 'Gagal memperbarui meeting di Zoom.');
+            $rawSettings = $request->input('settings', []);
+            
+            $processedSettings = array_merge($defaultSettings, $rawSettings);
+            foreach ($processedSettings as $key => $value) {
+                if (array_key_exists($key, $defaultSettings)) {
+                    $processedSettings[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                }
             }
-        }
+            
+            $updateData = $request->except(['_token', '_method', 'settings']);
+            $updateData['settings'] = $processedSettings;
 
-        return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil diperbarui.');
+            $liveClass->update($updateData);
+
+
+            if ($liveClass->zoom_meeting_id) {
+                Http::withToken($accessToken)
+                    ->patch("https://api.zoom.us/v2/meetings/{$liveClass->zoom_meeting_id}", [
+                        'topic'      => ($liveClass->subject->name ?? 'Subject') . ' - ' . ($liveClass->grade->name ?? 'Grade') . ': ' . ($liveClass->topic->name ?? 'Topic'),
+                        'agenda'     => $request->agenda,
+                        'start_time' => Carbon::parse($request->start_time)->toIso8601String(),
+                        'duration'   => $request->duration,
+                        'settings'   => $processedSettings,
+                    ]);
+            }
+
+            return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil diperbarui.');
+
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Terjadi kesalahan saat memperbarui: ' . $e->getMessage());
+        }
     }
 
     public function destroy(string $id)
     {
         $liveClass = LiveClass::findOrFail($id);
-        if ($liveClass->type == 1 && $liveClass->zoom_meeting_id) {
-            $tutor = $liveClass->user;
-            if ($tutor && $tutor->zoom_token) {
-                Http::withToken($tutor->zoom_token)
-                    ->delete("https://api.zoom.us/v2/meetings/{$liveClass->zoom_meeting_id}");
-            }
-        }
 
-        $liveClass->delete();
-        
-        return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil dihapus.');
+        try {
+            if ($liveClass->zoom_meeting_id) {
+                $accessToken = $this->getZoomAccessToken();
+                
+                $response = Http::withToken($accessToken)
+                    ->delete("https://api.zoom.us/v2/meetings/{$liveClass->zoom_meeting_id}");
+
+                if (!$response->successful()) {
+                    $errorInfo = $response->json();
+                    $errorMessage = $errorInfo['message'] ?? 'Status: ' . $response->status();
+                    
+                    if ($response->status() == 404) {
+                    } else {
+                        return back()->with('error', 'Gagal menghapus meeting di Zoom. Pesan: ' . $errorMessage);
+                    }
+                }
+            }
+
+            $liveClass->delete();
+
+            return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil dihapus.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat menghapus: ' . $e->getMessage());
+        }
     }
 }

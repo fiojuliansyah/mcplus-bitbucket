@@ -26,6 +26,7 @@ class LiveClass extends Model
 
     protected $casts = [
         'settings' => 'array',
+        'start_time' => 'datetime',
     ];
 
     public function grade()

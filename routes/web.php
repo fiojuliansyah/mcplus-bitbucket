@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\ZoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\PlanController;
@@ -47,10 +46,6 @@ Route::post('/api/apply-coupon', [SubscriptionPlanController::class, 'applyCoupo
 Route::post('/subscription/process', [SubscriptionPlanController::class, 'processSubscription'])->name('subscription.process');
 Route::post('/billplz/webhook', [SubscriptionPlanController::class, 'handleWebhook'])->name('billplz.webhook');
 Route::get('/payment/success', [SubscriptionPlanController::class, 'paymentSuccess'])->name('payment.success');
-
-Route::get('/auth/zoom/redirect', [ZoomController::class, 'redirectToZoom'])->name('zoom.redirect');
-Route::get('/auth/zoom/callback', [ZoomController::class, 'handleZoomCallback'])->name('zoom.callback');
-
 
 Route::get('/test-notification', [SubscriptionPlanController::class, 'testNotification']);
 Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAsRead');
