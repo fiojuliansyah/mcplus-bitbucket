@@ -21,7 +21,6 @@
         </div>
     </div>
 
-    <!-- Modal Create Live Class -->
     <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

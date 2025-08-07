@@ -102,7 +102,10 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::resource('plans', PlanController::class);
     Route::resource('coupons', CouponController::class);
     Route::resource('subscriptions', SubscriptionController::class);
+
+    Route::get('live-classes/{id}/attendance', [LiveClassController::class, 'showAttendance'])->name('live-classes.attendance');
     Route::resource('live-classes', LiveClassController::class);
+    
     Route::resource('replay-classes', ReplayClassController::class);
     Route::resource('faqs', FaqController::class);
     

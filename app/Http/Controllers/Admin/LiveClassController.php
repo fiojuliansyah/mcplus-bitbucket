@@ -22,7 +22,6 @@ class LiveClassController extends Controller
             return Cache::get('zoom_access_token');
         }
 
-        // Jika tidak ada di cache, minta token baru ke Zoom.
         $response = Http::asForm()->post('https://zoom.us/oauth/token', [
             'grant_type' => 'account_credentials',
             'account_id' => env('ZOOM_ACCOUNT_ID'),
@@ -93,7 +92,7 @@ class LiveClassController extends Controller
                 'topic_id'   => $request->topic_id,
                 'user_id'    => $request->user_id,
                 'agenda'     => $request->agenda,
-                'type'       => 1, // 1 = Zoom
+                'type'       => 1,
                 'duration'   => $request->duration,
                 'start_time' => Carbon::parse($request->start_time, 'Asia/Jakarta'),
                 'timezone'   => 'Asia/Jakarta',
@@ -219,6 +218,59 @@ class LiveClassController extends Controller
 
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan saat menghapus: ' . $e->getMessage());
+        }
+    }
+
+    public function showAttendance($id)
+    {
+        $liveClass = LiveClass::findOrFail($id);
+
+        if (!$liveClass->zoom_meeting_id) {
+            return back()->with('error', 'Meeting ini tidak memiliki Zoom Meeting ID.');
+        }
+
+        try {
+            $accessToken = $this->getZoomAccessToken();
+            
+            $response = Http::withToken($accessToken)
+                ->get("https://api.zoom.us/v2/report/meetings/{$liveClass->zoom_meeting_id}/participants?page_size=300");
+
+            if (!$response->successful()) {
+                $error = $response->json()['message'] ?? 'Laporan belum tersedia atau meeting tidak ditemukan.';
+                return back()->with('error', 'Gagal mengambil laporan dari Zoom: ' . $error);
+            }
+
+            $participantsFromZoom = $response->json()['participants'];
+
+            $participantEmails = array_filter(array_column($participantsFromZoom, 'user_email'));
+            $participantNames = array_column($participantsFromZoom, 'name');
+            
+            $appUsers = User::whereIn('email', $participantEmails)
+                ->orWhereIn('name', $participantNames)
+                ->get();
+
+            $matchedParticipants = [];
+            foreach ($participantsFromZoom as $participant) {
+                $foundUser = null;
+                
+                if (!empty($participant['user_email'])) {
+                    $foundUser = $appUsers->firstWhere('email', $participant['user_email']);
+                }
+                
+                if (!$foundUser) {
+                    $foundUser = $appUsers->firstWhere('name', $participant['name']);
+                }
+
+                $matchedParticipants[] = [
+                    'zoom_data' => $participant,
+                    'app_user' => $foundUser
+                ];
+            }
+
+            return view('admin.live_classes.attendance', compact('liveClass', 'matchedParticipants'));
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }
