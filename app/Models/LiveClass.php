@@ -20,6 +20,7 @@ class LiveClass extends Model
         'settings', 
         'zoom_meeting_id', 
         'zoom_join_url', 
+        'zoom_start_url',
         'status'
     ];
 

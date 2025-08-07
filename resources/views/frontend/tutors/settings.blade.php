@@ -52,6 +52,27 @@
                             </form>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Pengaturan Akun Zoom</h4>
+                        </div>
+                        <div class="card-body">
+                            @if(Auth::user()->zoom_token)
+                                <div class="alert alert-success">
+                                    <p>✅ Akun Zoom Anda sudah terhubung.</p>
+                                    <p>Anda tidak perlu melakukan tindakan apa pun.</p>
+                                </div>
+                            @else
+                                <div class="alert alert-warning">
+                                    <p>⚠️ Akun Zoom Anda belum terhubung.</p>
+                                    <p>Silakan hubungkan akun Zoom Anda agar admin bisa membuat jadwal kelas online untuk Anda.</p>
+                                </div>
+                                <a href="{{ route('zoom.redirect') }}" class="btn btn-primary">
+                                    <i class="fas fa-video"></i> Hubungkan Akun Zoom Saya
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                     <div class="card mb-5">
                         <div class="card-body">	
                             <h5 class="fs-18 mb-3">Delete Account</h5>								
