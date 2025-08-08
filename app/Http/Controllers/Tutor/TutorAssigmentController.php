@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class TutorAssigmentController extends Controller
 {
 
-    public function assignments(Request $request)
+    public function index(Request $request)
     {
         $title = 'Assignments';
         $user = Auth::user();
@@ -57,7 +57,7 @@ class TutorAssigmentController extends Controller
             'slug' => Str::slug($validated['name']), 
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
-            'status' => $validated['status'],
+            'status' => 'draft',
         ]);
 
         return redirect()->back()->with('success', 'Assignment created successfully.');
@@ -87,7 +87,7 @@ class TutorAssigmentController extends Controller
             'slug' => Str::slug($validated['name']) . '-' . uniqid(),
             'start_time' => $validated['start_time'],
             'end_time' => $validated['end_time'],
-            'status' => $validated['status'],
+            'status' => 'draft',
         ]);
 
         return redirect()->back()->with('success', 'Assignment updated successfully.');

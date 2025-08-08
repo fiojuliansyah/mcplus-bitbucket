@@ -24,8 +24,8 @@
         </div>
         <div class="col-md-6">
             <div class="d-flex align-items-center flex-wrap gap-3 justify-content-md-end">
-                <a href="add-course.html" class="btn btn-white rounded-pill">Add New Course</a>
-                <a href="student-dashboard.html" class="btn btn-secondary rounded-pill">Add Live Class</a>
+                <a href="{{ route('tutor.subjects.index') }}" class="btn btn-white rounded-pill">Add New Course</a>
+                <a href="{{ route('tutor.live-classes.index') }}" class="btn btn-secondary rounded-pill">Add Live Class</a>
             </div>
         </div>
     </div>

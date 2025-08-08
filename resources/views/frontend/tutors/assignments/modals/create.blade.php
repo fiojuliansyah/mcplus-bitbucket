@@ -34,13 +34,6 @@
                             <label class="form-label">End Time</label>
                             <input type="datetime-local" class="form-control" name="end_time" required>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-control">
-                                <option value="draft">Draft</option>
-                                <option value="publish">Publish</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 

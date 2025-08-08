@@ -21,7 +21,7 @@ class TutorPageController extends Controller
         return view('frontend.tutors.dashboard', compact('user','title'));
     }
 
-        public function settings()
+    public function settings()
     {
         $title = 'Settings';
         $user = Auth::user();

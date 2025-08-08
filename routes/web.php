@@ -17,6 +17,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\User\UserPageController;
 use App\Http\Controllers\User\UserTestController;
+use App\Http\Controllers\ZoomSignatureController;
 use App\Http\Controllers\User\UserQuizzController;
 use App\Http\Controllers\User\WatchlistController;
 use App\Http\Controllers\Admin\AdminPageController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Tutor\TutorCourseController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Tutor\TutorProfileController;
 use App\Http\Controllers\Tutor\TutorAssigmentController;
+use App\Http\Controllers\Tutor\TutorLiveClassController;
 use App\Http\Controllers\User\SubscriptionPlanController;
 use App\Http\Controllers\Tutor\TutorTestQuestionController;
 
@@ -41,7 +43,7 @@ Route::get('/subjects/{slugGrade}/{slugSubject}', [PageController::class, 'subje
 Route::get('/tutors', [PageController::class, 'tutors'])->name('home.tutors');
 
 Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
-Route::get('/subscription/checkout/{plan}', [SubscriptionPlanController::class, 'showCheckoutForm'])->name('subscription.checkout');
+Route::get('/subscription/checkout/{plan}', [SubscriptionPlanController::class, 'showCheckoutForm'])->name('subscription.checkout')->middleware(['auth']);
 Route::post('/api/apply-coupon', [SubscriptionPlanController::class, 'applyCoupon'])->name('api.coupon.apply');
 Route::post('/subscription/process', [SubscriptionPlanController::class, 'processSubscription'])->name('subscription.process');
 Route::post('/billplz/webhook', [SubscriptionPlanController::class, 'handleWebhook'])->name('billplz.webhook');
@@ -49,6 +51,9 @@ Route::get('/payment/success', [SubscriptionPlanController::class, 'paymentSucce
 
 Route::get('/test-notification', [SubscriptionPlanController::class, 'testNotification']);
 Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAsRead');
+
+Route::post('/zoom/signature', [ZoomSignatureController::class, 'generateSignature'])->name('zoom.signature');
+Route::get('/live-classes/{id}/join', [PageController::class, 'joinMeeting'])->name('live-classes.join');
 
 Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');
@@ -104,6 +109,7 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::resource('subscriptions', SubscriptionController::class);
 
     Route::get('live-classes/{id}/attendance', [LiveClassController::class, 'showAttendance'])->name('live-classes.attendance');
+    Route::post('live-classes/{id}/approve', [LiveClassController::class, 'approve'])->name('live-classes.approve');
     Route::resource('live-classes', LiveClassController::class);
     
     Route::resource('replay-classes', ReplayClassController::class);
@@ -137,6 +143,7 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::put('question/{id}', [TestController::class, 'updateQuestion'])->name('tests.update-question');
     Route::delete('question/{id}', [TestController::class, 'destroyQuestion'])->name('tests.destroy-question');
 
+    //dynamic Dropdown
     Route::get('/subjects/by-grade/{grade}', [SubjectController::class, 'byGrade']);
     Route::get('/topics/by-subject/{grade}/{subject}', [TopicController::class, 'bySubject']);
     Route::get('/tutors/by-subject/{subject}', [TutorController::class, 'bySubject']);
@@ -151,7 +158,13 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::get('/dashboard', [TutorPageController::class, 'dashboard'])->name('dashboard');
     Route::get('/settings', [TutorPageController::class, 'settings'])->name('settings');
     Route::get('/students', [TutorPageController::class, 'students'])->name('students');
-    Route::get('/assignments', [TutorAssigmentController::class, 'assignments'])->name('assignments.index');
+
+    Route::get('/live-classes', [TutorLiveClassController::class, 'index'])->name('live-classes.index');
+    Route::post('/live-classes', [TutorLiveClassController::class, 'store'])->name('live-classes.store');
+    Route::put('/live-classes/{id}/update', [TutorLiveClassController::class, 'update'])->name('live-classes.update');
+    Route::delete('/live-classes/{id}', [TutorLiveClassController::class, 'destroy'])->name('live-classes.destroy');
+
+    Route::get('/assignments', [TutorAssigmentController::class, 'index'])->name('assignments.index');
     Route::post('/assignments', [TutorAssigmentController::class, 'store'])->name('assignments.store');
 
     Route::get('/subjects', [TutorCourseController::class, 'index'])->name('subjects.index');
@@ -170,8 +183,8 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::put('topic/{slug}/notes/{noteId}', [TutorNoteController::class, 'update'])->name('topic.notes.update');
     Route::delete('note/{noteId}', [TutorNoteController::class, 'destroy'])->name('topic.notes.destroy');
     
-    Route::get('/my-course/{formSlug}/{subjectSlug}/tests', [TutorTestController::class, 'index'])->name('tests');
-    Route::post('/my-course/{formSlug}/{subjectSlug}/tests', [TutorTestController::class, 'store'])->name('tests.store');
+    Route::get('/assignments/{formSlug}/{subjectSlug}', [TutorTestController::class, 'index'])->name('tests');
+    Route::post('/assignments/{formSlug}/{subjectSlug}', [TutorTestController::class, 'store'])->name('tests.store');
     Route::put('/tests/{test}', [TutorTestController::class, 'update'])->name('tests.update');
     Route::delete('/tests/{test}', [TutorTestController::class, 'destroy'])->name('tests.destroy');
 
@@ -180,7 +193,8 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::put('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'update'])->name('test-questions.update');
     Route::delete('Test-Question/{testQuestionId}', [TutorTestQuestionController::class, 'destroy'])->name('test-questions.destroy');
 
-    
+    //dynamic Dropdown
+    Route::get('/get-topics', [TutorLiveClassController::class, 'getTopics'])->name('get-topics');
 
     Route::middleware('auth')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

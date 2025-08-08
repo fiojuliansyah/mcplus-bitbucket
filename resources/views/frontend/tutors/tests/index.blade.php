@@ -12,7 +12,7 @@
 
             <div class="col-lg-9">
                 <div class="page-title d-flex align-items-center justify-content-between">
-                    <h5 class="fw-bold">Assignments - {{ $subject->name }}</h5>
+                    <h5 class="fw-bold">Assignments - {{ $subject->name }} ({{ $subject->grade->name }})</h5>
                     <div>
                         <a href="javascript:void(0);" class="btn btn-secondary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#addTestModal">
                             <i class="isax isax-add-circle me-1"></i>Add Assignment
@@ -106,7 +106,7 @@
       <form action="{{ route('tutor.tests.store', [$grade->slug, $subject->slug]) }}" method="POST">
         @csrf
         <div class="modal-header">
-          <h5 class="modal-title" id="addTestModalLabel">Create New Test</h5>
+          <h5 class="modal-title" id="addTestModalLabel">Create New Assignment</h5>
           <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
 								<i class="isax isax-close-circle5"></i>
 							</button>

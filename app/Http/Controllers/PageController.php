@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Grade;
 use App\Models\Topic;
 use App\Models\Subject;
+use App\Models\LiveClass;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -200,5 +201,11 @@ class PageController extends Controller
             'selectedSubjects' => $request->input('subjects', []),
             'selectedGrades' => $request->input('grades', [])
         ]);
+    }
+
+    public function joinMeeting($id)
+    {
+        $liveClass = LiveClass::findOrFail($id);
+        return view('frontend.zoom-embed', compact('liveClass'));
     }
 }

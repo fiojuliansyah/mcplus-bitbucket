@@ -28,18 +28,46 @@ class LiveClassDataTable extends DataTable
                 $attendanceUrl = route('admin.live-classes.attendance', $row->id);
                 return "<a href='{$attendanceUrl}' class='badge bg-light' style='color: black;'><i class='fa-solid fas fa-file-alt fa-xs'></i> Attendance</a>";
             })
-            ->addColumn('link-host', function ($row) {
-                $attendanceUrl = $row->zoom_start_url;
-                return "<a href='{$attendanceUrl}' target='_blank' class='badge bg-warning'><i class='fa-solid fa-link fa-xs'></i> Click Here</a>";
+            ->addColumn('zoom-links', function ($row) {
+                if ($row->status === 'draft') {
+                    return 'Need Approval';
+                }
+
+                $startUrl = $row->zoom_start_url;
+                $joinUrl = $row->zoom_join_url;
+
+                return "
+                    <a href='{$startUrl}' target='_blank' class='badge bg-warning me-1'>
+                        <i class='fa-solid fa-link fa-xs'></i> Host
+                    </a>
+                    <a href='{$joinUrl}' target='_blank' class='badge bg-info'>
+                        <i class='fa-solid fa-external-link-alt fa-xs'></i> Guest
+                    </a>
+                ";
             })
-            ->addColumn('link-join', function ($row) {
-                $attendanceUrl = $row->zoom_join_url;
-                return "<a href='{$attendanceUrl}' target='_blank' class='badge bg-info'><i class='fa-solid fa-external-link-square-alt fa-xs'></i> Click Here</a>";
+            ->addColumn('approval', function ($row) {
+                if ($row->status !== 'scheduled') {
+                    $approveRoute = route('admin.live-classes.approve', $row->id);
+                    $formId = 'approve-form-' . $row->id;
+
+                    return "
+                        <a href='#' class='badge bg-success'
+                        onclick=\"event.preventDefault(); document.getElementById('{$formId}').submit();\">
+                            <i class='fa fa-check'></i> Approve
+                        </a>
+
+                        <form id='{$formId}' action='{$approveRoute}' method='POST' style='display: none;'>
+                            " . csrf_field() . "
+                        </form>
+                    ";
+                }
+
+                return "<span class='badge bg-success'>Approved</span>";
             })
             ->editColumn('start_time', function ($row) {
                 return \Carbon\Carbon::parse($row->start_time)->format('d M Y H:i');
             })
-            ->rawColumns(['action','attendance','link-host','link-join'])
+            ->rawColumns(['action','attendance','zoom-links','approval'])
             ->setRowId('id')
             ->addIndexColumn();
     }
@@ -81,13 +109,13 @@ class LiveClassDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false),
-            Column::computed('link-host')
-                ->title('Link Host/Tutor')
+            Column::computed('zoom-links')
+                ->title('Links')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false),
-            Column::computed('link-join')
-                ->title('Link Student')
+            Column::computed('approval')
+                ->title('Approval')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false),

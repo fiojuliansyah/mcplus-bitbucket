@@ -273,4 +273,60 @@ class LiveClassController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+    public function approve(Request $request, string $id)
+    {
+        $liveClass = LiveClass::findOrFail($id);
+
+        if ($liveClass->status === 'schedule') {
+            return back()->with('info', 'Live Class has been pre-approved.');
+        }
+
+        try {
+            $accessToken = $this->getZoomAccessToken();
+            $tutor = $liveClass->user;
+
+            if (!$tutor || !$tutor->email) {
+                return back()->with('error', 'Tutor does not have an email address.');
+            }
+
+            $settings = $liveClass->settings ?? [
+                'host_video' => false,
+                'participant_video' => false,
+                'join_before_host' => false,
+                'mute_upon_entry' => false,
+                'waiting_room' => false,
+            ];
+
+            $response = Http::withToken($accessToken)
+                ->post("https://api.zoom.us/v2/users/{$tutor->email}/meetings", [
+                    'topic'      => ($liveClass->subject->name ?? 'Subject') . ' - ' . ($liveClass->grade->name ?? 'Grade') . ': ' . ($liveClass->topic->name ?? 'Topic'),
+                    'agenda'     => $liveClass->agenda,
+                    'type'       => 2,
+                    'start_time' => $liveClass->start_time->toIso8601String(),
+                    'duration'   => $liveClass->duration,
+                    'password'   => $liveClass->password,
+                    'settings'   => $settings,
+                ]);
+
+            if (!$response->successful()) {
+                $errorMessage = $response->json()['message'] ?? 'Gagal membuat meeting.';
+                return back()->with('error', 'Zoom Error: ' . $errorMessage);
+            }
+
+            $meeting = $response->json();
+
+            $liveClass->update([
+                'zoom_meeting_id' => $meeting['id'],
+                'zoom_join_url'   => $meeting['join_url'],
+                'zoom_start_url'  => $meeting['start_url'],
+                'status'          => 'schedule',
+            ]);
+
+            return back()->with('success', 'Live Class approved and Zoom meeting successfully created.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while approving: ' . $e->getMessage());
+        }
+    }
 }

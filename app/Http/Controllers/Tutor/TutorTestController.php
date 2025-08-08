@@ -45,6 +45,7 @@ class TutorTestController extends Controller
             'slug' => Str::slug($request->name),
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'status' => 'draft',
         ]);
 
         return redirect()->back()->with('success', 'Test created successfully!');
@@ -63,7 +64,7 @@ class TutorTestController extends Controller
             'name' => $request->name,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
-            'status' => $request->status,
+            'status' => 'draft',
         ]);
 
         return redirect()->back()->with('success', 'Test updated successfully!');

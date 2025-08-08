@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     bindCreateDropdowns();
-    bindEditDropdowns(); // Initial bind (e.g. on page load)
+    bindEditDropdowns();
 });
 
 function bindCreateDropdowns() {
@@ -57,7 +57,6 @@ function bindCreateDropdowns() {
 }
 
 function bindEditDropdowns() {
-    // Loop through all grade dropdowns with edit prefix
     document.querySelectorAll('[id^="editGradeDropdown-"]').forEach(gradeDropdown => {
         const id = gradeDropdown.id.replace('editGradeDropdown-', '');
         const subjectDropdown = document.getElementById(`editSubjectDropdown-${id}`);

@@ -12,8 +12,16 @@
                             class="isax isax-teacher5 me-2"></i>Subjects</a>
                 </li>
                 <li>
+                    <a href="{{ route('tutor.live-classes.index') }}" class="d-inline-flex align-items-center {{ Route::is(['tutor.live-classes.index']) ? 'active' : '' }}"><i
+                            class="isax isax-monitor5 me-2"></i>Live Classes</a>
+                </li>
+                <li>
                     <a href="{{ route('tutor.assignments.index') }}" class="d-inline-flex align-items-center {{ Route::is(['tutor.assignments.index']) ? 'active' : '' }}"><i
                             class="isax isax-clipboard-text5 me-2"></i>Assignments</a>
+                </li>
+                <li>
+                    <a href="#" class="d-inline-flex align-items-center {{ Route::is(['#']) ? 'active' : '' }}"><i
+                            class="isax isax-clipboard-text5 me-2"></i>Quizzes</a>
                 </li>
                 <li>
                     <a href="{{ route('tutor.students') }}" class="d-inline-flex align-items-center {{ Route::is(['tutor.students']) ? 'active' : '' }}"><i
