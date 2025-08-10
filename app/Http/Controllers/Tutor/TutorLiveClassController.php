@@ -108,6 +108,7 @@ class TutorLiveClassController extends Controller
                 'type'       => 1,
                 'duration'   => $request->duration,
                 'start_time' => Carbon::parse($request->start_time, 'Asia/Jakarta'),
+                'password'   => $request->password ?? Str::random(8),
                 'timezone'   => 'Asia/Jakarta',
                 'status'     => $request->input('status', 'draft'),
                 'settings'   => $processedSettings,
