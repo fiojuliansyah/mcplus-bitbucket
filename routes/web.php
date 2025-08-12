@@ -82,20 +82,16 @@ Route::middleware(['auth', 'check.profile'])->prefix('student')->name('user.')->
     Route::get('/my-quiz', [UserPageController::class, 'quiz'])->name('my-quiz');
     Route::get('/quiz/result/{result}', [UserPageController::class, 'showResult'])->name('quiz.result');
     
-    Route::get('/my-assignment', [UserPageController::class, 'assignment'])->name('my-assignment');
     Route::get('/my-live-class', [UserPageController::class, 'liveClass'])->name('my-live-class');
-    // Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
-    // Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
-    // Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');
     
     Route::get('/{topic:slug}/quizzes', [UserQuizzController::class, 'index'])->name('quizzes.show');
     Route::post('/{topic:slug}/quizzes/submit', [UserQuizzController::class, 'submit'])->name('quizzes.submit');
     Route::get('/quizz-result/{id}', [UserQuizzController::class, 'show'])->name('quizzes.result.show');
-
-    Route::get('/my-course/{gradeSlug}/{subjectSlug}/tests', [UserTestController::class, 'index'])->name('subject.tests');
-    Route::get('/my-course/{gradeSlug}/{subjectSlug}/test/{testSlug}', [UserTestController::class, 'show'])->name('test.show');
-    Route::post('/my-course/test/{test}/submit', [UserTestController::class, 'submit'])->name('test.submit');
-    Route::get('/my-course/{gradeSlug}/{subjectSlug}/{testSlug}/test-result', [UserTestController::class, 'result'])->name('test.result');
+    
+    Route::get('/my-assignment', [UserPageController::class, 'assignment'])->name('my-assignment');
+    Route::get('/my-assignment/{gradeSlug}/{subjectSlug}/test/{testSlug}', [UserTestController::class, 'show'])->name('test.show');
+    Route::post('/my-assignment/test/{test}/submit', [UserTestController::class, 'submit'])->name('test.submit');
+    Route::get('/my-assignment/{gradeSlug}/{subjectSlug}/{testSlug}/result', [UserTestController::class, 'result'])->name('test.result');
 
 
     Route::get('/learning-progress', [UserPageController::class, 'learningProgress'])->name('learning-progress');

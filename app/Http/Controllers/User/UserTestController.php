@@ -15,26 +15,13 @@ use Illuminate\Support\Facades\DB;
 
 class UserTestController extends Controller
 {
-    public function index($gradeSlug, $subjectSlug)
-    {
-        $grade = Grade::where('slug', $gradeSlug)->firstOrFail();
-        $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
-
-        $tests = Test::where('subject_id', $subject->id)
-                    ->with('user')
-                    ->orderBy('start_time', 'desc')
-                    ->get();
-
-        return view('frontend.tests.index', compact('grade', 'subject', 'tests'));
-    }
-
     public function show($gradeSlug, $subjectSlug, $testSlug)
     {
         $grade = Grade::where('slug', $gradeSlug)->firstOrFail();
         $subject = Subject::where('slug', $subjectSlug)->where('grade_id', $grade->id)->firstOrFail();
         $test = Test::where('slug', $testSlug)->where('subject_id', $subject->id)->firstOrFail();
 
-        $questions = $test->testQuestions()->orderBy('type', 'desc')->get(); // Assuming relation is defined
+        $questions = $test->testQuestions()->orderBy('type', 'desc')->get();
 
         return view('frontend.tests.show', compact('grade', 'subject', 'test', 'questions'));
     }
@@ -109,18 +96,20 @@ class UserTestController extends Controller
 
     public function result($gradeSlug, $subjectSlug, $testSlug)
     {
-        $user = Auth::user();
 
-        $test = Test::where('slug', $testSlug)->with('testQuestions', 'user')->firstOrFail();
+        $user = Auth::id();
+
+        $test = Test::where('slug', $testSlug)->firstOrFail();
         $grade = Grade::where('slug', $gradeSlug)->firstOrFail();
         $subject = Subject::where('slug', $subjectSlug)->firstOrFail();
 
-        $testResult = TestResult::where('user_id', $user->id)
-            ->where('test_id', $test->id)
-            ->firstOrFail();
+        $testResult = TestResult::where('user_id', $user)
+        ->where('test_id', $test->id)
+        ->firstOrFail();
+
 
         $answers = TestAnswer::with('question')
-            ->where('user_id', $user->id)
+            ->where('user_id', $user)
             ->whereIn('test_question_id', $test->testQuestions->pluck('id'))
             ->get();
 

@@ -26,9 +26,9 @@
                             </div>
                             <div>
                                 @if ($test->has_attempt)
-                                    <a href="{{ route('user.test.result', $test->result->id) }}" class="btn btn-sm btn-secondary">Show Result</a>
+                                    <a href="{{ route('user.test.result', [$test->subject->grade->slug, $test->subject->slug, $test->slug]) }}" class="btn btn-sm btn-secondary">Show Result</a>
                                 @else
-                                    <a href="#" class="btn btn-sm btn-primary">Start Test</a>
+                                    <a href="{{ route('user.test.show', [$test->subject->grade->slug, $test->subject->slug, $test->slug]) }}" class="btn btn-sm btn-primary">Start Test</a>
                                 @endif
                             </div>
                         </div>
