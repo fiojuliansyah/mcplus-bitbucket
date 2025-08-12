@@ -120,13 +120,13 @@ class LiveClassController extends Controller
 
             $meeting = $response->json();
 
-            dd($meeting);
-
             $liveClass->update([
                 'zoom_meeting_id' => $meeting['id'],
                 'zoom_join_url'   => $meeting['join_url'],
                 'zoom_start_url'  => $meeting['start_url'],
             ]);
+
+            dd($liveClass);
 
             return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil dibuat.');
 
