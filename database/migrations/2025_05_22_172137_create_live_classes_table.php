@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('password')->nullable(); 
             $table->datetime('start_time'); 
             $table->json('settings'); 
-            $table->string('zoom_meeting_id')->nullable(); 
-            $table->string('zoom_join_url')->nullable(); 
-            $table->string('zoom_start_url')->nullable(); 
+            $table->bigInteger('zoom_meeting_id')->unsigned()->nullable();
+            $table->longtext('zoom_join_url')->nullable(); 
+            $table->longtext('zoom_start_url')->nullable(); 
             $table->string('status')->default('scheduled'); 
             $table->timestamps();
         });

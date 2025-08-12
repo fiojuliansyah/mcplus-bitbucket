@@ -321,7 +321,7 @@ class LiveClassController extends Controller
                 'zoom_meeting_id' => $meeting['id'],
                 'zoom_join_url'   => $meeting['join_url'],
                 'zoom_start_url'  => $meeting['start_url'],
-                'status'          => 'schedule',
+                'status'          => 'scheduled',
             ]);
 
             return back()->with('success', 'Live Class approved and Zoom meeting successfully created.');
