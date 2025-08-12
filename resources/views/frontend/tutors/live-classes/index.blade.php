@@ -76,7 +76,11 @@
                                         </div>
                                     </td>
                                     <td>{{ $class->status }}</td>
-                                    <td><a href="{{ route('live-classes.join', $class->id) }}" target="_blank" class="btn btn-sm btn-secondary"><i class="fas fa-sign-in"></i>&nbsp; Join Class</a></td>
+                                    <td>
+                                        @if ($class->status != 'draft')  
+                                            <a href="{{ route('live-classes.join', $class->id) }}" target="_blank" class="btn btn-sm btn-secondary"><i class="fas fa-sign-in"></i>&nbsp; Join Class</a>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             @if ($class->status === 'draft')   

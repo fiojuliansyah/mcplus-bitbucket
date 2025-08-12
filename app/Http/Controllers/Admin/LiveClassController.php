@@ -119,6 +119,9 @@ class LiveClassController extends Controller
             }
 
             $meeting = $response->json();
+
+            dd($meeting);
+
             $liveClass->update([
                 'zoom_meeting_id' => $meeting['id'],
                 'zoom_join_url'   => $meeting['join_url'],
@@ -278,7 +281,7 @@ class LiveClassController extends Controller
     {
         $liveClass = LiveClass::findOrFail($id);
 
-        if ($liveClass->status === 'schedule') {
+        if ($liveClass->status === 'scheduled') {
             return back()->with('info', 'Live Class has been pre-approved.');
         }
 
