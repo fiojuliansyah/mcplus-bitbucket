@@ -126,8 +126,6 @@ class LiveClassController extends Controller
                 'zoom_start_url'  => $meeting['start_url'],
             ]);
 
-            dd($liveClass);
-
             return redirect()->route('admin.live-classes.index')->with('success', 'Live Class berhasil dibuat.');
 
         } catch (\Exception $e) {
