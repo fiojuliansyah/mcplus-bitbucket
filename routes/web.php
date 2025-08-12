@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\ReplayClassController;
 use App\Http\Controllers\Tutor\TutorCourseController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Tutor\TutorProfileController;
+use App\Http\Controllers\Webhook\ZoomWebhookController;
 use App\Http\Controllers\Tutor\TutorAssigmentController;
 use App\Http\Controllers\Tutor\TutorLiveClassController;
 use App\Http\Controllers\User\SubscriptionPlanController;
@@ -54,6 +55,7 @@ Route::get('/notifications/mark-as-read', [NotificationController::class, 'markA
 
 Route::post('/zoom/signature', [ZoomSignatureController::class, 'generateSignature'])->name('zoom.signature');
 Route::get('/live-classes/{id}/join', [PageController::class, 'joinMeeting'])->name('live-classes.join');
+Route::post('/webhooks/zoom', [ZoomWebhookController::class, 'handle']);
 
 Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');

@@ -28,9 +28,9 @@
         const sdkKey = "{{ env('ZOOM_SDK_KEY') }}";
         const meetingNumber = "{{ $liveClass->zoom_meeting_id }}";
         const passWord = "{{ $liveClass->password }}";
-        const userName = "{{ auth()->user()->current_profile->name }}";
-        const userEmail = "{{ auth()->user()->email }}";
-        const role = "{{ optional(auth()->user())->account_type == 'tutor' ? 1 : 0 }}";
+        const userName = "{{ Auth::user()->current_profile->name }}";
+        const userEmail = "{{ Auth::user()->email }}";
+        const role = "{{ optional(Auth::user())->account_type == 'tutor' ? 1 : 0 }}";
         const leaveUrl = "{{ route('admin.live-classes.index') }}";
 
         function getSignature(meetingNumber, role) {
