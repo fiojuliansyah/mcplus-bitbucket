@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Zoom WebSDK CDN</title>
+    <title>Zoom Class - MCPLUS Premium</title>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -28,7 +28,7 @@
         const sdkKey = "{{ env('ZOOM_SDK_KEY') }}";
         const meetingNumber = "{{ $liveClass->zoom_meeting_id }}";
         const passWord = "{{ $liveClass->password }}";
-        const userName = "{{ auth()->user()->name }}";
+        const userName = "{{ auth()->user()->current_profile->name }}";
         const userEmail = "{{ auth()->user()->email }}";
         const role = "{{ optional(auth()->user())->account_type == 'tutor' ? 1 : 0 }}";
         const leaveUrl = "{{ route('admin.live-classes.index') }}";

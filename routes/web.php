@@ -81,6 +81,7 @@ Route::middleware(['auth', 'check.profile'])->prefix('student')->name('user.')->
     Route::get('/quiz/result/{result}', [UserPageController::class, 'showResult'])->name('quiz.result');
     
     Route::get('/my-assignment', [UserPageController::class, 'assignment'])->name('my-assignment');
+    Route::get('/my-live-class', [UserPageController::class, 'liveClass'])->name('my-live-class');
     // Route::get('/my-class', [UserPageController::class, 'myClass'])->name('my-class');
     // Route::get('/my-class/{slugGrade}/{slugSubject}', [UserPageController::class, 'mySubject'])->name('my-class.subject');
     // Route::get('/grades/{slugGrade}/subjects/{slugSubject}/topics/{topicSlug}', [UserPageController::class, 'myTopic'])->name('my-class.subject.topic');

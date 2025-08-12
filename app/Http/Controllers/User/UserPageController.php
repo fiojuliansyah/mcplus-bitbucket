@@ -225,4 +225,43 @@ class UserPageController extends Controller
 
         return view('frontend.students.my-assignment', compact('user', 'title', 'subjectsWithTests'));
     }
+
+    public function liveClass(Request $request)
+    {
+        $title = 'My Live Classes';
+        $user = Auth::user();
+        $currentProfile = $user->current_profile->id;
+
+        $subscriptions = Subscription::where('profile_id', $currentProfile)
+                                    ->where('status', 'success')
+                                    ->with(['subject.topics.liveClasses'])
+                                    ->latest()
+                                    ->get();
+
+        if ($request->filled('status')) {
+            $subscriptions = $subscriptions->filter(function($subscription) use ($request) {
+                return $subscription->status === $request->status;
+            });
+        }
+
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $subscriptions = $subscriptions->filter(function($subscription) use ($searchTerm) {
+                return strpos($subscription->transaction_code, $searchTerm) !== false;
+            });
+        }
+
+        $liveClasses = collect();
+
+        foreach ($subscriptions as $subscription) {
+            foreach ($subscription->subject->topics as $topic) {
+                foreach ($topic->liveClasses as $liveClass) {
+                    $liveClasses->push($liveClass);
+                }
+            }
+        }
+
+        return view('frontend.students.live-classes.index', compact('user', 'title', 'liveClasses'));
+    }
+
 }

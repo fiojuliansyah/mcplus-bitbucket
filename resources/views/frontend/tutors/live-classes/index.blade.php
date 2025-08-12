@@ -92,7 +92,7 @@
                                 @include('frontend.tutors.live-classes.modals.delete', ['class' => $class])
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No assignments found.</td>
+                                    <td colspan="6" class="text-center">No Live Classes found.</td>
                                 </tr>
                             @endforelse
                         </tbody>

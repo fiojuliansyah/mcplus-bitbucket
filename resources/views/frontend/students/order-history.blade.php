@@ -29,7 +29,6 @@
                                             <li>
                                                 <a href="{{ route('user.order-history', ['search' => request('search')]) }}" class="dropdown-item rounded-1">All</a>
                                             </li>
-                                            {{-- Link untuk setiap status --}}
                                             <li>
                                                 <a href="{{ route('user.order-history', ['status' => 'success', 'search' => request('search')]) }}" class="dropdown-item rounded-1">Completed</a>
                                             </li>
@@ -48,7 +47,6 @@
                                     <span class="input-icon-addon">
                                         <i class="isax isax-search-normal-14"></i>
                                     </span>
-                                    {{-- Tambahkan name="search" dan value --}}
                                     <input type="text" name="search" class="form-control form-control-md" placeholder="Search by Order ID" value="{{ request('search') }}">
                                 </div>
                             </div>
@@ -65,7 +63,7 @@
                                     <th>Plan</th>
                                     <th>Subject</th>
                                     <th>Status</th>
-                                    {{-- <th></th> --}}
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,12 +83,11 @@
                                                 <span class="badge bg-warning d-inline-flex align-items-center me-1"><i class="fa-solid fa-circle fs-5 me-1"></i>Pending</span>
                                             @endif
                                         </td>
-                                        {{-- <td>
-                                            <div class="d-flex align-items-center">
-                                                <a href="#" class="d-inline-flex fs-14 me-1 action-icon" data-bs-toggle="modal" data-bs-target="#view_invoice_{{ $subscription->id }}"><i class="isax isax-eye"></i></a>
-                                                <a href="#" class="d-inline-flex fs-14 action-icon"><i class="isax isax-import"></i></a>
-                                            </div>
-                                        </td> --}}
+                                        <td>
+                                            @if ($subscription->status === 'success')
+                                                <a href="#" class="btn btn-sm btn-primary">Renewal</a>  
+                                            @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>

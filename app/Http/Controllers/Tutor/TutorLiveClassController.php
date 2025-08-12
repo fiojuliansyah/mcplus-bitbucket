@@ -192,5 +192,4 @@ class TutorLiveClassController extends Controller
             return back()->with('error', 'Delete failed: ' . $e->getMessage());
         }
     }
-
 }

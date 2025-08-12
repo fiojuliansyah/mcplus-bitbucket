@@ -13,6 +13,10 @@
                 </li>
                 <li>
                     <a href="{{ route('user.enrolled-subjects') }}" class="d-inline-flex align-items-center {{ Route::is(['user.enrolled-subjects']) ? 'active' : '' }}"><i class="isax isax-teacher5 me-2"></i>Enrolled Subjects</a>
+                </li>   
+                <li>
+                    <a href="{{ route('user.my-live-class') }}" class="d-inline-flex align-items-center {{ Route::is(['user.my-live-class']) ? 'active' : '' }}"><i
+                            class="isax isax-monitor5 me-2"></i>My Live Class</a>
                 </li>
                 <li>
                     <a href="{{ route('user.my-assignment') }}" class="d-inline-flex align-items-center {{ Route::is(['user.my-assignment']) ? 'active' : '' }}"><i
