@@ -48,9 +48,4 @@ class LiveClass extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    // public function topics()
-    // {
-    //     return $this->belongsTo(Topic::class);
-    // }
 }

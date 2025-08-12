@@ -121,7 +121,7 @@ class LiveClassController extends Controller
             $meeting = $response->json();
 
             $liveClass->update([
-                'zoom_meeting_id' => $meeting['id'],
+                'zoom_meeting_id' => (string) $meeting['id'],
                 'zoom_join_url'   => $meeting['join_url'],
                 'zoom_start_url'  => $meeting['start_url'],
             ]);
@@ -318,7 +318,7 @@ class LiveClassController extends Controller
             $meeting = $response->json();
 
             $liveClass->update([
-                'zoom_meeting_id' => $meeting['id'],
+                'zoom_meeting_id' => (string) $meeting['id'],
                 'zoom_join_url'   => $meeting['join_url'],
                 'zoom_start_url'  => $meeting['start_url'],
                 'status'          => 'scheduled',
