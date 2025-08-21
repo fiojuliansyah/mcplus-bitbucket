@@ -8,9 +8,112 @@ use App\Models\Topic;
 use App\Models\Subject;
 use App\Models\LiveClass;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
+    public function chooseRegister()
+    {
+        return view('auth.choose-register');
+    }
+
+    public function chooseLogin()
+    {
+        return view('auth.choose-login');
+    }
+
+    public function chooseAccount()
+    {
+        if (Auth::user()->account_type) {
+            return redirect()->route('user.dashboard');
+        }
+
+        return view('auth.choose-account-type');
+    }
+
+    public function chooseAccountStore(Request $request)
+    {
+        $request->validate([
+            'account_type' => ['required', Rule::in(['parent', 'tutor', 'student', 'admin'])],
+        ]);
+
+        $user = Auth::user();
+
+        $user->account_type = $request->account_type;
+        $user->save();
+
+        return redirect()->route('user.dashboard')->with('status', 'Account type selected successfully!');
+    }
+
+    public function createAccount()
+    {
+        $user = Auth::user();
+        return view('auth.create-account', compact('user'));
+    }
+
+    public function createAccountStore(Request $request)
+    {
+        $user = Auth::user();
+
+        // ... (kode validasi Anda di sini tetap sama)
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'ic_number' => ['required', 'string', 'min:12', 'max:12', Rule::unique('profiles', 'ic_number')->ignore($user->profile->id ?? null)],
+            'gender' => ['required', Rule::in(['male', 'female'])],
+            'grade' => [Rule::requiredIf($user->account_type === 'student')],
+            'phone' => ['required', 'string', 'min:9', 'max:15'],
+            'postcode' => ['nullable', 'string', 'digits:5'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            // Kita akan update phone dan profile_id bersamaan setelah profile dibuat
+            
+            $profileData = [
+                'name' => $validated['name'],
+                'ic_number' => $validated['ic_number'],
+                'gender' => $validated['gender'],
+            ];
+
+            // ... (logika isset untuk postcode, grade, dan avatar tetap sama)
+            if (isset($validated['postcode'])) {
+                $profileData['postcode'] = $validated['postcode'];
+            }
+            if (isset($validated['grade'])) {
+                $profileData['grade'] = $validated['grade'];
+            }
+            if ($request->hasFile('avatar')) {
+                $path = $request->file('avatar')->store('avatars', 'public');
+                $profileData['avatar'] = $path;
+            }
+
+            // 1. Buat atau update profile menggunakan relasi 'profiles' (plural)
+            //    dan simpan hasilnya ke variabel $profile
+            $profile = $user->profiles()->updateOrCreate(['user_id' => $user->id], $profileData);
+
+            // 2. Update user dengan nomor telepon DAN profile_id yang baru dibuat
+            $user->phone = $validated['phone'];
+            $user->profile_id = $profile->id; // <-- Set profile yang baru dibuat sebagai profil aktif
+            $user->save();
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Gagal membuat profil user.', [
+                'user_id' => $user->id, 'email' => $user->email,
+                'error_message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(),
+            ]);
+            return back()->with('error', 'Failed to create profile. Please try again.')->withInput();
+        }
+
+        return redirect()->route('user.dashboard')->with('status', 'Your profile has been created successfully!');
+    }
+
     public function index()
     {
         $movies = [

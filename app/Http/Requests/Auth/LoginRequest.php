@@ -57,7 +57,9 @@ class LoginRequest extends FormRequest
                 RateLimiter::clear($this->throttleKey());
 
                 throw ValidationException::withMessages([
-                    'login' => 'Your account is disabled due to 3 failed login attempts.',
+                    'login' => 'You have exceeded the maximum number of login
+                                attempts. This account has been temporarily
+                                locked.',
                 ]);
             }
 

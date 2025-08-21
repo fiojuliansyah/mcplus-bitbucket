@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisteredUserEmailController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -14,10 +15,16 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
+    Route::get('/choose/register', [PageController::class, 'chooseRegister'])
+        ->name('choose.register');
+
+    Route::get('/choose/login', [PageController::class, 'chooseLogin'])
+        ->name('choose.login');
+
+    Route::get('register', [RegisteredUserEmailController::class, 'create'])
         ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('register', [RegisteredUserEmailController::class, 'store']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
@@ -36,17 +43,32 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
-       
+    Route::get('reset-password-success', [NewPasswordController::class, 'success'])
+        ->name('password.success');
+
     Route::post('/login/otp/send', [OtpLoginController::class, 'sendOtp'])->name('login.otp.send');
 
-    Route::get('/verify-otp/{userId}', [RegisteredUserController::class, 'showVerifyForm'])->name('verify.otp');
-    Route::post('/verify-otp/{userId}', [RegisteredUserController::class, 'verifyOtp'])->name('verify.otp.submit');
+    Route::get('/verify-otp/{userId}', [RegisteredUserEmailController::class, 'showVerifyForm'])->name('verify.otp');
+    Route::post('/verify-otp/{userId}', [RegisteredUserEmailController::class, 'verifyOtp'])->name('verify.otp.submit');
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/choose/account-type', [PageController::class, 'chooseAccount'])
+        ->name('choose.account');
+
+    Route::post('/choose-account-type', [PageController::class, 'chooseAccountStore'])->name('choose.account.store');
+
+
+    Route::get('/create/account', [PageController::class, 'createAccount'])
+        ->name('create.account');
+
+    Route::post('/create/account', [PageController::class, 'createAccountStore'])
+        ->name('create.account.store');
+
+
     Route::get('verify-email', EmailVerificationPromptController::class)
     ->name('verification.notice');
-    
 
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])

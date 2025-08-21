@@ -1,93 +1,114 @@
-@extends('layouts.auth') {{-- Atau layouts.app, tergantung layout utama Anda setelah login --}}
+@extends('layouts.guest')
 
 @section('content')
-<div class="main-wrapper">
-    <div class="login-content-form">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 col-xl-8">
+<header class="relative w-full min-h-screen flex items-center justify-center font-inter overflow-hidden px-4 py-16 sm:py-24">
+    <img src="/frontend/assets/images/header-bg.svg" alt="Background" class="w-full h-full object-cover absolute top-0 left-0 -z-10" />
+    <div class="w-full max-w-2xl mx-auto">
 
-                    <div class="text-center mb-5">
-                        <a href="{{ url('/') }}">
-                            <img src="/frontpage/assets/img/logo.svg" class="img-fluid mb-4" alt="Logo" style="max-width: 180px;">
-                        </a>
-                        <h1 class="fs-32 fw-bold topic">Select Your Profile</h1>
-                        <p class="fs-16">Choose a profile to continue your learning journey.</p>
-                    </div>
-
-                    <div class="row justify-content-center">
-                        @foreach ($user->profiles as $profile)
-                            <div class="col-6 col-sm-4 col-md-3 mb-4 text-center">
-                                <div class="profile-card"
-                                    @if ($profile->pin != null) 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#pinModal-{{ $profile->id }}"
-                                    @else 
-                                        onclick="document.getElementById('change-profile-{{ $profile->id }}').submit();"
-                                    @endif
-                                >
-                                    @if($profile->avatar)
-                                        <img src="{{ asset('storage/' . $profile->avatar) }}" class="profile-avatar" alt="Profile Avatar">
-                                    @else
-                                        <div class="profile-initials">
-                                            <span>
-                                                @foreach(explode(' ', $profile->name) as $word)
-                                                    {{ strtoupper($word[0]) }}
-                                                @endforeach
-                                            </span>
-                                        </div>
-                                    @endif
-                                    <h5 class="profile-name">{{ $profile->name }}</h5>
-                                </div>
-                                <form action="{{ route('user.change-profile', $profile->id) }}" method="POST" id="change-profile-{{ $profile->id }}" style="display: none;">
-                                    @csrf
-                                    <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                                </form>
-                            </div>
-                        @endforeach
-
-                        <div class="col-6 col-sm-4 col-md-3 mb-4 text-center">
-                            <div class="profile-card" data-bs-toggle="modal" data-bs-target="#addProfileModal">
-                                <div class="profile-add">
-                                    <span>+</span>
-                                </div>
-                                <h5 class="profile-name">Add Profile</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                        {{-- <div class="text-center mt-4">
-                            <a href="{{ route('user.edit-profile') }}" class="btn btn-secondary">Manage Profiles</a>
-                        </div> --}}
-
-                </div>
-            </div>
+        <div class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-black">Select Your Profile</h1>
+            <p class="text-base text-gray-600 mt-2">Choose a profile to continue.</p>
         </div>
+
+        @if(session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-center mb-6" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
+        <div class="w-full space-y-4">
+            
+            @foreach ($user->profiles as $profile)
+                @if ($profile->pin != null)
+                    <button type="button" data-modal-toggle="pinModal-{{ $profile->id }}" class="w-full flex items-center gap-4 bg-white hover:bg-gray-100 border border-gray-200 rounded-xl p-4 shadow-sm transition">
+                        <div class="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
+                            @if($profile->avatar)
+                                <img src="{{ asset('storage/' . $profile->avatar) }}" class="w-full h-full object-cover" alt="{{ $profile->name }} Avatar">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center bg-black text-white text-2xl font-bold">
+                                    <span>
+                                        @php
+                                            $words = explode(' ', $profile->name);
+                                            $initials = '';
+                                            foreach (array_slice($words, 0, 2) as $word) {
+                                                if (!empty($word)) {
+                                                    $initials .= strtoupper($word[0]);
+                                                }
+                                            }
+                                        @endphp
+                                        {{ $initials }}
+                                    </span>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="flex flex-col items-start text-left">
+                            <h2 class="text-lg font-semibold text-gray-900">{{ $profile->name }}</h2>
+                        </div>
+                    </button>
+                @else
+                    <form action="{{ route('user.change-profile', $profile->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+                        <button type="submit" class="w-full flex items-center gap-4 bg-white hover:bg-gray-100 border border-gray-200 rounded-xl p-4 shadow-sm transition">
+                            <div class="w-16 h-16 rounded-full flex-shrink-0 flex items-center justify-center overflow-hidden shadow-inner">
+                                @if($profile->avatar)
+                                    <img src="{{ asset('storage/' . $profile->avatar) }}" class="w-full h-full object-cover" alt="{{ $profile->name }} Avatar">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center bg-black text-white text-2xl font-bold">
+                                        <span>
+                                            @php
+                                                $words = explode(' ', $profile->name);
+                                                $initials = '';
+                                                foreach (array_slice($words, 0, 2) as $word) {
+                                                    if (!empty($word)) {
+                                                        $initials .= strtoupper($word[0]);
+                                                    }
+                                                }
+                                            @endphp
+                                            {{ $initials }}
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="flex flex-col items-start text-left">
+                                <h2 class="text-lg font-semibold text-gray-900">{{ $profile->name }}</h2>
+                            </div>
+                        </button>
+                    </form>
+                @endif
+            @endforeach
+
+             <button type="button" data-modal-toggle="addProfileModal" class="w-full flex items-center gap-4 bg-white hover:bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl p-4 transition group">
+                <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-gray-200">
+                     <svg xmlns="http://www.w.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4" /></svg>
+                </div>
+                <div class="flex flex-col items-start text-left">
+                    <h2 class="text-lg font-semibold text-gray-700">Add New Profile</h2>
+                </div>
+            </button>
+        </div>
+
     </div>
-</div>
+</header>
 
 @foreach ($user->profiles as $profile)
     @if ($profile->pin != null)
-    <div class="modal fade" id="pinModal-{{ $profile->id }}" tabindex="-1" aria-labelledby="pinModalLabel-{{ $profile->id }}" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pinModalLabel-{{ $profile->id }}">Enter PIN for {{ $profile->name }}</h5>
-                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="isax isax-close-circle5"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{ route('user.change-profile', $profile->id) }}">
+    <div id="pinModal-{{ $profile->id }}" tabindex="-1" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+        
+        <div class="relative w-full max-w-md">
+        
+            <div class="relative bg-white rounded-2xl shadow">
+                <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="pinModal-{{ $profile->id }}">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+                
+                <div class="p-6 text-center">
+                    <h3 class="mb-2 text-xl font-semibold text-gray-900">Enter PIN for {{ $profile->name }}</h3>
+                    <form method="POST" action="{{ route('user.change-profile', $profile->id) }}" class="mt-6">
                         @csrf
-                        <div class="mb-3">
-                            <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                            <label for="pin-{{ $profile->id }}" class="form-label">Profile PIN</label>
-                            <input type="password" class="form-control form-control-lg text-center" id="pin-{{ $profile->id }}" name="pin" required autofocus maxlength="4" pattern="[0-9]*">
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-secondary btn-lg">Continue</button>
-                        </div>
+                        <input type="hidden" name="profile_id" value="{{ $profile->id }}">
+                        <input type="password" name="pin" class="bg-gray-50 border border-gray-300 text-gray-900 text-2xl text-center rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3" placeholder="••••" required autofocus maxlength="4" pattern="[0-9]*" inputmode="numeric">
+                        <button type="submit" class="w-full mt-4 text-white bg-black hover:bg-zinc-800 font-medium rounded-lg text-sm px-5 py-3 text-center">Continue</button>
                     </form>
                 </div>
             </div>
@@ -96,29 +117,25 @@
     @endif
 @endforeach
 
-<div class="modal fade" id="addProfileModal" tabindex="-1" aria-labelledby="addProfileModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addProfileModalLabel">Add New Profile</h5>
-                <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="isax isax-close-circle5"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
+<div id="addProfileModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
+    <div class="relative w-full max-w-md">
+        <div class="relative bg-white rounded-2xl shadow">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="addProfileModal">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+            <div class="py-6 px-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900">Add New Profile</h3>
+                <form class="space-y-6" method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="mb-3">
-                        <label for="profile_name" class="form-label">Profile Name</label>
-                        <input type="text" class="form-control form-control-lg" id="profile_name" name="name" required>
+                    <div>
+                        <label for="profile_name" class="block mb-2 text-sm font-medium text-gray-900">Profile Name</label>
+                        <input type="text" name="name" id="profile_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="profile_avatar" class="form-label">Avatar (Optional)</label>
-                        <input type="file" class="form-control" id="profile_avatar" name="avatar" accept="image/*">
+                    <div>
+                        <label for="profile_avatar" class="block mb-2 text-sm font-medium text-gray-900">Avatar (Optional)</label>
+                        <input type="file" name="avatar" id="profile_avatar" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none">
                     </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-secondary btn-lg">Save Profile</button>
-                    </div>
+                    <button type="submit" class="w-full text-white bg-black hover:bg-zinc-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Save Profile</button>
                 </form>
             </div>
         </div>
@@ -127,56 +144,19 @@
 
 @endsection
 
-@push('styles')
-<style>
-    .login-content-form {
-        padding-top: 5rem;
-        padding-bottom: 5rem;
-    }
-    .profile-card {
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
-    .profile-card:hover {
-        transform: translateY(-5px);
-    }
-    .profile-avatar, .profile-initials, .profile-add {
-        width: 150px;
-        height: 150px;
-        border-radius: 12px;
-        margin: 0 auto;
-        object-fit: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 4px solid #fff;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-    .profile-initials {
-        background: linear-gradient(45deg, #0d6efd, #6f42c1);
-        color: white;
-        font-size: 3rem;
-        font-weight: bold;
-    }
-    .profile-add {
-        background-color: #e9ecef;
-        color: #6c757d;
-        font-size: 4rem;
-        line-height: 1;
-    }
-    .profile-name {
-        margin-top: 1rem;
-        font-weight: 600;
-        color: #333;
-    }
-    .modal-content {
-        border-radius: 12px;
-    }
-    .modal-header {
-        border-bottom: 1px solid #eee;
-    }
-    .modal-footer {
-        border-top: 1px solid #eee;
-    }
-</style>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-modal-toggle]').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const modalId = toggle.getAttribute('data-modal-toggle');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+                modal.classList.toggle('flex');
+            }
+        });
+    });
+});
+</script>
 @endpush

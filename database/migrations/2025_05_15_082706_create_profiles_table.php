@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('avatar')->nullable();
             $table->string('pin')->nullable();
+            $table->string('ic_number')->nullable();
+            $table->enum('gender', ['male', 'female', 'none'])->default('none');
+            $table->string('postcode')->nullable();
+            $table->string('grade')->nullable();
             $table->timestamps();
         });
     }

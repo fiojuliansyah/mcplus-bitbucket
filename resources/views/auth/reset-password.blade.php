@@ -1,6 +1,6 @@
-@extends('layouts.auth')
+@extends('layouts.guest')
 
-@section('content')
+{{-- @section('content')
 <div class="main-wrapper">
     <div class="login-content">
         <div class="row">
@@ -96,4 +96,41 @@
         </div>
     </div>
 </div>
+@endsection --}}
+
+
+@section('content')
+<header class="relative w-full md:max-h-[900px] flex items-center font-inter overflow-hidden px-4 py-48 md:py-56">
+    <img src="/frontend/assets/images/header-bg.svg" alt="" class="w-full absolute top-0 right-0 -z-10" />
+    <div class="w-full max-w-screen-lg mx-auto flex justify-center items-center space-y-3">
+        <form  method="POST" action="{{ route('password.store') }}" class="w-full max-w-lg mx-auto bg-white text-black text-center shadow-lg rounded-2xl md:rounded-3xl px-5 py-8 md:p-10 lg:p-20">
+            @csrf
+            <h1 class="text-xl md:text-3xl">Reset Your Password</h1>
+            @if ($errors->any())
+                <div class="alert alert-danger mt-3">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <div class="w-full space-y-3 py-3 pt-5">
+                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                <input type="hidden" name="email" value="{{ old('email', $request->email) }}">
+                <div class="w-full text-left">
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" name="password" class="w-full text-white bg-black rounded-md p-3" />
+                </div>
+                <div class="w-full text-left">
+                    <label for="password">Confirm Password</label>
+                    <input type="password" id="password" name="password_confirmation" class="w-full text-white bg-black rounded-md p-3" />
+                </div>
+                <div class="mt-12">
+                    <button type="submit" class="w-full flex justify-center items-center text-sm md:text-base transition-all duration-300 bg-zinc-200 hover:bg-zinc-300 rounded-lg hover:cursor-pointer p-3">Reset Password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</header>
 @endsection

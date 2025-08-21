@@ -1,152 +1,33 @@
-@extends('layouts.auth')
-
-@push('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
-    <style>
-        .iti {
-            width: 100%;
-            display: block;
-        }
-    </style>
-@endpush
+@extends('layouts.guest')
 
 @section('content')
-<div class="main-wrapper">
-    <div class="login-content">
-        <div class="row">
-
-            <div class="col-md-6 login-bg d-none d-lg-flex">
-                <div class="login-carousel">
-                    <div>
-                        <div class="login-carousel-section mb-3">
-                            <div class="login-banner">
-                                <img src="/frontpage/assets/img/auth/auth-1.svg" class="img-fluid" alt="Logo">
-                            </div>
-                            <div class="mentor-course text-center">
-                                <h3 class="mb-2">Join a Community of <br>Lifelong <span class="text-secondary">Learners.</span></h3>
-                                <p>Create your account to start your journey with thousands of courses, expert instructors, and a vibrant community.</p>
-                            </div>
-                        </div>
+    <header class="relative w-full md:max-h-[900px] flex items-center font-inter overflow-hidden px-4 py-48 md:py-56">
+        <img src="./asset/images/header-bg.svg" alt="" class="w-full absolute top-0 right-0 -z-10" />
+        <div class="w-full max-w-screen-lg mx-auto flex justify-center items-center space-y-3">
+            <!-- FORM -->
+            <form method="POST" action="{{ route('register') }}" class="w-full max-w-lg mx-auto bg-white text-black text-center shadow-lg rounded-2xl md:rounded-3xl px-5 py-8 md:p-10 lg:p-20">
+                @csrf
+                <h1 class="text-xl md:text-3xl">Create an Account</h1>
+                <div class="w-full space-y-3 py-3 pt-5">
+                    <div class="w-full text-left">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" class="w-full text-white bg-black rounded-md p-3" />
+                    </div>
+                    <div class="w-full text-left">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" class="w-full text-white bg-black rounded-md p-3" />
+                    </div>
+                    <div class="w-full text-left">
+                        <label for="password_confirmation">Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation" class="w-full text-white bg-black rounded-md p-3" />
+                    </div>
+                    <!-- BUTTON -->
+                    <div class="mt-6">
+                        <button type="submit" class="w-full flex justify-center items-center text-sm md:text-base transition-all duration-300 bg-zinc-200 hover:bg-zinc-300 rounded-lg hover:cursor-pointer p-3">Continue</button>
+                        <p class="text-sm md:text-base">Already have an account? <a href="{{ route('choose.login') }}" class="underline hover:text-zinc-500">Login</a></p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 login-wrap-bg">
-                <div class="login-wrapper">
-                    <div class="loginbox">
-                        <div class="w-100">
-                            <div class="d-flex align-items-center justify-content-between login-header">
-                                <a href="{{ url('/') }}">
-                                    <img src="/frontpage/assets/img/logo.svg" class="img-fluid" alt="Logo">
-                                </a>
-                                <a href="{{ url('/') }}" class="link-1">Back to Home</a>
-                            </div>
-
-                            <h1 class="fs-32 fw-bold topic">Create Your Account</h1>
-
-                            <form method="POST" action="{{ route('register') }}">
-                                @csrf
-
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label">Full Name<span class="text-danger ms-1">*</span></label>
-                                    <div class="position-relative">
-                                        <input type="text" name="name" class="form-control form-control-lg" value="{{ old('name') }}" required autofocus>
-                                        <span><i class="isax isax-user input-icon text-gray-7 fs-14"></i></span>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label">Email<span class="text-danger ms-1">*</span></label>
-                                    <div class="position-relative">
-                                        <input type="email" name="email" class="form-control form-control-lg" value="{{ old('email') }}" required>
-                                        <span><i class="isax isax-sms input-icon text-gray-7 fs-14"></i></span>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label">Phone Number<span class="text-danger ms-1">*</span></label>
-                                    <div class="position-relative">
-                                        <input type="tel" id="phone" class="form-control form-control-lg" required>
-                                        <input type="hidden" name="phone" id="phone_full">
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label">Register As<span class="text-danger ms-1">*</span></label>
-                                    <select name="account_type" class="form-select form-select-lg" required>
-                                        <option value="">Choose an option...</option>
-                                        <option value="student" @selected(old('account_type') == 'student')>Student</option>
-                                        <option value="parent" @selected(old('account_type') == 'parent')>Parent</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label">Password <span class="text-danger ms-1">*</span></label>
-                                    <div class="position-relative" id="passwordInput">
-                                        <input type="password" name="password" class="pass-inputs form-control form-control-lg" required>
-                                        <span class="isax toggle-passwords isax-eye-slash fs-14"></span>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label">Confirm Password <span class="text-danger ms-1">*</span></label>
-                                    <div class="position-relative">
-                                        <input type="password" name="password_confirmation" class="pass-inputs form-control form-control-lg" required>
-                                        <span class="isax toggle-passwords isax-eye-slash fs-14"></span>
-                                    </div>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <div class="remember-me d-flex align-items-center">
-                                        <input class="form-check-input" type="checkbox" name="terms" id="terms" required>
-                                        <label class="form-check-label ms-2" for="terms">
-                                            I agree to the <a href="#" class="link-2">Terms & Conditions</a>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="d-grid">
-                                    <button class="btn btn-secondary btn-lg" type="submit">Sign Up <i class="isax isax-arrow-right-3 ms-1"></i></button>
-                                </div>
-                            </form>
-
-                            <div class="fs-14 fw-normal d-flex align-items-center justify-content-center mt-4">
-                                Already have an account?
-                                <a href="{{ route('login') }}" class="link-2 ms-1"> Login</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-
+            </form>
         </div>
-    </div>
-</div>
+    </header>
 @endsection
-
-@push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const phoneInputField = document.querySelector("#phone");
-            const phoneFullField = document.querySelector("#phone_full");
-            
-            if (phoneInputField && phoneFullField) {
-                const phoneInput = window.intlTelInput(phoneInputField, {
-                    initialCountry: "id",
-                    separateDialCode: true,
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-                });
-    
-                function updateHiddenInput() {
-                    const fullNumber = phoneInput.getNumber(); 
-                    phoneFullField.value = fullNumber; 
-                }
-    
-                phoneInputField.addEventListener('keyup', updateHiddenInput);
-                phoneInputField.addEventListener('change', updateHiddenInput);
-    
-                updateHiddenInput();
-            }
-        });
-    </script>
-@endpush

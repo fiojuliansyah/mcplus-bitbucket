@@ -1,0 +1,12 @@
+@media screen and (min-width: 992px) {
+    .swiper.swiper-class-previews,
+    .swiper.swiper-quick-study {
+        overflow: visible;
+        transform: translateX(51%);
+    }
+
+    .swiper.swiper-news-update {
+        overflow: visible;
+        transform: translateX(102.5%);
+    }
+}
