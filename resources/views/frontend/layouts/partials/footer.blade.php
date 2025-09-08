@@ -1,161 +1,51 @@
-<footer class="footer footer-three">
-				
-				<!-- Footer Top -->
-				<div class="footer-top aos" data-aos="fade-up">
-					<div class="container">
-						<div class="row justify-content-between row-gap-4">
-							<div class="col-lg-4 col-md-12">
-							
-								<!-- Footer Widget -->
-								<div class="footer-widget footer-about">
-									<div class="footer-logo">
-										<img src="/frontpage/assets/img/logo-white.svg" alt="logo">
-									</div>
-									<div class="footer-about-content">
-										<p>Platform designed to help organizations, educators, and learners manage, deliver, and track learning and training activities.</p>
-									</div>
-									<div class="d-flex align-items-center gap-2 flex-wrap">
-										<a href="javascript:void(0);"><img src="/frontpage/assets/img/icons/appstore.svg" alt="" class="img-fluid"></a>
-										<a href="javascript:void(0);"><img src="/frontpage/assets/img/icons/googleplay.svg" alt="" class="img-fluid"></a>
-									</div>
-								</div>
-								<!-- /Footer Widget -->
-								
-							</div>
-
-							<div class="col-lg-8">
-								<div class="row row-gap-4">
-							
-									<div class="col-lg-3 col-md-6">
-									
-										<!-- Footer Widget -->
-										<div class="footer-widget footer-menu">
-											<h6 class="footer-title">Support</h6>
-											<ul>
-												<li><a href="course-grid.html">Education</a></li>
-												<li><a href="add-course.html">Enroll a Course</a></li>
-												<li><a href="register.html">Orders</a></li>
-												<li><a href="pricing-plan.html">Payments</a></li>
-												<li><a href="contact-us.html">Contact Us</a></li>
-											</ul>
-										</div>
-										<!-- /Footer Widget -->
-										
-									</div>
-									
-									<div class="col-lg-3 col-md-6">
-									
-										<!-- Footer Widget -->
-										<div class="footer-widget footer-menu">
-											<h6 class="footer-title">About</h6>
-											<ul>
-												<li><a href="course-category.html">Categories</a></li>
-												<li><a href="course-category.html">Services</a></li>
-												<li><a href="about-us.html">About Us</a></li>
-												<li><a href="faq.html">FAQ</a></li>
-												<li><a href="blog-3-grid.html">Blog</a></li>
-											</ul>
-										</div>
-										<!-- /Footer Widget -->
-										
-									</div>
-		
-									<div class="col-lg-3 col-md-6">
-									
-										<!-- Footer Widget -->
-										<div class="footer-widget footer-menu">
-											<h6 class="footer-title">Useful Links</h6>
-											<ul>
-												<li><a href="javascript:void(0);">Our values</a></li>
-												<li><a href="javascript:void(0);">Advisory board</a></li>
-												<li><a href="javascript:void(0);">Our partners</a></li>
-												<li><a href="javascript:void(0);">Become a partner</a></li>
-												<li><a href="javascript:void(0);">Future Learn</a></li>
-											</ul>
-										</div>
-										<!-- /Footer Widget -->
-										
-									</div>
-							
-									<div class="col-lg-3 col-md-6">
-									
-										<!-- Footer Widget -->
-										<div class="footer-widget footer-contact">
-											<h6 class="footer-title">Contact Info</h6>
-											<ul>
-												<li>
-													<div class="contact-infos">
-														<span>Phone Number</span>
-														<p>310-437-2766</p>
-													</div>
-												</li>
-												<li>
-													<div class="contact-infos">
-														<span>Mail Address</span>
-														<p>contact@example.com</p>
-													</div>
-												</li>
-												<li>
-													<div class="contact-infos">
-														<span>Address</span>
-														<p>706 Campfire Ave. Meriden, CT </p>
-													</div>
-												</li>
-											</ul>
-										</div>
-										<!-- /Footer Widget -->
-										
-									</div>
-
-								</div>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-				<!-- /Footer Top -->
-				
-				<!-- Footer Bottom -->
-                <div class="footer-bottom">
-					<div class="container">
-					
-						<!-- Copyright -->
-						<div class="row row-gap-3">
-							<div class="col-md-4">
-								<div class="copyright-text">
-									<p>Copyright 2025 © <a href="javascript:void(0);">MCPlus</a>. All right reserved.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="d-flex align-items-center justify-content-center gap-2">
-									<a href="javascript:void(0);">
-										<img src="/frontpage/assets/img/icons/fb.svg" alt="facebook" class="img-fluid">
-									</a>
-									<a href="javascript:void(0);">
-										<img src="/frontpage/assets/img/icons/instagram.svg" alt="facebook" class="img-fluid">
-									</a>
-									<a href="javascript:void(0);">
-										<img src="/frontpage/assets/img/icons/be.svg" alt="facebook" class="img-fluid">
-									</a>
-									<a href="javascript:void(0);">
-										<img src="/frontpage/assets/img/icons/linkedin.svg" alt="facebook" class="img-fluid">
-									</a>
-									<a href="javascript:void(0);">
-										<img src="/frontpage/assets/img/icons/x.svg" alt="facebook" class="img-fluid">
-									</a>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="privacy-link">
-									<a href="terms-and-conditions.html" class="mb-0">Terms & Policy</a>
-									<a href="privacy-policy.html">Privacy Policy</a>
-								</div>
-							</div>
-						</div>
-						<!-- /Copyright -->
-						
-					</div>
-				</div>
-				<!-- /Footer Bottom -->
-				
-			</footer>
+<footer class="w-full bg-white">
+        <div class="w-full max-w-screen-xl mx-auto px-4 py-10">
+            <!-- LOGO -->
+            <div class="w-full flex flex-col justify-center items-center space-y-5">
+                <img src="./asset/images/main-logo.png" alt="" class="h-20" />
+                <!-- MENU LIST -->
+                <ul class="flex space-x-5 text-black py-3">
+                    <li>
+                        <a href="" class="hover:text-zinc-500">Home</a>
+                    </li>
+                    <li>
+                        <a href="" class="hover:text-zinc-500">Timetable</a>
+                    </li>
+                    <li>
+                        <a href="" class="hover:text-zinc-500">Classess</a>
+                    </li>
+                    <li>
+                        <a href="" class="hover:text-zinc-500">Inbox</a>
+                    </li>
+                    <li>
+                        <a href="" class="hover:text-zinc-500">FAQ</a>
+                    </li>
+                    <li>
+                        <a href="" class="hover:text-zinc-500">Support</a>
+                    </li>
+                </ul>
+                <!-- BOTTOM -->
+                <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 md:gap-y-0 items-end">
+                    <!-- LEFT FORM -->
+                    <form action="#" method="POST" class="w-full">
+                        <label for="subscribe" class="text-sm text-zinc-500 pb-2">Newsletter</label>
+                        <div class="relative w-full h-10 md:h-12">
+                            <input type="text" id="subscribe" placeholder="Enter your email" class="w-full h-full flex rounded-full text-sm text-black border px-4" />
+                            <button class="absolute top-0 right-0 w-32 h-full text-sm bg-black text-white text-center rounded-full">Subscribe</button>
+                        </div>
+                    </form>
+                    <!-- CENTER SOSMED -->
+                    <div class="w-full flex md:justify-end md:items-end space-x-3">
+                        <a href="#" class="w-10 h-10 flex border border-black rounded-full transition-all duration-300 hover:bg-black hover:bg-black/50"></a>
+                        <a href="#" class="w-10 h-10 flex border border-black rounded-full transition-all duration-300 hover:bg-black hover:bg-black/50"></a>
+                        <a href="#" class="w-10 h-10 flex border border-black rounded-full transition-all duration-300 hover:bg-black hover:bg-black/50"></a>
+                        <a href="#" class="w-10 h-10 flex border border-black rounded-full transition-all duration-300 hover:bg-black hover:bg-black/50"></a>
+                    </div>
+                    <!-- RIGHT COPYRIGHT -->
+                    <div class="w-full flex md:justify-end text-black md:col-span-2 lg:col-span-1 md:pt-10 lg:pt-0">
+                        <p class="text-sm text-end">©  2025 copyright. All right reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>

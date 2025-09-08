@@ -1,147 +1,184 @@
-<!doctype html>
-<html lang="en" data-bs-theme="dark">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{ $title ?? 'Beranda' }} | MCPlus Premium</title>
-    <!-- Google Font Api KEY-->
-    <meta name="google_font_api" content="AIzaSyBG58yNdAjc20_8jAvLNSVi9E4Xhwjau_k">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="/frontend/assets/images/favicon.webp" />
-
-    <!-- Library / Plugin Css Build -->
-    <link rel="stylesheet" href="/frontend/assets/css/core/libs.min.css" />
-
-    <!-- font-awesome css -->
-    <link rel="stylesheet" href="/frontend/assets/vendor/font-awesome/css/all.min.css" />
-
-    <!-- Iconly css -->
-    <link rel="stylesheet" href="/frontend/assets/vendor/iconly/css/style.css" />
-
-    <!-- Animate css -->
-    <link rel="stylesheet" href="/frontend/assets/vendor/animate.min.css" />
-
-    <!-- SwiperSlider css -->
-    <link rel="stylesheet" href="/frontend/assets/vendor/swiperSlider/swiper.min.css">
-
-
-
-
-
-    <!-- Streamit Design System Css -->
-    <link rel="stylesheet" href="/frontend/assets/css/streamit.min.css?v=5.2.1" />
-
-    <!-- Custom Css -->
-    <link rel="stylesheet" href="/frontend/assets/css/custom.min.css?v=5.2.1" />
-
-    <!-- Rtl Css -->
-    <link rel="stylesheet" href="/frontend/assets/css/rtl.min.css?v=5.2.1" />
-
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>MCP WEBSITE</title>
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300&display=swap"
-        rel="stylesheet">
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap"
+        rel="stylesheet" />
+    <!-- TAILWINDCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/frontend/assets/js/tailwind.config.js"></script>
+    <script src="/frontend/assets/css/app.css"></script>
+    <!-- ICONIFY -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.5/iconify-icon.min.js"></script>
+    <!-- SWIPERJS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/styles/index.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-calendar-pro/index.js" defer></script>
 
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <!-- INTERNAL CSS -->
+    <link rel="stylesheet" href="/frontend/assets/css/app.css" />
+
+    @stack('styles')
 </head>
+<body class="bg-black text-white">
+    @include('frontend.layouts.partials.navbar')
 
-<body class="  ">
-    <span class="screen-darken"></span>
-    <main class="main-content">
-        @include('frontend.layouts.partials.header')
-
-        @yield('content')
-
-        @if (Auth::user())
-            @foreach (Auth::user()->profiles as $profile)
-                @if ($profile->pin)
-                    <div class="modal fade" id="enterPinModal-{{ $profile->id }}" tabindex="-1" aria-labelledby="enterPinModalLabel-{{ $profile->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="enterPinModalLabel-{{ $profile->id }}">Enter PIN for {{ $profile->name }}</h5>
-                                    <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-								<i class="isax isax-close-circle5"></i>
-							</button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('user.change-profile') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="profile_id" value="{{ $profile->id }}">
-                                        
-                                        <div class="mb-3">
-                                            <label for="pin-{{ $profile->id }}" class="form-label">PIN</label>
-                                            <input type="password" class="form-control" name="pin" id="pin-{{ $profile->id }}" required autofocus>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Enter Profile</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endforeach
-        @endif
-
-    </main>
+    @yield('content')
 
     @include('frontend.layouts.partials.footer')
 
-    <div id="back-to-top" style="display: none;">
-        <a class="p-0 btn bg-primary btn-sm position-fixed top border-0 rounded-circle text-white" id="top"
-            href="#top">
-            <i class="fa-solid fa-chevron-up"></i>
-        </a>
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="bg-gray-800 rounded-2xl shadow-xl w-full max-w-sm mx-4 p-6 text-white border border-gray-700">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-900 border border-green-700">
+                    <svg class="h-6 w-6 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                </div>
+                <h3 class="mt-5 text-lg font-semibold leading-6" id="modal-title">Success</h3>
+                <div class="mt-2">
+                    <p id="successModalMessage" class="text-sm text-gray-400"></p>
+                </div>
+            </div>
+            <div class="mt-6 flex justify-center">
+                <button type="button" id="closeSuccessModalButton" class="rounded-full bg-gray-50 text-black px-8 py-2 text-sm font-semibold shadow-sm hover:bg-gray-200">
+                    OK
+                </button>
+            </div>
+        </div>
     </div>
-    <!-- Wrapper End-->
-    <!-- Library Bundle Script -->
-    <script src="/frontend/assets/js/core/libs.min.js"></script>
-    <!-- Plugin Scripts -->
 
-
-    <!-- SwiperSlider Script -->
-    <script src="/frontend/assets/vendor/swiperSlider/swiper.min.js"></script>
-
-
-
-
-    <!-- Lodash Utility -->
-    <script src="/frontend/assets/vendor/lodash/lodash.min.js"></script>
-    <!-- External Library Bundle Script -->
-    <script src="/frontend/assets/js/core/external.min.js"></script>
-    <!-- countdown Script -->
-    <script src="/frontend/assets/js/plugins/countdown.js"></script>
-    <!-- utility Script -->
-    <script src="/frontend/assets/js/utility.js"></script>
-    <!-- Setting Script -->
-    <script src="/frontend/assets/js/setting.js"></script>
-    <script src="/frontend/assets/js/setting-init.js" defer></script>
-    <!-- Streamit Script -->
-    <script src="/frontend/assets/js/streamit.js" defer></script>
-    <script src="/frontend/assets/js/swiper.js" defer></script>
-    
-    @stack('js')
-    <!-- Start of Async Callbell Code -->
     <script>
-        if (!window.callbellSettings) {
-            window.callbellSettings = {}
-        }
-        window.callbellSettings["uuid"] = "a90d55b2-8e4b-4b17-820f-ac310a969c64";
-        window.callbellSettings["script_token"] = "5ugemXb7vXT48YGyEsUkXTVk";
-        </script>
-        <script>
-        (function(){var w=window;var d=document;var l=function(){var s=d.createElement('script');s.async=true;s.src='https://dash.callbell.eu/include/livechat/'+window.callbellSettings.script_token+'/'+window.callbellSettings.uuid+'.js';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};w.addEventListener('load',l,false);})();
+        const swiperClassPreview = new Swiper('.swiper-class-previews', {
+            direction: 'horizontal',
+            loop: true,
+            autoplay: {
+                delay: 1000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false
+            },
+            initialSlide: 1,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 5
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 20
+                }
+            }
+        });
+
+        const swiperQuickStudy = new Swiper('.swiper-quick-study', {
+            direction: 'horizontal',
+            loop: true,
+            autoplay: {
+                delay: 1000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false
+            },
+            initialSlide: 1,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 5
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 20
+                }
+            }
+        });
+
+        const swiperNewsUpdate = new Swiper('.swiper-news-update', {
+            direction: 'horizontal',
+            loop: true,
+            autoplay: {
+                delay: 1000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false
+            },
+            initialSlide: 1,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 5
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20
+                }
+            }
+        });
     </script>
-    <!-- End of Async Callbell Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const profileTrigger = document.getElementById('profile-trigger');
+            const profileDropdown = document.getElementById('profile-dropdown');
+            const chevronIcon = document.getElementById('chevron-icon');
 
+            profileTrigger.addEventListener('click', function (event) {
+                event.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+                chevronIcon.classList.toggle('rotate-180');
+            });
 
+            window.addEventListener('click', function (event) {
+                if (!profileDropdown.classList.contains('hidden')) {
+                    profileDropdown.classList.add('hidden');
+                    chevronIcon.classList.remove('rotate-180');
+                }
+            });
+        });
+    </script>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const successModal = document.getElementById('successModal');
+                const successModalMessage = document.getElementById('successModalMessage');
+                const closeButton = document.getElementById('closeSuccessModalButton');
+
+                successModalMessage.textContent = "{{ session('success') }}";
+                successModal.classList.remove('hidden');
+
+                const hideModal = () => {
+                    successModal.classList.add('hidden');
+                };
+
+                closeButton.addEventListener('click', hideModal);
+
+                successModal.addEventListener('click', (event) => {
+                    if (event.target === successModal) {
+                        hideModal();
+                    }
+                });
+            });
+        </script>
+    @endif
+    @stack('scripts')
 </body>
-
 </html>

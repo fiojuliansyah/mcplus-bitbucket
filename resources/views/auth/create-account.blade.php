@@ -1,11 +1,11 @@
 @extends('layouts.guest')
 
 @section('content')
-    <header class="relative w-full flex items-center font-inter overflow-hidden px-4 py-24 md:py-32">
+    <header class="relative w-full md:max-h-[900px] flex items-center font-inter overflow-hidden px-4 py-48 md:py-56">
         <img src="/frontend/assets/images/header-bg.svg" alt="" class="w-full h-full object-cover absolute top-0 left-0 -z-10" />
         <div class="w-full max-w-screen-lg mx-auto flex justify-center items-center">
             
-            <form method="POST" action="{{ route('create.account.store') }}" enctype="multipart/form-data" class="w-full max-w-lg mx-auto bg-white text-black text-center shadow-lg rounded-2xl md:rounded-3xl px-5 py-8 md:p-10">
+            <form method="POST" action="{{ route('create.account.store') }}" enctype="multipart/form-data" class="w-full max-w-lg mx-auto bg-white text-black text-center shadow-lg rounded-2xl md:rounded-3xl px-5 py-8 md:p-10 lg:p-20">
                 @csrf
                 @if ($errors->any())
                     <div class="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-left mb-4" role="alert">
@@ -27,12 +27,6 @@
                             <div class="relative">
                                 <label for="avatar" class="cursor-pointer">
                                     <img id="avatar-preview" class="w-32 h-32 rounded-full object-cover border-2 border-gray-300" src="/frontend/assets/images/camera.svg" alt="Avatar Preview">
-                                    <div class="absolute bottom-0 right-0 bg-black text-white rounded-full p-2 hover:bg-gray-800">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
                                 </label>
                                 <input type="file" name="avatar" id="avatar" class="hidden" accept="image/*" />
                             </div>
@@ -103,13 +97,11 @@
 
                     <div class="w-full text-left">
                         <label for="phone" class="font-medium">Phone Number</label>
-                        <div class="relative mt-1">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <span class="text-gray-500">+60</span>
-                            </div>
-                            <input type="tel" name="phone" id="phone" class="w-full text-white bg-black border border-gray-300 rounded-md p-3 pl-12 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" value="{{ old('phone') }}" />
+                        <div class="w-full grid grid-cols-10 gap-2">
+                            <input type="tel" name="phone" id="phone" class="w-full col-span-2 placeholder-white bg-black rounded-md p-3" placeholder="+60" />
+                            <input type="tel" name="phone" id="phone" class="w-full col-span-8 text-white bg-black rounded-md p-3" />
                         </div>
-                         @error('phone')
+                        @error('phone')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>

@@ -16,6 +16,7 @@ class LiveClass extends Model
         'duration', 
         'timezone', 
         'password', 
+        'class_day',
         'start_time', 
         'settings', 
         'zoom_meeting_id', 
@@ -26,7 +27,7 @@ class LiveClass extends Model
 
     protected $casts = [
         'settings' => 'array',
-        'start_time' => 'datetime',
+        'start_time' => 'datetime:H:i',
     ];
 
     public function grade()

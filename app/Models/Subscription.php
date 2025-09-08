@@ -11,7 +11,9 @@ class Subscription extends Model
         'transaction_code',
         'profile_id',
         'plan_id',
+        'tutor_id',
         'subject_id',
+        'live_class_id',
         'duration',
         'payment_method',
         'start_date',
@@ -22,6 +24,12 @@ class Subscription extends Model
         'tax',
         'total_amount',
         'status',
+    ];
+
+    protected $casts = [
+        'subject_id' => 'array',
+        'tutor_id'   => 'array',
+        'live_class_id'   => 'array',
     ];
 
     public function user()
@@ -39,9 +47,19 @@ class Subscription extends Model
         return $this->belongsTo(Plan::class, 'plan_id');
     }
 
+    public function tutor()
+    {
+        return $this->belongsTo(User::class, 'tutor_id');
+    }
+
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    public function liveClass()
+    {
+        return $this->belongsTo(LiveClass::class, 'live_class_id');
     }
 
     public function coupon()

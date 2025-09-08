@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReplayClass extends Model
 {
 
-    protected $fillable = ['grade_id', 'name', 'description', 'subject_id', 'topic_id', 'user_id', 'replay_url', 'replay_public_id', 'duration', 'status'];
+    protected $fillable = ['grade_id', 'name', 'description', 'subject_id', 'topic_id', 'user_id', 'replay_url', 'replay_public_id', 'duration', 'status', 'start_date', 'end_date'];
 
     public function grade()
     {

@@ -36,6 +36,7 @@ use App\Http\Controllers\Webhook\ZoomWebhookController;
 use App\Http\Controllers\Tutor\TutorAssigmentController;
 use App\Http\Controllers\Tutor\TutorLiveClassController;
 use App\Http\Controllers\User\SubscriptionPlanController;
+use App\Http\Controllers\Tutor\TutorReplayClassController;
 use App\Http\Controllers\Tutor\TutorTestQuestionController;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
@@ -44,11 +45,9 @@ Route::get('/subjects/{slugGrade}/{slugSubject}', [PageController::class, 'subje
 Route::get('/tutors', [PageController::class, 'tutors'])->name('home.tutors');
 
 Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
-Route::get('/subscription/checkout/{plan}', [SubscriptionPlanController::class, 'showCheckoutForm'])->name('subscription.checkout')->middleware(['auth']);
+// Route::get('/subscription/checkout/{plan}', [SubscriptionPlanController::class, 'showCheckoutForm'])->name('subscription.checkout')->middleware(['auth']);
 Route::post('/api/apply-coupon', [SubscriptionPlanController::class, 'applyCoupon'])->name('api.coupon.apply');
 Route::post('/subscription/process', [SubscriptionPlanController::class, 'processSubscription'])->name('subscription.process');
-Route::post('/billplz/webhook', [SubscriptionPlanController::class, 'handleWebhook'])->name('billplz.webhook');
-Route::get('/payment/success', [SubscriptionPlanController::class, 'paymentSuccess'])->name('payment.success');
 
 Route::get('/test-notification', [SubscriptionPlanController::class, 'testNotification']);
 Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAsRead');
@@ -56,6 +55,14 @@ Route::get('/notifications/mark-as-read', [NotificationController::class, 'markA
 Route::post('/zoom/signature', [ZoomSignatureController::class, 'generateSignature'])->name('zoom.signature');
 Route::get('/live-classes/{id}/join', [PageController::class, 'joinMeeting'])->name('live-classes.join');
 Route::post('/webhooks/zoom', [ZoomWebhookController::class, 'handle']);
+
+
+Route::get('/enrollment/checkout/{plan}', [SubscriptionPlanController::class, 'showCheckoutForm'])->name('enrollment.checkout')->middleware(['auth']);
+Route::post('/api/enrollment/apply-coupon', [SubscriptionPlanController::class, 'applyCoupon'])->name('api.enrollment.applyCoupon');
+Route::post('/enrollment/{subscription}/payment', [SubscriptionPlanController::class, 'processPayment'])->name('subscription.processPayment');
+
+Route::post('/billplz/webhook', [SubscriptionPlanController::class, 'handleWebhook'])->name('billplz.webhook');
+Route::get('/payment/success', [SubscriptionPlanController::class, 'paymentSuccess'])->name('payment.success');
 
 Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/select-profile', [UserProfileController::class, 'selectProfile'])->name('select-profile');
@@ -76,8 +83,16 @@ Route::middleware(['auth', 'check.profile'])->prefix('student')->name('user.')->
     Route::patch('/settings/{userId}', [UserPageController::class, 'settingsStore'])->name('settings.store');
 
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
-    Route::patch('/user/profile/{profile}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::put('/user/profile/{profile}', [UserProfileController::class, 'update'])->name('profile.update');
     Route::patch('/user/profile/{profile}/pin', [UserProfileController::class, 'updatePin'])->name('profile.update.pin');
+
+    Route::get('/enrollment/subscription-type', [SubscriptionPlanController::class, 'subscriptionType'])->name('subscription-type');
+    Route::get('/enrollment/subject-enrollment', [SubscriptionPlanController::class, 'subjectEnrollment'])->name('subject-enrollment');
+    Route::post('/enrollment/subject-enrollment/store', [SubscriptionPlanController::class, 'storeEnrollment'])->name('subject-enrollment.store');
+    Route::get('/enrollment/review-timetable/{subscription}', [SubscriptionPlanController::class, 'reviewTimetable'])->name('enrollment.reviewTimetable');
+    Route::get('/enrollment/checkout/{subscription}', [SubscriptionPlanController::class, 'checkout'])->name('enrollment.checkout');
+    Route::post('/enrollment/{subscription}/proceed-to-payment', [SubscriptionPlanController::class, 'proceedToPayment'])->name('enrollment.proceedToPayment');
+    Route::get('/enrollment/{subscription}/payment', [SubscriptionPlanController::class, 'showPaymentPage'])->name('enrollment.payment');
 
     Route::get('/my-quiz', [UserPageController::class, 'quiz'])->name('my-quiz');
     Route::get('/quiz/result/{result}', [UserPageController::class, 'showResult'])->name('quiz.result');
@@ -157,11 +172,32 @@ Route::prefix('tutor')->middleware(['auth'])->name('tutor.')->group(function () 
     Route::get('/dashboard', [TutorPageController::class, 'dashboard'])->name('dashboard');
     Route::get('/settings', [TutorPageController::class, 'settings'])->name('settings');
     Route::get('/students', [TutorPageController::class, 'students'])->name('students');
+    Route::get('/all-classes/{subjectSlug?}', [TutorPageController::class, 'allClasses'])->name('all-classes');
+    Route::get('/classes/{subjectSlug}', [TutorPageController::class, 'showClassDetail'])->name('classes.show');
+    Route::get('/subjects/{subjectSlug}/subscriptions', [TutorPageController::class, 'subscriptions'])->name('subscriptions');
 
+    Route::get('/schedule-class/redirect', [TutorPageController::class, 'redirectSchedule'])->name('schedule.redirect');
+    Route::get('/schedule-class/{subjectSlug}', [TutorPageController::class, 'create'])->name('schedule.create');
     Route::get('/live-classes', [TutorLiveClassController::class, 'index'])->name('live-classes.index');
     Route::post('/live-classes', [TutorLiveClassController::class, 'store'])->name('live-classes.store');
-    Route::put('/live-classes/{id}/update', [TutorLiveClassController::class, 'update'])->name('live-classes.update');
-    Route::delete('/live-classes/{id}', [TutorLiveClassController::class, 'destroy'])->name('live-classes.destroy');
+    Route::get('/live-classes/{liveClass}/edit', [TutorLiveClassController::class, 'edit'])->name('live-classes.edit');
+    Route::put('/live-classes/{liveClass}', [TutorLiveClassController::class, 'update'])->name('live-classes.update');
+    Route::delete('/live-classes/{liveClass}', [TutorLiveClassController::class, 'destroy'])->name('live-classes.destroy');
+    // Route::delete('/live-classes/{id}', [TutorLiveClassController::class, 'destroy'])->name('live-classes.destroy');
+
+    Route::get('/replay-classes/create/{subjectSlug}', [TutorReplayClassController::class, 'create'])->name('replay-classes.create');
+    Route::post('/replay-classes/{subjectSlug}', [TutorReplayClassController::class, 'store'])->name('replay-classes.store');
+    Route::post('/replay-classes/{slug}/upload-chunk', [ReplayClassController::class, 'uploadChunk'])->name('replay-classes.upload-chunk');
+
+    Route::get('/note-reference-material/{subjectSlug}', [TutorNoteController::class, 'create'])->name('notes.create');
+    Route::post('/note-reference-material/{subjectSlug}', [TutorNoteController::class, 'store'])->name('notes.store');
+
+    Route::get('/quizzes/{subjectSlug}', [TutorQuizzController::class, 'create'])->name('quizzes.create');
+    Route::post('/quizzes/store', [TutorQuizzController::class, 'store'])->name('quizzes.store');
+    Route::get('/quizzes/{quizz}/add-questions', [TutorQuizzController::class, 'addQuestions'])->name('quizzes.add-questions');
+    Route::post('/quizzes/{quizz}/store-questions', [TutorQuizzController::class, 'storeQuestion'])->name('quizzes.store-question');
+    Route::get('/quizzes/{quizz}/preview', [TutorQuizzController::class, 'previewQuestions'])->name('quizzes.preview');
+    Route::post('quizzes/{quizz}/publish', [TutorQuizzController::class, 'publishQuizz'])->name('quizzes.publish');
 
     Route::get('/assignments', [TutorAssigmentController::class, 'index'])->name('assignments.index');
     Route::post('/assignments', [TutorAssigmentController::class, 'store'])->name('assignments.store');

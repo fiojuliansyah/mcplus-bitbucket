@@ -6,7 +6,7 @@
     <div class="w-full max-w-screen-lg mx-auto flex justify-center items-center space-y-3">
         <div class="w-full max-w-lg mx-auto bg-white text-black text-center shadow-lg rounded-2xl md:rounded-3xl px-5 py-8 md:p-10 lg:p-20">
             <div class="flex justify-center mb-4 mt-4">
-                <img src="/frontend/assets/images/password-success.svg" alt="" class="h-20" />
+                <img src="/frontend/assets/images/success-reset-password.svg" alt="" class="h-20" />
             </div>
             <h1 class="text-xl md:text-3xl">Your password has been changed successfully</h1>
             <p class="text-sm md:text-base mt-8">Only one click to explore online education.</p>

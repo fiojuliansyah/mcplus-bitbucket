@@ -107,7 +107,7 @@
             
             <h1 class="text-2xl md:text-3xl font-bold">Forgot Password?</h1>
             <div class="flex justify-center mb-4 mt-4">
-                <img src="/frontend/assets/images/forgot-password.svg" alt="" class="h-14" >
+                <img src="/frontend/assets/images/reset-password-vector.svg" alt="" class="h-14" >
             </div>
             <p class="text-sm md:text-base text-gray-600 mt-2">Enter your registered email. We will email you a link to reset your password.</p>
 

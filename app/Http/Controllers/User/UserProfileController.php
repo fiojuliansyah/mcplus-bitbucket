@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Plan;
 use App\Models\Profile;
+use App\Models\Subject;
+use App\Models\LiveClass;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -13,9 +17,18 @@ class UserProfileController extends Controller
     {
         $title = 'Profile';
         $user = Auth::user();
-        $profiles = $user->profiles;
-        return view('frontend.profiles.index', compact('user', 'profiles','title'));
+
+        $classes = LiveClass::paginate(5);
+
+        $plan = Plan::first();
+
+        $subscriptions = Subscription::where('user_id', $user->id)
+            ->orderBy('start_date', 'desc')
+            ->get();
+
+        return view('frontend.profiles.index', compact('user', 'title', 'subscriptions', 'classes', 'plan'));
     }
+
 
     public function store(Request $request)
     {
@@ -43,20 +56,32 @@ class UserProfileController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'pin' => 'nullable|string|max:255',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email',
+            'phone'     => 'required|string|max:15',
+            'password'  => 'nullable|string|min:6',
+            'avatar'    => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $profile = Profile::findOrFail($id);
-        $profile->name = $request->name;
+        $user = $profile->user;
+
+        $profile->name      = $request->name;
+        $profile->ic_number = $request->ic_number;
+        $profile->postcode  = $request->postcode;
 
         if ($request->hasFile('avatar')) {
             $avatarPath = $request->file('avatar')->store('avatars', 'public');
             $profile->avatar = $avatarPath;
         }
-
         $profile->save();
+
+        $user->email = $request->email;
+        $user->phone = '+60' . ltrim($request->phone, '0');
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+        $user->save();
 
         return redirect()->route('user.profile')->with('success', 'Profile updated successfully!');
     }

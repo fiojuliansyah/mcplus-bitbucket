@@ -22,7 +22,8 @@ return new class extends Migration
             $table->integer('duration'); 
             $table->string('timezone')->default('Asia/Dhaka'); 
             $table->string('password')->nullable(); 
-            $table->datetime('start_time'); 
+            $table->string('class_day'); 
+            $table->time('start_time'); 
             $table->json('settings'); 
             $table->bigInteger('zoom_meeting_id')->unsigned()->nullable();
             $table->longtext('zoom_join_url')->nullable(); 

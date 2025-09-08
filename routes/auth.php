@@ -66,6 +66,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/create/account', [PageController::class, 'createAccountStore'])
         ->name('create.account.store');
 
+    Route::get('/create/acccount/success', [PageController::class, 'createAccountSuccess'])
+        ->name('create.account.success');
+
 
     Route::get('verify-email', EmailVerificationPromptController::class)
     ->name('verification.notice');

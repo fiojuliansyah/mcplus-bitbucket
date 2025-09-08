@@ -120,9 +120,9 @@
 		
 			<div class="home-3">
 
-				@include('frontend.layouts.partials.header')
+				@include('frontend.layouts.partials.old.header')
 				@yield('content')
-				@include('frontend.layouts.partials.footer')
+				@include('frontend.layouts.partials.old.footer')
 				@if (Auth::user())
 					@foreach (Auth::user()->profiles as $profile)
 						@if ($profile->pin)

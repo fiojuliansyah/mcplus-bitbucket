@@ -10,3 +10,96 @@
         transform: translateX(102.5%);
     }
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+input:focus {
+  box-shadow: none;
+}
+
+/* Untuk placeholder seperti 'mm/dd/yyyy' */
+/* input[type="date"]::placeholder,
+input[type="time"]::placeholder {
+  color: #323334;
+} */
+
+/* Untuk Firefox - agar placeholder pada date/time bisa diatur */
+/* input[type="date"]::-moz-placeholder,
+input[type="time"]::-moz-placeholder {
+  color: #323334;
+} */
+
+/* Untuk WebKit (Chrome, Safari) */
+/* input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="date"]::-webkit-datetime-edit-year-field,
+input[type="time"]::-webkit-datetime-edit-hour-field,
+input[type="time"]::-webkit-datetime-edit-minute-field {
+  color: #323334;
+} */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555; /* warna scrollbar */
+  border-radius: 9999px; /* biar bulat */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tab-btn {
+  background-color: black;
+  color: #717171;
+}
+
+.tab-btn.active {
+  background-color: #232323;
+  color: white;
+}
+
+/* #calendar {
+  max-width: 900px;
+  border-radius: 12px;
+} */
+
+/* START DROPZONE */
+.dropzone {
+  background-color: #0F1012;
+  border: 1px solid #181A1C;
+  border-radius: 14px;
+}
+
+.custom-preview {
+  background-color: #0F1012;
+  color: #28B700;
+  padding: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 80%;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* END DROPZONE */

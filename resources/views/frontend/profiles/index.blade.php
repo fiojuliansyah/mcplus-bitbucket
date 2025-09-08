@@ -1,159 +1,381 @@
-@extends('frontend.layouts.app2')
+@extends('frontend.layouts.app')
 
 @section('content')
-    @include('frontend.layouts.partials.student-breadcrumb')
-
-    <div class="content">
-        <div class="container">
-            @include('frontend.layouts.partials.student-header')
-            <div class="row">
-
-                @include('frontend.layouts.partials.student-navbar')
-
-                <div class="col-lg-9">
-                    <div class="page-title d-flex align-items-center justify-content-between">
-                        <h5>Profiles</h5>
-                        <a href="#" class="btn btn-primary btn-sm position-relative" data-bs-toggle="modal" data-bs-target="#addProfileModal">
-                            <span class="button-text">+ Add Profile</span>
-                        </a>
+<section class="w-full bg-primary text-white px-4 py-10">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <!-- HEADER -->
+            <div class="flex flex-col lg:flex-row justify-between gap-5 lg:items-end border-b border-white/10">
+                <!-- LEFT SECTION -->
+                <div class="flex items-center gap-3">
+                    <img src="/frontend/assets/images/student-profile-vector.svg" alt="Tutor Avatar" class="w-28" />
+                    <div>
+                        <span class="text-gray-250">Student</span>
+                        <h1 class="text-4xl font-bold tracking-tight text-white">My Profile</h1>
                     </div>
-                    @foreach (Auth::user()->profiles as $profile)
-                        <div class="profile-item d-flex align-items-center justify-content-between mb-3 p-3 border rounded">
-                            <div class="d-flex align-items-center gap-3">
-                                @if ($profile->avatar)
-                                    <img src="{{ asset('storage/' . $profile->avatar) }}" class="img-fluid" width="40"
-                                        height="40" alt="Profile Avatar" style="border-radius: 5px">
-                                @else
-                                    <div class="bg-primary text-white d-flex align-items-center justify-content-center"
-                                        style="width: 40px; height: 40px;">
-                                        <span class="fs-6">
-                                            @foreach (explode(' ', $profile->name) as $word)
-                                                {{ strtoupper($word[0]) }}
-                                            @endforeach
-                                        </span>
-                                    </div>
-                                @endif
-                                <span class="font-size-14 fw-500 text-capitalize text-white">{{ $profile->name }}</span>
-                            </div>
-                            <div>
-                                <a href="#" class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                    data-bs-target="#pinModal-{{ $profile->id }}">PIN</a>
-                                <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#editModal-{{ $profile->id }}">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#editModal-{{ $profile->id }}">Delete</a>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="pinModal-{{ $profile->id }}" tabindex="-1"
-                            aria-labelledby="pinModalLabel-{{ $profile->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="pinModalLabel-{{ $profile->id }}">Set PIN for:
-                                            {{ $profile->name }}</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="POST" action="{{ route('user.profile.update.pin', $profile->id) }}">
-                                            @csrf
-                                            @method('PATCH')
-
-                                            <div class="mb-3">
-                                                <label for="pin-{{ $profile->id }}" class="form-label">New PIN (4
-                                                    Digits)</label>
-                                                <input type="password" class="form-control" id="pin-{{ $profile->id }}"
-                                                    name="pin" required maxlength="4" pattern="\d{4}">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="pin_confirmation-{{ $profile->id }}"
-                                                    class="form-label">Confirm PIN</label>
-                                                <input type="password" class="form-control"
-                                                    id="pin_confirmation-{{ $profile->id }}" name="pin_confirmation"
-                                                    required maxlength="4">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary me-2"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save PIN</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade" id="editModal-{{ $profile->id }}" tabindex="-1"
-                            aria-labelledby="editModalLabel-{{ $profile->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel-{{ $profile->id }}">Edit Profile:
-                                            {{ $profile->name }}</h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="POST" action="{{ route('user.profile.update', $profile->id) }}"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PATCH')
-
-                                            <div class="mb-3">
-                                                <label for="name-{{ $profile->id }}" class="form-label">Profile
-                                                    Name</label>
-                                                <input type="text" class="form-control" id="name-{{ $profile->id }}"
-                                                    name="name" value="{{ $profile->name }}" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">Current Avatar</label>
-                                                <div>
-                                                    <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar"
-                                                        width="80">
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="avatar-{{ $profile->id }}" class="form-label">New Avatar
-                                                    (Optional)</label>
-                                                <input type="file" class="form-control" id="avatar-{{ $profile->id }}"
-                                                    name="avatar" accept="image/*">
-                                                <small class="form-text text-muted">Leave blank to keep the current
-                                                    avatar.</small>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary me-2"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Save Changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
             </div>
-            <div class="modal fade" id="addProfileModal" tabindex="-1" aria-labelledby="addProfileModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addProfileModalLabel">Add Profile</h5>
+
+            <!-- CONTENT -->
+            <div class="space-y-10 divide-y divide-zinc-700">
+                <!-- FORM -->
+                <div class="w-full pt-10">
+                    <form action="{{ route('user.profile.update', $user->current_profile->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="grid grid-cols-12">
+                            <div class="col-span-12">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <img src="/frontend/assets/icons/student.svg" alt="Icon" class="size-6" />
+                                    <h6 class="text-[20px] text-gray-75 font-semibold">Basic Profile</h6>
+                                </div>
+
+                                <div class="grid grid-cols-12 gap-5">
+                                    <!-- AVATAR -->
+                                    <div class="col-span-12 lg:col-span-2">
+                                        <div class="flex flex-col gap-3 items-center">
+                                            <div id="avatar-preview"
+                                                class="bg-gray-50 rounded-full w-[138px] h-[138px] flex items-center justify-center overflow-hidden">
+                                                @if ($user->current_profile?->avatar)
+                                                    <img src="{{ asset('storage/' . $user->current_profile->avatar) }}"
+                                                        alt="Avatar"
+                                                        class="w-full h-full object-cover rounded-full" />
+                                                @else
+                                                    <img src="/frontend/assets/icons/student-black.svg"
+                                                        alt="Default Icon"
+                                                        class="w-3/4 h-3/4 object-contain" />
+                                                @endif
+                                            </div>
+
+                                            <!-- Upload Button -->
+                                            <label
+                                                class="bg-gray-50 rounded-full w-[31px] h-[31px] flex items-center justify-center cursor-pointer">
+                                                <img src="/frontend/assets/icons/pencil.svg" alt="Icon" class="size-4 text-black" />
+                                                <input type="file" name="avatar" id="avatar-input" class="hidden" accept="image/*">
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- PROFILE FORM -->
+                                    <div class="col-span-12 lg:col-span-10">
+                                        <div class="grid grid-cols-12 gap-10">
+                                            <!-- Full Name -->
+                                            <div class="col-span-12">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">Full Name</label>
+                                                    <input type="text" name="name" value="{{ old('name', $user->current_profile->name) }}"
+                                                        class="bg-gray-1000 border border-gray-950 text-gray-75 placeholder:text-gray-500 
+                                                        rounded-[14px] w-full px-4 py-3"
+                                                        placeholder="Full Name" required />
+                                                </div>
+                                            </div>
+
+                                            <!-- NRIC -->
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">NRIC</label>
+                                                    <input type="text" name="ic_number"
+                                                        value="{{ old('ic_number', $user->current_profile?->ic_number) }}"
+                                                        class="bg-gray-1000 border border-gray-950 text-gray-75 placeholder:text-gray-500 
+                                                        rounded-[14px] w-full px-4 py-3"
+                                                        placeholder="NRIC" required />
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Phone Number -->
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">Phone Number</label>
+                                                    <div class="flex rounded-[14px] overflow-hidden border border-gray-950 bg-gray-1000">
+                                                        <span class="px-4 py-3 bg-gray-950 text-gray-300 flex items-center">+60</span>
+                                                        <input type="text" name="phone"
+                                                            value="{{ old('phone', ltrim(str_replace('+60', '', $user->phone), '0')) }}"
+                                                            class="flex-1 bg-gray-1000 text-gray-75 placeholder:text-gray-500 px-4 py-3 focus:outline-none"
+                                                            placeholder="123456789" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Email -->
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">Email Address</label>
+                                                    <input type="email" name="email" value="{{ old('email', $user->email) }}"
+                                                        class="bg-gray-1000 border border-gray-950 text-gray-75 placeholder:text-gray-500 
+                                                        rounded-[14px] w-full px-4 py-3"
+                                                        placeholder="Email Address" required />
+                                                </div>
+                                            </div>
+
+                                            <!-- Postcode -->
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">Postcode</label>
+                                                    <input type="text" name="postcode"
+                                                        value="{{ old('postcode', $user->current_profile?->postcode) }}"
+                                                        class="bg-gray-1000 border border-gray-950 text-gray-75 placeholder:text-gray-500 
+                                                        rounded-[14px] w-full px-4 py-3"
+                                                        placeholder="NRIC" required />
+                                                </div>
+                                            </div>
+
+                                            <!-- Password -->
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">Password</label>
+                                                    <input type="password" name="password"
+                                                        class="bg-gray-1000 border border-gray-950 text-gray-75 placeholder:text-gray-500 
+                                                        rounded-[14px] w-full px-4 py-3"
+                                                        placeholder="Leave blank if not changing" />
+                                                </div>
+                                            </div>
+
+                                            <!-- Language -->
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div class="w-full">
+                                                    <label class="block mb-2 text-[15px] font-medium text-gray-200">Preferred language</label>
+                                                    <div class="relative">
+                                                        <select name="language"
+                                                            class="appearance-none pr-10 bg-gray-1000 border border-gray-950 text-gray-75 
+                                                            placeholder:text-gray-500 rounded-[14px] w-full px-4 py-3">
+                                                            <option value="">Choose</option>
+                                                            <option value="English"
+                                                                {{ old('language', $user->current_profile?->language) == 'English' ? 'selected' : '' }}>
+                                                                English</option>
+                                                            <option value="Bahasa"
+                                                                {{ old('language', $user->current_profile?->language) == 'Bahasa' ? 'selected' : '' }}>
+                                                                Bahasa</option>
+                                                        </select>
+                                                        <div
+                                                            class="pointer-events-none absolute right-5 top-1/2 transform -translate-y-1/2 text-white">
+                                                            <img src="/frontend/assets/icons/angle-down.svg" alt="Icon">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Save Button -->
+                                            <div class="col-span-12 lg:col-span-6 flex items-end">
+                                                <button type="submit"
+                                                    class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-8 py-3 w-full lg:w-auto">
+                                                    <span class="text-black text-[16px] font-semibold">Save Change</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <form method="POST" action="{{ route('user.profile.store') }}" enctype="multipart/form-data">
-                                @csrf
-                                <div class="mb-3 pt-4">
-                                    <label for="profile_name" class="form-label">Profile Name</label>
-                                    <input type="text" class="form-control" id="profile_name" name="name" required>
+                    </form>
+                </div>
+                <!-- SUBJECT ENROLLMENT -->
+                <div class="w-full pt-10">
+                    <div class="grid grid-cols-12">
+                        <div class="col-span-12 md:col-span-12 lg:col-span-12">
+                            <!-- HEADING -->
+                            <div class="flex items-center gap-3 mb-6">
+                                <img src="/frontend/assets/icons/books.svg" alt="Icon" class="size-6" />
+                                <h6 class="text-[20px] text-gray-75 font-semibold">
+                                    Subjects Enrolled
+                                </h6>
+                            </div>
+                            <!-- CONTENT -->
+                            <div class="grid grid-cols-12 gap-5">
+                                <div class="col-span-12 lg:col-span-7">
+                                    <div class="h-[60vh] lg:h-[90vh] overflow-y-auto bg-gray-975 rounded-[21px]">
+                                        <div class="flex flex-col gap-5 p-10">
+                                            @forelse($subscriptions as $sub)
+                                                <div class="flex flex-col border-b border-gray-510 pb-5">
+                                                    <div class="flex items-center justify-between mb-3">
+                                                        <div class="flex flex-col">
+                                                            <span class="text-white text-[15px] font-bold">{{ $sub->subject->name ?? 'Unknown Subject' }}</span>
+                                                            <span class="text-gray-75 text-[12px]">{{ $sub->plan->name }}</span>
+                                                        </div>
+                                                        <span class="w-[150px] inline-flex items-center justify-center 
+                                                                    {{ $sub->status == 'active' ? 'bg-green-900 text-green-100' : 'bg-red-900 text-red-100' }} 
+                                                                    px-2 py-2 font-medium rounded-full">
+                                                            {{ ucfirst($sub->status) }}
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="flex gap-3 mb-5">
+                                                        <span class="text-gray-275">Tutor:</span>
+                                                        <span class="text-white">{{ $sub->tutor->name ?? '-' }}</span>
+                                                    </div>
+
+                                                    <div class="flex justify-between items-center">
+                                                        <div>
+                                                            <div class="flex items-center gap-8 mb-2">
+                                                                <div class="flex items-center gap-2">
+                                                                    <img src="/frontend/assets/icons/calendar.svg" class="size-5" />
+                                                                    <span class="text-gray-275 text-[15px]">Start Date:</span>
+                                                                    <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($sub->start_date)->format('d M Y') }}</span>
+                                                                </div>
+                                                                <div class="flex items-center gap-2">
+                                                                    <img src="/frontend/assets/icons/calendar.svg" class="size-5" />
+                                                                    <span class="text-gray-275 text-[15px]">Expired Date:</span>
+                                                                    <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($sub->end_date)->format('d M Y') }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex items-center gap-2">
+                                                                <img src="/frontend/assets/icons/replay.svg" class="size-5" />
+                                                                <span class="text-gray-275 text-[15px]">Replay Access:</span>
+                                                                <span class="text-white text-[15px]">
+                                                                    {{ \Carbon\Carbon::parse($sub->start_date)->addDays(15)->format('d M') }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-col items-end justify-end">
+                                                            <span class="text-white text-[15px] mb-3">Progress: 65%</span>
+                                                            <button type="button"
+                                                                class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-5 py-3 w-[195px]">
+                                                                <span class="text-black text-[16px] font-semibold">View More</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @empty
+                                                <p class="text-gray-300">No active subscriptions found.</p>
+                                            @endforelse
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="profile_avatar" class="form-label">Avatar</label>
-                                    <input type="file" class="form-control" id="profile_avatar" name="avatar" accept="image/*" required>
+                                <div class="col-span-12 lg:col-span-5">
+                                    <div class="h-[90vh] overflow-y-auto border-2 border-red-100 rounded-[21px]">
+                                        <div class="flex flex-col gap-5 p-10 h-full">
+                                            @forelse($subscriptions->where('status', 'expired') as $sub)
+                                                <div class="flex flex-col gap-5 pb-8 border-b border-gray-510">
+                                                    <div class="flex items-center justify-between">
+                                                        <div class="flex flex-col">
+                                                            <span class="text-white text-[15px] font-bold">{{ $sub->subject->name ?? 'Unknown Subject' }}</span>
+                                                            <span class="text-gray-75 text-[12px]">{{ $sub->plan_id }}</span>
+                                                        </div>
+                                                        <span class="w-[150px] inline-flex items-center justify-center bg-red-900 px-2 py-2 font-medium text-red-100 rounded-full">
+                                                            Expired
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex items-center gap-2">
+                                                        <img src="/frontend/assets/icons/calendar.svg" class="size-5" />
+                                                        <span class="text-gray-275 text-[15px]">Expired Date:</span>
+                                                        <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($sub->end_date)->format('d M Y') }}</span>
+                                                    </div>
+                                                    <button type="button"
+                                                        class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-5 py-3 w-full">
+                                                        <span class="text-black text-[16px] font-semibold">Renew Now</span>
+                                                    </button>
+                                                </div>
+                                            @empty
+                                                <p class="text-gray-300">No expired subscriptions.</p>
+                                            @endforelse
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full pt-10">
+                    <!-- HEADING -->
+                    <div class="flex items-center gap-3 mb-6">
+                        <img src="/frontend/assets/icons/books.svg" alt="Icon" class="size-6" />
+                        <h6 class="text-[20px] text-gray-75 font-semibold">
+                            Subscribe To New Subjects
+                        </h6>
+                    </div>
+                    <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 pt-5 pb-20">
+                        <!-- SINGLE -->
+                        @forelse($classes as $class)
+                        <a href="{{ route('user.subscription-type') }}">
+                            <div class="w-full rounded-lg bg-gray-secondary">
+                                <div class="relative">
+                                    <div class="w-full h-48 rounded-lg overflow-hidden">
+                                        <img src="/frontend/assets/images/person-card-example.png" alt=""
+                                            class="w-full object-cover" />
+                                        <div class="w-full absolute bottom-0 left-0 flex flex-col justify-end py-4 px-8">
+                                            <h2 class="text-lg uppercase font-semibold font-bebas">
+                                                {{ $class->topic->name }}
+                                            </h2>
+                                            <p class="text-xs">{{ $class->subject->name }} - {{ $class->grade->name }} ({{ $class->start_time->format('Y') }})</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </form>
+                                <div class="w-full">
+                                    <div class="p-3 pb-7">
+                                        <p class="text-white">{{ $class->user->current_profile?->name }}</p>
+                                        <div class="flex items-center space-x-2">
+                                            <svg width="14" height="16" viewBox="0 0 14 16" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.3944 2.41211H11.7088C12.4312 2.41211 13.0233 3.16802 13.0233 4.09192V12.7597C13.0233 13.6836 12.2674 14.4395 11.3435 14.4395H2.67987C1.75597 14.4395 1.00006 13.6836 1.00006 12.7597V4.09192C1.00006 3.16802 1.67618 2.41211 2.50349 2.41211H4.00692"
+                                                    stroke="white" stroke-width="1.3" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M9.25211 14.4387V12.2423C9.25211 11.3184 10.008 10.5625 10.9319 10.5625H13.0233"
+                                                    stroke="white" stroke-width="1.3" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M5.19531 2.41211H9.20586" stroke="white" stroke-width="1.3"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M1.00006 5.57422H13.0275" stroke="white" stroke-width="1.3"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M4.60418 1C4.93174 1 5.20051 1.26457 5.20051 1.59633V3.19635C5.20051 3.52391 4.93594 3.79268 4.60418 3.79268C4.27661 3.79268 4.00784 3.52811 4.00784 3.19635V1.59633C4.00784 1.26877 4.27241 1 4.60418 1Z"
+                                                    stroke="white" stroke-width="1.3" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M9.80144 3.78848C9.47388 3.78848 9.20511 3.52391 9.20511 3.19215V1.59633C9.20511 1.26877 9.46968 1 9.80144 1C10.129 1 10.3978 1.26457 10.3978 1.59633V3.19635C10.3978 3.52391 10.1332 3.79268 9.80144 3.79268V3.78848Z"
+                                                    stroke="white" stroke-width="1.3" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path d="M13.0288 10.5625L9.14847 14.4387" stroke="white" stroke-width="1.3"
+                                                    stroke-linecap="round" stroke-linejoin="round" />
+                                                <path
+                                                    d="M1.62803 5.99414H12.6034V10.3843H10.4083L9.15397 11.6386V14.1472H2.56878L1.31445 13.2065L1.62803 5.99414Z"
+                                                    fill="white" stroke="white" />
+                                            </svg>
+                                            <span class="text-sm">{{ $class->start_time->format('M d') }} | 14 day replay</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-1 bg-[#202020] rounded-b-lg p-3">
+                                        <h1 class="text-lg">RM{{ $plan->price }}</h1>
+                                        <span class="text-zinc-500">/ month</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        @empty
+                            <p class="text-gray-400">No subjects available at the moment.</p>
+                        @endforelse
+                        <div class="w-full flex flex-col justify-center items-center space-y-3">
+                            <button class="w-12 h-12 flex justify-center items-center bg-white rounded-full">
+                                <svg width="8" height="11" viewBox="0 0 5 9" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 1L4 4.5L1 8" stroke="black" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <span class="text-sm">View More</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
+
+
+@push('scripts')
+<script>
+    document.getElementById('avatar-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const preview = document.getElementById('avatar-preview');
+                preview.innerHTML = `<img src="${event.target.result}" 
+                    class="w-full h-full object-cover rounded-full" />`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+@endpush

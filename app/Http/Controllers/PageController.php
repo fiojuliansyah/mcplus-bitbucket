@@ -58,7 +58,6 @@ class PageController extends Controller
     {
         $user = Auth::user();
 
-        // ... (kode validasi Anda di sini tetap sama)
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
@@ -71,7 +70,6 @@ class PageController extends Controller
 
         DB::beginTransaction();
         try {
-            // Kita akan update phone dan profile_id bersamaan setelah profile dibuat
             
             $profileData = [
                 'name' => $validated['name'],
@@ -79,7 +77,6 @@ class PageController extends Controller
                 'gender' => $validated['gender'],
             ];
 
-            // ... (logika isset untuk postcode, grade, dan avatar tetap sama)
             if (isset($validated['postcode'])) {
                 $profileData['postcode'] = $validated['postcode'];
             }
@@ -91,13 +88,10 @@ class PageController extends Controller
                 $profileData['avatar'] = $path;
             }
 
-            // 1. Buat atau update profile menggunakan relasi 'profiles' (plural)
-            //    dan simpan hasilnya ke variabel $profile
             $profile = $user->profiles()->updateOrCreate(['user_id' => $user->id], $profileData);
 
-            // 2. Update user dengan nomor telepon DAN profile_id yang baru dibuat
             $user->phone = $validated['phone'];
-            $user->profile_id = $profile->id; // <-- Set profile yang baru dibuat sebagai profil aktif
+            $user->profile_id = $profile->id;
             $user->save();
 
             DB::commit();
@@ -111,7 +105,20 @@ class PageController extends Controller
             return back()->with('error', 'Failed to create profile. Please try again.')->withInput();
         }
 
-        return redirect()->route('user.dashboard')->with('status', 'Your profile has been created successfully!');
+        return redirect()->route('create.account.success')->with('status', 'Your profile has been created successfully!');
+    }
+
+    public function createAccountSuccess()
+    {
+        $user = Auth::user();
+        
+        $grade = null;
+
+        if ($user->current_profile && $user->current_profile->grade !== null) {
+            $grade = Grade::where('slug', $user->current_profile->grade)->first();
+        }
+
+        return view('auth.create-account-success', compact('user', 'grade'));
     }
 
     public function index()

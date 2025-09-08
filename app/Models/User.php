@@ -72,6 +72,6 @@ class User extends Authenticatable
 
     public function current_profile()
     {
-        return $this->belongsTo(Profile::class, 'profile_id', 'id');
+        return $this->hasOne(Profile::class, 'user_id', 'id');
     }
 }

@@ -21,6 +21,10 @@ return new class extends Migration
             $table->string('duration_value');
             $table->string('device_limit')->nullable();
             $table->string('profile_limit')->nullable();
+            $table->string('is_weekly_live_classes')->nullable();
+            $table->string('is_materials')->nullable();
+            $table->string('is_quizzes')->nullable();
+            $table->string('replay_day')->nullable();
             $table->string('status')->default('active');
             $table->timestamps();
         });

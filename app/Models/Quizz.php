@@ -11,13 +11,18 @@ class Quizz extends Model
 
     protected $table = 'quizzes';
     
-    protected $fillable = [
+        protected $fillable = [
         'grade_id',
         'subject_id',
         'topic_id',
         'user_id',
-        'question',
-        'multiple_choice',
+        'start_date',
+        'end_date',
+        'max_score',
+        'attempts_time',
+        'estimate_time',
+        'total_question',
+        'auto_mark',
     ];
 
     public function user()
@@ -38,5 +43,10 @@ class Quizz extends Model
     public function topic()
     {
         return $this->belongsTo(Topic::class);
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(QuizzQuestion::class, 'quizz_id');
     }
 }

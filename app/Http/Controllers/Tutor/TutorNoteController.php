@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tutor;
 
 use App\Models\Note;
 use App\Models\Topic;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,25 @@ class TutorNoteController extends Controller
         return view('frontend.tutors.notes.index', compact('notes', 'title', 'user', 'topic'));
     }
 
+    public function create($subjectSlug)
+    {
+        $user = Auth::user();
+
+        $subject = Subject::where('slug', $subjectSlug)
+            ->with(['grade', 'topics'])
+            ->firstOrFail();
+
+        $subjects = $user->subjects()->with(['grade', 'topics'])->get();
+
+        $topics = $subject->topics;
+
+        return view('frontend.tutors.notes.create', compact(
+            'subject',
+            'subjects',
+            'topics'
+        ));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -28,7 +48,6 @@ class TutorNoteController extends Controller
             'description' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx|max:5120', 
             'key_file' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx|max:5120',
-            'status' => 'required|in:draft,publish',
         ]);
 
         $topic = Topic::findOrFail($request->topic_id);
@@ -48,7 +67,7 @@ class TutorNoteController extends Controller
 
         $topic->notes()->create($data);
 
-        return back()->with('success', 'Note has been created successfully.');
+        return redirect()->route('tutor.dashboard')->with('success', 'Note has been created successfully.');
     }
 
     public function update(Request $request, $slug, $noteId)

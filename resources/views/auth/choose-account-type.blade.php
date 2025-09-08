@@ -13,7 +13,7 @@
                     <div class="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5 pt-10">
                         
                         <button type="submit" name="account_type" value="parent" class="w-full flex items-center text-left gap-3 bg-black hover:bg-zinc-800 transition rounded-md p-5 py-6">
-                            <svg class="w-14 md:w-20 flex-shrink-0" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-14 md:w-20" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20.2622 15.8823L27.5433 12.6658V28.9472H20.2622V15.8823Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M11.1606 11.8616L15.7114 18.2947L20.2622 15.8823V28.9444H11.1606V11.8616Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M3.87939 15.0781L11.1606 11.8616V28.947H3.87939V15.0781Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -27,7 +27,7 @@
                         </button>
                         
                         <button type="submit" name="account_type" value="tutor" class="w-full flex items-center text-left gap-3 bg-black hover:bg-zinc-800 transition rounded-md p-5 py-6">
-                           <svg class="w-14 md:w-20 flex-shrink-0" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <svg class="w-14 md:w-20" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20.2622 15.8823L27.5433 12.6658V28.9472H20.2622V15.8823Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M11.1606 11.8616L15.7114 18.2947L20.2622 15.8823V28.9444H11.1606V11.8616Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M3.87939 15.0781L11.1606 11.8616V28.947H3.87939V15.0781Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -41,7 +41,7 @@
                         </button>
                         
                         <button type="submit" name="account_type" value="student" class="w-full flex items-center text-left gap-3 bg-black hover:bg-zinc-800 transition rounded-md p-5 py-6">
-                            <svg class="w-14 md:w-20 flex-shrink-0" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-14 md:w-20" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20.2622 15.8823L27.5433 12.6658V28.9472H20.2622V15.8823Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M11.1606 11.8616L15.7114 18.2947L20.2622 15.8823V28.9444H11.1606V11.8616Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M3.87939 15.0781L11.1606 11.8616V28.947H3.87939V15.0781Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -55,7 +55,7 @@
                         </button>
                         
                         <button type="submit" name="account_type" value="admin" class="w-full flex items-center text-left gap-3 bg-black hover:bg-zinc-800 transition rounded-md p-5 py-6">
-                            <svg class="w-14 md:w-20 flex-shrink-0" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="w-14 md:w-20" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20.2622 15.8823L27.5433 12.6658V28.9472H20.2622V15.8823Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M11.1606 11.8616L15.7114 18.2947L20.2622 15.8823V28.9444H11.1606V11.8616Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M3.87939 15.0781L11.1606 11.8616V28.947H3.87939V15.0781Z" stroke="#F2F2F2" stroke-opacity="0.75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

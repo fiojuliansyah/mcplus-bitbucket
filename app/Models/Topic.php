@@ -50,4 +50,26 @@ class Topic extends Model
     {
         return $this->hasMany(QuizzResult::class);
     }
+
+    public function latestReplayClass()
+    {
+        return $this->hasOne(ReplayClass::class)->latestOfMany();
+    }
+
+
+    public function latestNote()
+    {
+        return $this->hasOne(Note::class)->latestOfMany();
+    }
+
+
+    public function latestQuizz()
+    {
+        return $this->hasOne(Quizz::class)->latestOfMany();
+    }
+
+    public function latestLiveClass()
+    {
+        return $this->hasOne(LiveClass::class)->latest('start_time');
+    }
 }
