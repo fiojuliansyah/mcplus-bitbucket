@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('user_id')->nullable();
             $table->string('profile_id')->nullable();
             $table->string('plan_id')->nullable();
-            $table->json('tutor_id')->nullable();
-            $table->json('subject_id')->nullable();
+            $table->string('tutor_id')->nullable();
+            $table->string('subject_id')->nullable();
+            $table->string('live_class_id')->nullable();
             $table->string('duration')->nullable();
             $table->string('payment_method')->nullable();
             $table->datetime('start_date')->nullable();

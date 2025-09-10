@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('timezone')->default('Asia/Dhaka'); 
             $table->string('password')->nullable(); 
             $table->string('class_day'); 
+            $table->date('class_date'); 
             $table->time('start_time'); 
             $table->json('settings'); 
             $table->bigInteger('zoom_meeting_id')->unsigned()->nullable();

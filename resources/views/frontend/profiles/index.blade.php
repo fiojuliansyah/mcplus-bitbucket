@@ -185,23 +185,23 @@
                                 <div class="col-span-12 lg:col-span-7">
                                     <div class="h-[60vh] lg:h-[90vh] overflow-y-auto bg-gray-975 rounded-[21px]">
                                         <div class="flex flex-col gap-5 p-10">
-                                            @forelse($subscriptions as $sub)
+                                            @forelse($subscriptions->where('status', 'paid') as $item)
                                                 <div class="flex flex-col border-b border-gray-510 pb-5">
                                                     <div class="flex items-center justify-between mb-3">
                                                         <div class="flex flex-col">
-                                                            <span class="text-white text-[15px] font-bold">{{ $sub->subject->name ?? 'Unknown Subject' }}</span>
-                                                            <span class="text-gray-75 text-[12px]">{{ $sub->plan->name }}</span>
+                                                            <span class="text-white text-[15px] font-bold">{{ $item->liveClass->subject->name ?? 'Unknown Subject' }}</span>
+                                                            <span class="text-gray-75 text-[12px]">{{ $item->plan->name }}</span>
                                                         </div>
-                                                        <span class="w-[150px] inline-flex items-center justify-center 
-                                                                    {{ $sub->status == 'active' ? 'bg-green-900 text-green-100' : 'bg-red-900 text-red-100' }} 
-                                                                    px-2 py-2 font-medium rounded-full">
-                                                            {{ ucfirst($sub->status) }}
+                                                        <span class="w-[150px] inline-flex items-center justify-center bg-green-900 text-green-100 px-2 py-2 font-medium rounded-full">
+                                                            @if ($item->status === 'paid')
+                                                                Active
+                                                            @endif
                                                         </span>
                                                     </div>
 
                                                     <div class="flex gap-3 mb-5">
                                                         <span class="text-gray-275">Tutor:</span>
-                                                        <span class="text-white">{{ $sub->tutor->name ?? '-' }}</span>
+                                                        <span class="text-white">{{ $item->liveClass->user->current_profile->name ?? '-' }}</span>
                                                     </div>
 
                                                     <div class="flex justify-between items-center">
@@ -210,26 +210,25 @@
                                                                 <div class="flex items-center gap-2">
                                                                     <img src="/frontend/assets/icons/calendar.svg" class="size-5" />
                                                                     <span class="text-gray-275 text-[15px]">Start Date:</span>
-                                                                    <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($sub->start_date)->format('d M Y') }}</span>
+                                                                    <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($item->start_date)->format('d M Y') }}</span>
                                                                 </div>
                                                                 <div class="flex items-center gap-2">
                                                                     <img src="/frontend/assets/icons/calendar.svg" class="size-5" />
                                                                     <span class="text-gray-275 text-[15px]">Expired Date:</span>
-                                                                    <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($sub->end_date)->format('d M Y') }}</span>
+                                                                    <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="flex items-center gap-2">
                                                                 <img src="/frontend/assets/icons/replay.svg" class="size-5" />
                                                                 <span class="text-gray-275 text-[15px]">Replay Access:</span>
                                                                 <span class="text-white text-[15px]">
-                                                                    {{ \Carbon\Carbon::parse($sub->start_date)->addDays(15)->format('d M') }}
+                                                                    {{ \Carbon\Carbon::parse($item->start_date)->addDays(15)->format('d M') }}
                                                                 </span>
                                                             </div>
                                                         </div>
                                                         <div class="flex flex-col items-end justify-end">
                                                             <span class="text-white text-[15px] mb-3">Progress: 65%</span>
-                                                            <button type="button"
-                                                                class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-5 py-3 w-[195px]">
+                                                            <button type="button" class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-5 py-3 w-[195px]">
                                                                 <span class="text-black text-[16px] font-semibold">View More</span>
                                                             </button>
                                                         </div>
@@ -244,12 +243,12 @@
                                 <div class="col-span-12 lg:col-span-5">
                                     <div class="h-[90vh] overflow-y-auto border-2 border-red-100 rounded-[21px]">
                                         <div class="flex flex-col gap-5 p-10 h-full">
-                                            @forelse($subscriptions->where('status', 'expired') as $sub)
+                                            @forelse($subscriptions->where('status', 'expired') as $item)
                                                 <div class="flex flex-col gap-5 pb-8 border-b border-gray-510">
                                                     <div class="flex items-center justify-between">
                                                         <div class="flex flex-col">
-                                                            <span class="text-white text-[15px] font-bold">{{ $sub->subject->name ?? 'Unknown Subject' }}</span>
-                                                            <span class="text-gray-75 text-[12px]">{{ $sub->plan_id }}</span>
+                                                            <span class="text-white text-[15px] font-bold">{{ $item->liveClass->subject->name ?? 'Unknown Subject' }}</span>
+                                                            <span class="text-gray-75 text-[12px]">{{ $item->plan->name }}</span>
                                                         </div>
                                                         <span class="w-[150px] inline-flex items-center justify-center bg-red-900 px-2 py-2 font-medium text-red-100 rounded-full">
                                                             Expired
@@ -258,10 +257,9 @@
                                                     <div class="flex items-center gap-2">
                                                         <img src="/frontend/assets/icons/calendar.svg" class="size-5" />
                                                         <span class="text-gray-275 text-[15px]">Expired Date:</span>
-                                                        <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($sub->end_date)->format('d M Y') }}</span>
+                                                        <span class="text-white text-[15px]">{{ \Carbon\Carbon::parse($item->end_date)->format('d M Y') }}</span>
                                                     </div>
-                                                    <button type="button"
-                                                        class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-5 py-3 w-full">
+                                                    <button type="button" class="bg-gray-50 hover:bg-gray-200 rounded-full text-sm px-5 py-3 w-full">
                                                         <span class="text-black text-[16px] font-semibold">Renew Now</span>
                                                     </button>
                                                 </div>

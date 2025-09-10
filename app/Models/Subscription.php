@@ -25,13 +25,7 @@ class Subscription extends Model
         'total_amount',
         'status',
     ];
-
-    protected $casts = [
-        'subject_id' => 'array',
-        'tutor_id'   => 'array',
-        'live_class_id'   => 'array',
-    ];
-
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

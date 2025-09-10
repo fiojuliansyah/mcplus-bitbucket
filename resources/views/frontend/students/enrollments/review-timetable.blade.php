@@ -31,13 +31,13 @@
                                     <span class="text-[#F2F2F2BF]">You can choose multiple tutors & groups as long as the timing doesn’t clash</span>
                                 </div>
                             </div>
+
                             <div class="flex flex-col lg:items-end">
                                 <div class="text-[#868484] mb-5">
-                                    <span class="mr-10">Subjects: {{ count($subscription->subject_id) }}</span>
                                     <span>Classes: {{ $totalClasses }}</span>
                                 </div>
-                                <a href="{{ route('user.enrollment.checkout', ['subscription' => $subscription->id]) }}"
-                                class="block bg-gray-50 hover:bg-gray-200 rounded-full text-center text-sm px-5 py-3 w-full lg:w-[20rem] cursor-pointer">
+                                <a href="{{ route('user.enrollment.checkout', ['transaction' => $transactionCode]) }}"
+                                   class="block bg-gray-50 hover:bg-gray-200 rounded-full text-center text-sm px-5 py-3 w-full lg:w-[20rem] cursor-pointer">
                                     <span class="text-black text-[16px] font-semibold">Confirm & Proceed to Payment</span>
                                 </a>
                             </div>
@@ -56,21 +56,17 @@
 
 @push('styles')
 <style>
-    /* Hilangkan garis slot */
     .fc-col-header, 
     .fc-timegrid-slots td, 
     .fc-timegrid-slot {
         border: none !important;
     }
-
-    /* Opsional: hilangkan garis hari */
     .fc-daygrid-day, 
     .fc-daygrid-body {
         border: none !important;
     }
 </style>
 @endpush
-
 
 @push('scripts')
 <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.19/index.global.min.js'></script>
@@ -86,24 +82,32 @@ document.addEventListener('DOMContentLoaded', function () {
         initialView: 'timeGridWeek',
         timeZone: 'Asia/Jakarta',
         allDaySlot: false,
-        hiddenDays: [0],
+        hiddenDays: [],  
+        firstDay: 1,     
         slotMinTime: "07:00:00",
         slotMaxTime: "22:00:00",
         slotDuration: '00:30:00',
-        events: {!! $events !!},
+
+        initialDate: "{{ $startDate ?? \Carbon\Carbon::today()->toDateString() }}",
+
+        visibleRange: {
+            start: "{{ $startDate ?? \Carbon\Carbon::today()->toDateString() }}",
+            end: "{{ $endDatePlusOne ?? \Carbon\Carbon::today()->addDay()->toDateString() }}"
+        },
+
+        events: {!! $events ?? '[]' !!},
+
         eventContent: function(arg) {
-            const { name, classes, group } = arg.event.extendedProps;
+            const { name, classes, group } = arg.event.extendedProps || {};
             return {
                 html: `<div style="padding:0.4rem; font-size:0.75rem; line-height:1.2;">
-                        <span style="font-weight:bold;">${classes}</span>
+                        <div style="font-weight:700;">${classes || ''}</div>
                         <br>
+                        <div>${name || ''}</div>
                         <br>
-                        <span>${name}</span>
-                        <br>
-                        <br>
-                        <span>${group}</span>
+                        <div>${group || ''}</div>
                        </div>`
-            }
+            };
         }
     });
 

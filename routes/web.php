@@ -45,7 +45,6 @@ Route::get('/subjects/{slugGrade}/{slugSubject}', [PageController::class, 'subje
 Route::get('/tutors', [PageController::class, 'tutors'])->name('home.tutors');
 
 Route::get('/pricing-plans', [SubscriptionPlanController::class, 'index'])->name('pricing-plans');
-// Route::get('/subscription/checkout/{plan}', [SubscriptionPlanController::class, 'showCheckoutForm'])->name('subscription.checkout')->middleware(['auth']);
 Route::post('/api/apply-coupon', [SubscriptionPlanController::class, 'applyCoupon'])->name('api.coupon.apply');
 Route::post('/subscription/process', [SubscriptionPlanController::class, 'processSubscription'])->name('subscription.process');
 
@@ -89,15 +88,26 @@ Route::middleware(['auth', 'check.profile'])->prefix('student')->name('user.')->
     Route::get('/enrollment/subscription-type', [SubscriptionPlanController::class, 'subscriptionType'])->name('subscription-type');
     Route::get('/enrollment/subject-enrollment', [SubscriptionPlanController::class, 'subjectEnrollment'])->name('subject-enrollment');
     Route::post('/enrollment/subject-enrollment/store', [SubscriptionPlanController::class, 'storeEnrollment'])->name('subject-enrollment.store');
-    Route::get('/enrollment/review-timetable/{subscription}', [SubscriptionPlanController::class, 'reviewTimetable'])->name('enrollment.reviewTimetable');
-    Route::get('/enrollment/checkout/{subscription}', [SubscriptionPlanController::class, 'checkout'])->name('enrollment.checkout');
-    Route::post('/enrollment/{subscription}/proceed-to-payment', [SubscriptionPlanController::class, 'proceedToPayment'])->name('enrollment.proceedToPayment');
-    Route::get('/enrollment/{subscription}/payment', [SubscriptionPlanController::class, 'showPaymentPage'])->name('enrollment.payment');
+    Route::get('/enrollment/review-timetable/{transaction}', [SubscriptionPlanController::class, 'reviewTimetable'])->name('enrollment.reviewTimetable');
+
+    Route::get('/enrollment/checkout/{transaction}', [SubscriptionPlanController::class, 'checkout'])->name('enrollment.checkout');
+    Route::post('/enrollment/proceed-to-payment/{transaction}', [SubscriptionPlanController::class, 'proceedToPayment'])->name('enrollment.proceedToPayment');
+    Route::get('/enrollment/payment/{transaction}', [SubscriptionPlanController::class, 'showPaymentPage'])->name('enrollment.payment');
+    Route::post('/enrollment/process-payment/{transaction}', [SubscriptionPlanController::class, 'processPayment'])->name('enrollment.processPayment');
+
+    Route::post('/enrollment/payment/billplz/webhook', [SubscriptionPlanController::class, 'billplzWebhook'])->name('subscription.billplzWebhook');
+
+    Route::get('/enrollment/payment/{subscription}/callback', [SubscriptionPlanController::class, 'paymentCallback'])->name('subscription.paymentCallback');
+    Route::get('/enrollment/payment-success/{subscription}', [SubscriptionPlanController::class, 'paymentSuccess'])->name('subscription.paymentSuccess');
+
+    Route::get('/enrollment/payment/{subscription}/success', function($subscription){
+        return redirect()->route('user.dashboard')->with('success', 'Payment successful!');
+    })->name('subscription.paymentSuccess');
 
     Route::get('/my-quiz', [UserPageController::class, 'quiz'])->name('my-quiz');
     Route::get('/quiz/result/{result}', [UserPageController::class, 'showResult'])->name('quiz.result');
     
-    Route::get('/my-live-class', [UserPageController::class, 'liveClass'])->name('my-live-class');
+    Route::get('/live-class/join/{id}', [UserPageController::class, 'showLiveClass'])->name('live-class.show');
     
     Route::get('/{topic:slug}/quizzes', [UserQuizzController::class, 'index'])->name('quizzes.show');
     Route::post('/{topic:slug}/quizzes/submit', [UserQuizzController::class, 'submit'])->name('quizzes.submit');
@@ -107,11 +117,12 @@ Route::middleware(['auth', 'check.profile'])->prefix('student')->name('user.')->
     Route::get('/my-assignment/{gradeSlug}/{subjectSlug}/test/{testSlug}', [UserTestController::class, 'show'])->name('test.show');
     Route::post('/my-assignment/test/{test}/submit', [UserTestController::class, 'submit'])->name('test.submit');
     Route::get('/my-assignment/{gradeSlug}/{subjectSlug}/{testSlug}/result', [UserTestController::class, 'result'])->name('test.result');
-
-
+    
+    
     Route::get('/learning-progress', [UserPageController::class, 'learningProgress'])->name('learning-progress');
 });
 
+Route::get('/student/live-classes/calendar', [UserPageController::class, 'getCalendarEvents'])->name('live-classes.calendar');
 
 Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminPageController::class, 'index'])->name('dashboard');

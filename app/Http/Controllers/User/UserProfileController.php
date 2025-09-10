@@ -17,16 +17,15 @@ class UserProfileController extends Controller
     {
         $title = 'Profile';
         $user = Auth::user();
-
-        $classes = LiveClass::paginate(5);
-
         $plan = Plan::first();
+
+        $classes = LiveClass::paginate(5); 
 
         $subscriptions = Subscription::where('user_id', $user->id)
             ->orderBy('start_date', 'desc')
             ->get();
-
-        return view('frontend.profiles.index', compact('user', 'title', 'subscriptions', 'classes', 'plan'));
+        
+        return view('frontend.profiles.index', compact('user', 'title', 'subscriptions', 'plan', 'classes'));
     }
 
 

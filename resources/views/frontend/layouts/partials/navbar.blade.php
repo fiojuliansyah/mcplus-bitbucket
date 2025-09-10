@@ -8,12 +8,12 @@
             <li>
                 <a href="{{ route('home') }}" class="text-xs uppercase">Home</a>
             </li>
-            <li>
-                <a href="/timetable.html" class="text-xs uppercase">Timetable</a>
-            </li>
-            <li>
-                <a href="/classess.html" class="text-xs uppercase">Classes</a>
-            </li>
+                {{-- <li>
+                    <a href="/timetable.html" class="text-xs uppercase">Timetable</a>
+                </li>
+                <li>
+                    <a href="/classess.html" class="text-xs uppercase">Classes</a>
+                </li> --}}
             <li>
                 <a href="{{ route('choose.register') }}" class="text-xs uppercase">Register</a>
             </li>
@@ -43,9 +43,9 @@
 
             <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 transition-all duration-300 transform origin-top-right">
                 @if (Auth::user()->account_type === 'student')  
+                    <a href="{{ route('user.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
                     <a href="{{ route('user.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
                 @endif
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                 <div class="border-t border-gray-100"></div>
 
                 <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

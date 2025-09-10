@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\User;
 
+use Carbon\Carbon;
+use App\Models\Note;
 use App\Models\User;
 use App\Models\Grade;
+use App\Models\Quizz;
 use App\Models\Topic;
 use App\Models\Subject;
+
+use App\Models\LiveClass;
 use App\Models\TestResult;
 use App\Models\QuizzAnswer;
 use App\Models\QuizzResult;
-
 use App\Models\ReplayClass;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
@@ -23,7 +27,75 @@ class UserPageController extends Controller
     {
         $title = 'Dashboard';
         $user = Auth::user();
-        return view('frontend.students.dashboard', compact('user','title'));
+
+        $subscriptions = Subscription::with('liveClass')
+            ->where('user_id', $user->id)
+            ->whereNotNull('live_class_id')
+            ->where(function($query){
+                $query->whereDate('end_date', '>=', now())
+                    ->orWhereDate('start_date', '>=', now());
+            })
+            ->orderBy('start_date', 'asc')
+            ->get();
+
+        $quizzesByClass = [];
+        foreach ($subscriptions as $sub) {
+            $class = $sub->liveClass;
+            if($class && $class->topic_id) {
+                $quizzesByClass[$sub->id] = Quizz::where('topic_id', $class->topic_id)
+                    ->orderBy('created_at', 'asc')
+                    ->get();
+            } else {
+                $quizzesByClass[$sub->id] = collect();
+            }
+        }
+
+        $replaysByClass = [];
+        foreach ($subscriptions as $sub) {
+            $class = $sub->liveClass;
+            if($class && $class->topic_id) {
+                $replaysByClass[$sub->id] = ReplayClass::where('topic_id', $class->topic_id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                $replaysByClass[$sub->id] = collect();
+            }
+        }
+
+        $notesByTopic = [];
+        foreach ($subscriptions as $sub) {
+            $class = $sub->liveClass;
+            if ($class && $class->topic_id) {
+                $notesByTopic[$sub->id] = Note::where('topic_id', $class->topic_id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                $notesByTopic[$sub->id] = collect();
+            }
+        }
+
+        $subjects = [];
+        foreach ($subscriptions as $sub) {
+            $class = $sub->liveClass;
+            if ($class && $class->subject && $class->topic) {
+                $subjectId = $class->subject->id;
+                $topicId = $class->topic->id;
+
+                if (!isset($subjects[$subjectId])) {
+                    $subjects[$subjectId] = [
+                        'subject' => $class->subject,
+                        'topics' => [],
+                    ];
+                }
+
+                $subjects[$subjectId]['topics'][$topicId] = [
+                    'topic' => $class->topic,
+                    'subscription' => $sub,
+                ];
+            }
+        }
+
+        return view('frontend.students.dashboard', compact('user', 'title', 'subscriptions', 'quizzesByClass', 'replaysByClass', 'notesByTopic', 'subjects'));
     }
 
     public function orderHistory(Request $request)
@@ -226,42 +298,74 @@ class UserPageController extends Controller
         return view('frontend.students.my-assignment', compact('user', 'title', 'subjectsWithTests'));
     }
 
-    public function liveClass(Request $request)
+    public function showLiveClass($id)
     {
-        $title = 'My Live Classes';
+        $liveClass = LiveClass::with(['subject', 'topic', 'user'])->findOrFail($id);
         $user = Auth::user();
-        $currentProfile = $user->current_profile->id;
+        $title = $liveClass->title ?? 'Live Class';
+        $notes = Note::where('topic_id', $liveClass->topic_id)->get();
 
-        $subscriptions = Subscription::where('profile_id', $currentProfile)
-                                    ->where('status', 'success')
-                                    ->with(['subject.topics.liveClasses'])
-                                    ->latest()
-                                    ->get();
+        $today = strtolower(Carbon::now()->format('l'));
+        $currentTime = Carbon::now()->format('H:i:s');
 
-        if ($request->filled('status')) {
-            $subscriptions = $subscriptions->filter(function($subscription) use ($request) {
-                return $subscription->status === $request->status;
-            });
-        }
+        $days = ['monday'=>1,'tuesday'=>2,'wednesday'=>3,'thursday'=>4,'friday'=>5,'saturday'=>6,'sunday'=>7];
+        $todayIndex = $days[$today];
 
-        if ($request->filled('search')) {
-            $searchTerm = $request->search;
-            $subscriptions = $subscriptions->filter(function($subscription) use ($searchTerm) {
-                return strpos($subscription->transaction_code, $searchTerm) !== false;
-            });
-        }
+        $allClasses = LiveClass::with('subject')->where('id', '!=', $liveClass->id)->get();
 
-        $liveClasses = collect();
+        $upcomingClasses = $allClasses->filter(function($c) use ($todayIndex, $currentTime, $days) {
+            $classDayIndex = $days[strtolower($c->class_day)];
+            $tomorrowIndex = $todayIndex == 7 ? 1 : $todayIndex + 1;
 
-        foreach ($subscriptions as $subscription) {
-            foreach ($subscription->subject->topics as $topic) {
-                foreach ($topic->liveClasses as $liveClass) {
-                    $liveClasses->push($liveClass);
-                }
+            if (($classDayIndex == $todayIndex && $c->start_time > $currentTime) ||
+                $classDayIndex == $tomorrowIndex) {
+                return true;
             }
-        }
+            return false;
+        })->take(5);
 
-        return view('frontend.students.live-classes.index', compact('user', 'title', 'liveClasses'));
+        $replayClasses = ReplayClass::where('topic_id', $liveClass->topic_id)->get();
+
+
+        return view('frontend.students.live-classes.detail', compact(
+            'liveClass',
+            'user',
+            'title',
+            'upcomingClasses',
+            'replayClasses',
+            'notes'
+        ));
     }
 
+    public function getCalendarEvents(Request $request)
+    {
+        $year = (int) $request->get('year', now()->year);
+        $month = (int) $request->get('month', now()->month);
+
+        $liveClasses = LiveClass::with('subject')->get()->map(function ($lc) {
+            $date = Carbon::parse($lc->class_date ?? now());
+            return [
+                'id' => $lc->id,
+                'title' => $lc->topic->name,
+                'start' => $date->format('Y-m-d'),
+                'color' => $this->getStatusColor($lc->status),
+                'url' => route('user.live-class.show', $lc->id),
+            ];
+        });
+
+        return response()->json($liveClasses);
+    }
+
+    private function getStatusColor($status)
+    {
+        return match($status) {
+            'live' => '#28B700',
+            'upcoming' => '#3B82F6',
+            'cancelled' => '#B70000',
+            'combined' => '#CD1AFF',
+            'replacement' => '#E8E113',
+            'relief' => 'white',
+            default => '#999999',
+        };
+    }
 }
