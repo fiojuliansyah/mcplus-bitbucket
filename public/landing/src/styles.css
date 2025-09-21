@@ -48,8 +48,8 @@ body {
 }
 
 .signin-button {
-  background-color: #b70092;
-  border: 1px solid #b70092;
+  background-color: #1E1E1F;
+  border: 1px solid #1E1E1F;
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -157,8 +157,8 @@ body {
 }
 
 .primary-button {
-  background-color: #b70092;
-  border: 1px solid #b70092;
+  background-color: #1E1E1F;
+  border: 1px solid #1E1E1F;
   color: white;
   padding: 0.8rem 1.2rem;
   border-radius: 2px;

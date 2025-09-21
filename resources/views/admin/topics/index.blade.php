@@ -11,7 +11,7 @@
                             <a href="{{ route('admin.subjects.index', $grade->slug) }}" class="btn btn-secondary me-2">
                                 Back
                             </a>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createModal">
                                 <i class="fa fa-plus"></i> Add Topic
                             </button>
                         </div>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Topic</button>
+                        <button type="submit" class="btn btn-secondary">Save Topic</button>
                     </div>
                 </form>
             </div>

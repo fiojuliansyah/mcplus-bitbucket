@@ -379,11 +379,11 @@ body {
   text-decoration: none;
 }
 .bd-aside a:hover, .bd-aside a:focus {
-  background-color: rgba(183, 0, 146, 0.1);
+  background-color: rgba(191, 191, 191, 0.1);
 }
 .bd-aside .active {
   font-weight: 600;
-  background-color: rgba(183, 0, 146, 0.1);
+  background-color: rgba(191, 191, 191, 0.1);
   color: var(--bs-primary);
 }
 .bd-aside .btn {
@@ -400,7 +400,7 @@ body {
   transition: transform 0.35s ease, -webkit-transform 0.35s ease;
 }
 .bd-aside .btn:hover, .bd-aside .btn:focus {
-  background-color: rgba(183, 0, 146, 0.1);
+  background-color: rgba(191, 191, 191, 0.1);
   color: var(--bs-primary);
 }
 .bd-aside .btn[aria-expanded=true] .right-icon {

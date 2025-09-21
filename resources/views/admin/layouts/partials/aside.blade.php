@@ -1,13 +1,13 @@
 <aside class="sidebar sidebar-base sidebar-white sidebar-default navs-rounded-all " id="first-tour"
         data-toggle="main-sidebar" data-sidebar="responsive">
-        <div class="sidebar-header d-flex align-items-center justify-content-start">
+        <div class="sidebar-header d-flex align-items-center justify-content-start" style="background-color: white">
             <a href="./index.html" class="navbar-brand">
 
                 <!--Logo start-->
-                <img class="logo-normal" src="/frontend/assets/images/logo-example.png" alt="#">
-                <img class="logo-normal logo-white" src="/admin/assets/images/logo-white.png" alt="#">
-                <img class="logo-full" src="/frontend/assets/images/logo-example.png"" alt="#">
-                <img class="logo-full logo-full-white" src="/admin/assets/images/logo-full-white.png" alt="#">
+                <img class="logo-normal" src="/frontend/assets/images/main-logo.png" alt="#">
+                <img class="logo-normal logo-white" src="/frontend/assets/images/main-logo.png" alt="#">
+                <img class="logo-full" src="/frontend/assets/images/main-logo.png"" alt="#">
+                <img class="logo-full logo-full-white" src="/frontend/assets/images/main-logo.png" alt="#">
                 <!--logo End--> </a>
             <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                 <i class="chevron-right">

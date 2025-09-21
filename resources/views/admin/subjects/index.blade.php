@@ -11,7 +11,7 @@
                             <a href="{{ route('admin.grades.index') }}" class="btn btn-secondary me-2">
                                 Back
                             </a>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createModal">
                                 <i class="fa fa-plus"></i> Add Subject
                             </button>
                         </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Subject</button>
+                        <button type="submit" class="btn btn-secondary">Save Subject</button>
                     </div>
                 </form>
 

@@ -8,7 +8,7 @@
                     <div class="card">
                         <div class="card-header border-bottom d-flex justify-content-between align-items-center py-3">
                             <h4 class="mb-0">Access Control</h4>
-                            <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#createModal">
+                            <button class="btn btn-secondary ms-auto" data-bs-toggle="modal" data-bs-target="#createModal">
                                 <i class="fa fa-plus"></i> Add Access
                             </button>
                         </div>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-secondary">Save</button>
                     </div>
                 </form>
             </div>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-secondary">Simpan</button>
                         </div>
                     </form>
                 </div>

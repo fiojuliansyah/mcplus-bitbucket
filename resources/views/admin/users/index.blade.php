@@ -114,7 +114,7 @@
                 <div class="card">
                     <div class="card-header border-bottom d-flex justify-content-between align-items-center py-3">
                         <h4 class="mb-0">User List</h4>
-                        <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#createModal">
+                        <button class="btn btn-secondary ms-auto" data-bs-toggle="modal" data-bs-target="#createModal">
                             <i class="fa fa-plus"></i> Add User
                         </button>
                     </div>
@@ -178,7 +178,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-secondary">Save Changes</button>
                     </div>
                 </form>
             </div>

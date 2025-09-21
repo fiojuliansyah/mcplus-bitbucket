@@ -1,6 +1,6 @@
 :root {
-  --bs-primary: #b70092;
-  --bs-primary-rgb: 183, 0, 146;
+  --bs-primary: #1E1E1F;
+  --bs-primary-rgb: 191, 191, 191;
   --bs-primary-bg-subtle: #faced0;
   --bs-primary-border-subtle: #f59da1;
   --bs-link-color-rgb: var(--bs-primary-rgb);
@@ -92,7 +92,7 @@
 }
 :root[data-bs-theme=dark] {
   --bs-primary-text-emphasis: #ef6b72;
-  --bs-primary-bg-subtle: #2e0204;
+  --bs-primary-bg-subtle: #FFF;
 }
 :root[data-bs-theme=dark] {
   --bs-secondary-text-emphasis: #cecfd4;
